@@ -1,26 +1,17 @@
-CXX			:= c++
-CXXFLAGS	:= -Wall -Wextra -Werror -g -std=c++98
-
-OBJSDIR		:= objs
-SRCS		:= $(shell find -name '*.cpp')
-OBJS		:= $(addprefix $(OBJSDIR)/, $(SRCS:.cpp=.o))
-NAME		:= ircserv
+NAME = ircserv
+CC = c++
+FLAGS = -Wall -Wextra -Werror -std=c++98 -g  # Add -g for debugging
+SRC = main.cpp Irc.cpp
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	@$(CXX) $(CXXFLAGS) $^ -o $@
-	@echo "\n$(BLUE)$(NAME)$(END) $(GREEN)stuff compiled$(END)\n"
-
-$(OBJSDIR)/%.o: %.cpp
-	@mkdir -p $(dir $@)
-	@$(CXX) $(CXXFLAGS) -c $< -o $@
+$(NAME): $(OBJ)
+	$(CC) $(FLAGS) $(SRC) -o $(NAME)
 
 clean:
-	@rm -rf $(OBJSDIR)
+	rm -f $(OBJ)
 
 fclean: clean
-	@rm -f $(NAME)
-	@echo "\n$(BLUE)$(NAME)$(END) $(GREEN)stuff removed$(END)\n"
+	rm -f $(NAME)
 
 re: fclean all
