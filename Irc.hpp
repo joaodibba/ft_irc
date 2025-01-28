@@ -38,20 +38,24 @@ using std::endl;
 using std::vector;
 using std::map;
 using std::pair;
+using std::make_pair;
 using std::stringstream;
 using std::istringstream;
 using std::ofstream;
 using std::runtime_error;
 using std::ios;
+using std::find;
+
+
 
 class Client;
 class Channel;
 class EpollManager;
 
 #include "serverNumeric.hpp"
-#include "src/client/Client.hpp"
-#include "src/channel/Channel.hpp"
-#include "src/epoll/EpollManager.hpp"
+#include "client/Client.hpp"
+#include "channel/Channel.hpp"
+#include "epoll/EpollManager.hpp"
 
 extern bool running;
 
