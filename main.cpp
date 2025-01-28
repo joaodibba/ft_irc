@@ -10,7 +10,7 @@ void logger(int type, int data)
 	else if (type == 2 && mode)
 		cout << "Fds received: " << data << endl;
 	else if (type == 3)
-		cout << GREEN "Received socket n: " << data << "with event ";
+		cout << GREEN "Received socket n: " << data << " with event ";
 	else if (type == 4 && mode)
 	{
 		string eventString;

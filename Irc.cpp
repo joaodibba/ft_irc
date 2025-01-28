@@ -2,11 +2,11 @@
 
 Irc::Irc(void)
 {
-	// cmds["JOIN"] = &Irc::joinCmd;
+	//cmds["JOIN"] = &Irc::joinCmd;
 	// cmds["TOPIC"] = &Irc::topicCmd;
 	// cmds["PRIVMSG"] = &Irc::privmsgCmd;
-	// cmds["PASS"] = &Irc::passCmd;
-	// cmds["NICK"] = &Irc::nickCmd;
+	cmds["PASS"] = &Irc::passCmd;
+	cmds["NICK"] = &Irc::nickCmd;
 	// cmds["USER"] = &Irc::userCmd;
 	// cmds["PART"] = &Irc::partCmd;
 	// cmds["MODE"] = &Irc::modeCmd;
@@ -40,6 +40,56 @@ void Irc::setPortAndPassword(char **av)
 	for (size_t i = 0; i < _serverPassWord.size(); i++)
 		if (iswspace(_serverPassWord[i]))
 			throw runtime_error("Invalid password!");
+}
+
+//void Irc::joinCmd(istringstream &ss, Client* client){
+//  	ss.str("Func Join executed");
+//  }
+
+void Irc::passCmd(istringstream &ss, Client* client){
+  client->setPassWord(ss.str());
+  cout << CYAN "Enter password: " << endl;
+  getline(ss, _serverPassWord);
+}
+
+static std::vector<std::string> split(const std::string& str,
+										const std::string& delimiters,
+										bool keepEmpty = false) {
+	std::vector<std::string> tokens;
+	std::string::size_type pos = 0;
+	std::string::size_type prev = 0;
+
+	while ((pos = str.find_first_of(delimiters, prev)) != std::string::npos) {
+		if (keepEmpty || pos > prev) {
+			tokens.push_back(str.substr(prev, pos - prev));
+		}
+		prev = pos + 1;
+	}
+
+	if (prev < str.length()) {
+		tokens.push_back(str.substr(prev));
+	} else if (keepEmpty && prev == str.length()) {
+		tokens.push_back("");
+	}
+
+	return tokens;
+}
+
+void Irc::nickCmd(istringstream &ss, Client* client){
+  (void)client;
+  vector<string> ss_contents = split(ss.str(), "' '\t", true);
+  if (ss_contents.size() > 1) {
+    ss_contents = split(ss_contents[1], "' ''\t'", true);
+  }
+  for (size_t it = 0; it <= ss_contents.size(); it++)
+	  cout << ss_contents[it] << endl;
+  string nick = ss_contents[0];
+  cout << "What user sent: " << ss.str() << endl;
+  getline(ss, nick);
+  nick = nick.substr(1, nick.size() - 1);
+  string::iterator end_pos = remove(nick.begin(), nick.end(), ' ');
+  nick.erase(end_pos, nick.end());
+  cout << "Nick: " << nick << endl;
 }
 
 void Irc::saveData(void) const {

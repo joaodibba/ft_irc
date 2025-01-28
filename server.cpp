@@ -14,8 +14,8 @@ bool running = true;
 	Client *client = findClient(targetFd);
 
 	if (recv(targetFd, &buffer, sizeof(buffer), 0) <= 0)
-		return ; 
-	//quitCmd(ss, client);
+        //quitCmd(ss, client);
+		return ;
 	client->_buffer += string (buffer);
 	if (client->_buffer.find('\n') == string::npos)
 		return;
@@ -42,9 +42,9 @@ bool running = true;
 			cmdName != "USER" && cmdName != "QUIT") {
 			sendMsg(client->getSock(), ERR_NOTREGISTERED(client->getNick()));
 			continue;
-			}
-		if (this->cmds.find(cmdName) != this->cmds.end())
-			cout << endl; //(this->*(this->cmds[cmdName]))(lineSs, client);
+		}
+		else if (this->cmds.find(cmdName) != this->cmds.end())
+			(this->*(this->cmds[cmdName]))(lineSs, client);
 		else
 			sendMsg(client->getSock(), ERR_UNKNOWNCOMMAND(client->getNick(), cmdName));
 	}
