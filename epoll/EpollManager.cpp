@@ -12,7 +12,7 @@ EpollManager::~EpollManager(void){
 }
 
 void EpollManager::addFd(int targetFd, uint32_t newEvent) {
-	struct spoll_event ev;
+	struct epoll_event ev;
 
 	bzero(&ev, sizeof(ev));
 	ev.events = newEvent;
@@ -28,14 +28,14 @@ void EpollManager::modFd(int targetFd, uint32_t newEvent) {
 	if (find(listFds.begin(), listFds.end(), targetFd) == listFds.end())
 		return;
 	bzero(&ev, sizeof(ev));
-	ev.events = newEven;
+	ev.events = newEvent;
 	ev.data.fd = targetFd;
 	if (epoll_ctl(epSock, EPOLL_CTL_MOD, targetFd, &ev) == -1)
 		throw runtime_error("Cannot modify the fd in poll instance");
 }
 
 void EpollManager::deleteFd(int targetFd){
-	epoll_ctl(spSock, EPOLL_CTL_DEL, targetFd, NULL);
+	epoll_ctl(epSock, EPOLL_CTL_DEL, targetFd, NULL);
 	close(targetFd);
 	vector<int>::iterator it;
 	it = find(listFds.begin(), listFds.end(), targetFd);

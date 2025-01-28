@@ -8,18 +8,18 @@ class Channel
 		string 				_channelName;
 		string 				_channelModes;
 		string				_channelTopic; // t:set/remove restrictions of the TOPIC
-		string				_channelPassword: // k: set/remove the channel key (password)
+		string				_channelPassword; // k: set/remove the channel key (password)
 		map<Client*, bool>	_channelUsers;
 		vector<string>		_inviteUsers; // i: set/remove invite-only channel
-		size_t				_maxUserNumber; // l: set/remove limit of user on channel
+		size_t				_maxUsersNumber; // l: set/remove limit of user on channel
 
 	public:
 		string getChannelName(void) const;
 		string getChannelTopic(void) const;
-		string getChannelMode(void) const;
+		string getChannelModes(void) const;
 		string getChannelPassword(void) const;
-		size_t getMaxUserNumber(void) const;
-		size_t getNumberOfUserOnChannel(void) const;
+		size_t getMaxUsersNumber(void) const;
+		size_t getNumberOfUsersOnChannel(void) const;
 
 		void setChannelModes(char flag);
 		void setInviteUser(string nick);
@@ -32,7 +32,7 @@ class Channel
 		void removeChannelModesFlag(char flag);
 
 		void sendAll(string msg) const;
-		void sendPrivMsg(inst fd, string msg) const;
+		void sendPrivMsg(int fd, string msg) const;
 
 		bool isChannelFull(void) const;
 		bool isFlagSet(char flag) const;

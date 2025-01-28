@@ -1,6 +1,6 @@
 #include "Irc.hpp"
 
-void Irc::apllyInviteOnlyFlag(bool optr, Channel* tartetrChannel){
+void Irc::apllyInviteOnlyFlag(bool optr, Channel* targetChannel){
 	if (optr)
 		targetChannel->setChannelModes('i');
 	else
@@ -19,6 +19,7 @@ bool Irc::apllyPasswordFlag(istringstream &ss, string &modeFlag, Client *client,
 	bool operation = (modeFlag[0] == '-');
 	if (!(ss >> pass))
 		return (sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), string("MODE +k"))), 1);
+
 	if (operation)
 	{
 		if (!targetChannel->isFlagSet('k'))
@@ -32,18 +33,17 @@ bool Irc::apllyPasswordFlag(istringstream &ss, string &modeFlag, Client *client,
 	else {
 		if (!targetChannel->getChannelPassword().empty())
 			return (sendMsg(client->getSock(), ERR_KEYSET(client->getNick())), 1);
-		targetChannel->segChannelPassword(pass);
+		targetChannel->setChannelPassword(pass);
 		targetChannel->setChannelModes('k');
 	}
-	cout << "flag conf: " << targetChannel->getChannelModes() << end;
-	modeFlag += " " pass;
+	cout << "flag conf: " << targetChannel->getChannelModes() << endl;;
+	modeFlag += " " + pass;
 	return 0;
 }
 
 bool Irc::apllyLimitRestrictionFlag(istringstream &ss, string &modeFlag, Client *client, Channel *targetChannel){
 	if (modeFlag[0] == '-')
-		return ((targetChannel->isFlagSet('l')) ? (targetChannel->removeChannelModeFlag('l'), 0) : 1);
-
+		return ((targetChannel->isFlagSet('l')) ? (targetChannel->removeChannelModesFlag('l'), 0) : 1);
 	int nb;
 	char *end;
 	string number;
@@ -52,21 +52,21 @@ bool Irc::apllyLimitRestrictionFlag(istringstream &ss, string &modeFlag, Client 
 	if (!(ss >> number))
 		return (sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), string("mode +l"))), 1);
 	errno = 0;
-	nb = strtol(number.c_sr(), &end, 10);
+	nb = strtol(number.c_str(), &end, 10);
 	size_t tmp = nb;
 	if (nb <= 0 || errno == ERANGE || tmp == targetChannel->getMaxUsersNumber())
 		return 1;
 	
 	targetChannel->setMaxUsersNumber(nb);
-	if (!targetChannel->sisFlagSet('l'))
+	if (!targetChannel->isFlagSet('l'))
 		targetChannel->setChannelModes('l');
-		converter << nb;
-		modeFlag += " " + converter.str();
+	converter << nb;
+	modeFlag += " " + converter.str();
 
 	return 0;
 }
 
-bool Irc::apllyOperatorPrivilegeFlag(istringstream &ss, string &modeFlag, Client *client, Channel *targetChannel){
+bool Irc::applyOperatorPrivilegeFlag(istringstream &ss, string &modeFlag, Client *client, Channel *targetChannel){
 	string targetNick;
 	bool operation = (modeFlag[0] == '-');
 	cout << "operator: " << operation << endl;
@@ -76,9 +76,9 @@ bool Irc::apllyOperatorPrivilegeFlag(istringstream &ss, string &modeFlag, Client
 	if (!findClient(targetNick))
 		return (sendMsg(client->getSock(), ERR_NOSUCHNICK(client->getNick(), targetNick)), 1);
 	if (!targetChannel->isPartOfChannel(targetNick))
-		return (sentMsg(client->getSock(), ERR_USERNOTINCHANNEL(client->getNick(), targetNick, targetChannel->getChannelName())),1)
+		return (sendMsg(client->getSock(), ERR_USERNOTINCHANNEL(client->getNick(), targetNick, targetChannel->getChannelName())),1);
 
-	if (operation){
+	if (operation) {
 		if (!targetChannel->isOperator(targetNick))
 			return 1;
 		else
@@ -88,9 +88,9 @@ bool Irc::apllyOperatorPrivilegeFlag(istringstream &ss, string &modeFlag, Client
 		if (targetChannel->isOperator(targetNick))
 			return 1;
 		else
-			targetChannel->giveOrTackOperatorPrivilege(targetNick, true);
+			targetChannel->giveOrTakeOperatorPrivilege(targetNick, true);
 	}
-	modeFlag += + targetNick;
+	modeFlag += targetNick;
 	cout << "modeFlag: " << modeFlag <<endl;
 	return 0;
 }

@@ -2,7 +2,7 @@
 
 Channel *Irc::createChannel(string name) {
 	Channel *newChannel = new Channel(name);
-	_serverChannel.push_back(newChannel);
+	_serverChannels.push_back(newChannel);
 	return (newChannel);
 }
 
@@ -15,7 +15,7 @@ Channel *Irc::findChannel(string name){
 }
 
 Client *Irc::findClient(int target){
-	map<int, Client*>::iterator it = _client.find(target);
+	map<int, Client*>::iterator it = _clients.find(target);
 	return (it->second);
 }
 
@@ -45,7 +45,7 @@ int ssLength(istringstream &ss){
 	string temp;
 	int count = 0;
 	while (ss >> temp)
-		cout++;
+		count++;
 	ss.clear();
 	ss.seekg(position, ios::beg);
 	return count;

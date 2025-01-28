@@ -23,7 +23,7 @@ class Client
 
 		string getNick(void) const;
 		string getUser(void) const;
-		stirng getPassWord(void) const;
+		string getPassWord(void) const;
 
 		void authenticated(void);
 		void setNick(string name);

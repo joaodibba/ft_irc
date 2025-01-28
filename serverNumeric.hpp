@@ -4,7 +4,7 @@
 
 #define ERR_SAMPLE(code, errName, nick)(string(":localhost ") + (code) + ' ' + (nick) + " :" + (errName) + "\r\n")
 
-#define ERR_SAMPLE_2(code, errName, nick, name)(string(":localhost ") + code + ' ' + nick + ' ' + ' ' + name + ' ' + channelName + " :" + errName + "\r\n")
+#define ERR_SAMPLE_2(code, errName, nick, name)(string(":localhost ") + code + ' ' + nick + ' ' + ' ' + name + " :" + errName + "\r\n")
 
 #define ERR_SAMPLE_3(code, errName, nick, name, channelName)(string(":localhost ") + code + ' ' + nick + ' ' + name + ' ' + channelName + ' ' + " :" + errName + "\r\n")
 
@@ -48,11 +48,11 @@
 
 #define ERR_USERONCHANNEL(nick, targetNick, channelName)(ERR_SAMPLE_3("433", "is already on channel", nick, targetNick, channelName))
 
-#define ERR_NOTREGISTERED(nick)(ERR_SAMPLE("451", "You have not registered", nick))
+#define ERR_NOTREGISTERED(nick) (ERR_SAMPLE("451", "You have not registered", nick))
 
-#define ERR_NEEDMOREPARAMS(nick, command)(ERR_SAMPLE_2("461", "Not enough parameters", nick, command))
+#define ERR_NEEDMOREPARAMS(nick, command) (ERR_SAMPLE_2("461", "Not enough parameters", nick, command))
 
-#define ERR_ALREADYREGISTRED(nick)(ERR_SAMPLE("462", "You may not register", nick))
+#define ERR_ALREADYREGISTRED(nick) (ERR_SAMPLE("462", "You may not register", nick))
 
 #define ERR_PASSWDMISMATCH(nick)(ERR_SAMPLE("464", "Password incorrect", nick))
 

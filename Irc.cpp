@@ -2,25 +2,25 @@
 
 Irc::Irc(void)
 {
-	cmds["JOIN"] = &Irc::joinCmd;
-	cmds["TOPIC"] = &Irc::topicCmd;
-	cmds["PRIVMSG"] = &Irc::privmsgCmd;
-	cmds["PASS"] = &Irc::passCmd;
-	cmds["NICK"] = &Irc::nickCmd;
-	cmds["USER"] = &Irc::userCmd;
-	cmds["PART"] = &Irc::partCmd;
-	cmds["MODE"] = &Irc::modeCmd;
-	cmds["INVITE"] = &Irc::inviteCmd;
-	cmds["QUIT"] = &Irc::quitCmd;
-	cmds["KICK"] = &Irc::kickCmd;
+	// cmds["JOIN"] = &Irc::joinCmd;
+	// cmds["TOPIC"] = &Irc::topicCmd;
+	// cmds["PRIVMSG"] = &Irc::privmsgCmd;
+	// cmds["PASS"] = &Irc::passCmd;
+	// cmds["NICK"] = &Irc::nickCmd;
+	// cmds["USER"] = &Irc::userCmd;
+	// cmds["PART"] = &Irc::partCmd;
+	// cmds["MODE"] = &Irc::modeCmd;
+	// cmds["INVITE"] = &Irc::inviteCmd;
+	// cmds["QUIT"] = &Irc::quitCmd;
+	// cmds["KICK"] = &Irc::kickCmd;
 	cout << CYAN "Server started (Ctrl+c to quit)" END << endl;
 }
 
-Irc:: ~Ird(void)
+Irc::~Irc(void)
 {
-	for (map<int, Cliente*>::iterator it = _clients.begin(); it != _clients.end(); it++)
+	for (map<int, Client*>::iterator it = _clients.begin(); it != _clients.end(); it++)
 		deleteClient(it);
-	for (vector<Channel*>iterator it = _serverChannels.begin(); it != _serverChannels.end(); it++)
+	for (vector<Channel*>::iterator it = _serverChannels.begin(); it != _serverChannels.end(); it++)
 		delete *it;
 	if(epfds)
 		delete epfds;
@@ -35,33 +35,69 @@ void Irc::setPortAndPassword(char **av)
 	if (*end || num <= 0 || num >= 65535)
 		throw runtime_error("Invalid password!");
 	
-	_prot = num;
-
-	_servPassWord = av[2];
+	_port = num;
+	_serverPassWord = av[2];
 	for (size_t i = 0; i < _serverPassWord.size(); i++)
-		if (iswspace_PassWord[i])
+		if (iswspace(_serverPassWord[i]))
 			throw runtime_error("Invalid password!");
 }
 
- void Irc::saveData(void) const {
-	// Sae Client
+void Irc::saveData(void) const {
+	// Save Client
 	string filename_client = "file_client.txt";
-	ofstream outfile_client(filename_client.c_str());
-	if (!outFile_client) {
-		cerr<< "Error ao abri o arquivo para escrita: " << filename_client << endl;
-		return;
+	ofstream outFile_client(filename_client.c_str());
+    if (!outFile_client) {
+    	cerr << "Erro ao abrir o arquivo para escrita: " << filename_client << endl;
+    	return;
 	}
-	outFile_clinet << "fd_cl | nick | autenticated | buffer"  << endl;
+    outFile_client << "fd_cl | nick | autenticated | buffer" << endl;
 	map<int, Client*>::const_iterator it;
-	for (it = _client.begin(); it != _client.end(); it++){
-		outFile_client \
+    for (it = _clients.begin(); it != _clients.end(); ++it) {
+        outFile_client 	\
 		<< it->first << " | " \
 		<< it->second->getNick() << " | " \
 		<< it->second->isAuthenticated() << " | " \
 		<< it->second->_buffer << " | " \
 		<< endl;
+    }
+   	outFile_client.close();
+	
+	// Save Requests
+	string filename_requests =  "file_request.txt";
+	ofstream outFile_requests(filename_requests.c_str());
+    if (!outFile_requests) {
+    	cerr << "Erro ao abrir o arquivo para escrita: " << filename_requests << endl;
+    	return;
 	}
-	outFile_client.close();
+    outFile_requests << "fd_client | string" << endl;
+	map<int, string>::const_iterator it_r;
+    for (it_r = requests.begin(); it_r != requests.end(); ++it_r) {
+        outFile_requests \
+		<< it_r->first << " | " \
+		<< it_r->second << endl;
+    }
+	outFile_requests.close();
+	
+	// Save ServerChannel
+	string filename_severChannel = "file_ServerChannel.txt";
+	ofstream outFile_serverChannel(filename_severChannel.c_str());
+    if (!outFile_serverChannel) {
+    	cerr << "Erro ao abrir o arquivo para escrita: " << filename_severChannel << endl;
+    	return;
+	}
+    outFile_serverChannel << "ChaneelName | topic | operator | Mode | Num Users | Password" << endl;
+   	vector<Channel*>::const_iterator it_sc;
+	for (it_sc = _serverChannels.begin(); it_sc != _serverChannels.end(); ++it_sc) {
+        Channel *channel = *it_sc;
+		outFile_serverChannel \
+		<< channel->getChannelName() << " | " \
+		<< channel->getChannelTopic() << " | " \
+		<< channel->getChannelModes() << " | " \
+		<< channel->getMaxUsersNumber() << " | " \
+		<< channel->getChannelPassword() << " | " \
+		<< endl;
 
+	}
+	outFile_serverChannel.close();
+}
 
- }

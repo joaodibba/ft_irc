@@ -17,9 +17,9 @@ void logger(int type, int data)
 		if (data & EPOLLIN)
 			eventString = "EPOLLIN";
 		else if (data & EPOLLOUT)
-			eventString = "EPOLLOUT"
-		else if (data & EPOLLERR || EPOLLRDHUB || data & EPOLLHUP)
-			EVENTsTRING = "EPOLLERR || EPOLLRDHUP || EPOLLHUP";
+			eventString = "EPOLLOUT";
+		else if (data & EPOLLERR || data & EPOLLRDHUP || data & EPOLLHUP)
+			eventString = "EPOLLERR || EPOLLRDHUP || EPOLLHUP";
 		else
 			eventString = "INVALID";
 		cout << eventString << "\n" END << endl;
@@ -31,11 +31,10 @@ void logger(int type, int data)
 
 int main(int ac, char **av)
 {
-	if (ac=!3 || !av[1][0] || !av[2][0])
-		return (cerr << "./ircserv <port> <password" << endl), 1;
-
+	if (ac != 3 || !av[1][0] || !av[2][0])
+		return ((cerr << "./ircserv <port> <password" << endl), 1);
 	static Irc irc;
-	loger(0, 0);
+	logger(0, 0);
 	irc.run_server(av);
 	return (0);
 }

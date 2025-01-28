@@ -45,6 +45,9 @@ using std::ofstream;
 using std::runtime_error;
 using std::ios;
 using std::find;
+using std::getline;
+using std::exception;
+
 
 
 
@@ -86,6 +89,7 @@ class Irc
 		void receiveRequest(int targetFd);
 
 		// ServerChannelModes
+		
 		void apllyInviteOnlyFlag(bool optr, Channel *targetChannel);
 		void apllyTopicRestrictionFlag(bool optr, Channel *targetChannel);
 		void applyMode(istringstream &ss, Channel *targetChannel, Client *client, string modeFlag);
@@ -101,28 +105,27 @@ class Irc
 		void leaveAllChannels(Client *ptr);
 		void deleteClient(map<int, Client*>::iterator &it);
 
+		//Commands
+		// typedef void (Irc::*CommandPtr)(istringstream &line, Client *client);
+		// map<string, CommandPtr> cmds;
+
+		// void privmsgCmd(istringstream &ss, Client *client);
+		// void joinCmd(istringstream &ss, Client *client);
+		// void partCmd(istringstream &ss, Client *client);
+		// void topicCmd(istringstream &ss, Client *client);
+		// void modeCmd(istringstream &ss, Client *client);
+		// void passCmd(istringstream &ss, Client *client);
+		// void nickCmd(istringstream &ss, Client *client);
+		// void userCmd(istringstream &ss, Client *client);
+		// void inviteCmd(istringstream &ss, Client *client);
+		// void quitCmd(istringstream &ss, Client *client);
+		// void kickCmd(istringstream &ss, Client *client);
+
 	public:
 		Irc(void);
 		~Irc(void);
 		int run_server(char **av);
 		void setPortAndPassword(char **av);
-
-	private:
-		typedef void (Irc::*CommandPtr)(istringstream &line, Client *client);
-		map<string, CommandPtr> cmds;
-
-		void privmsgCmd(istringstream &ss, Client *client);
-		void joinCmd(istringstream &ss, Client *client);
-		void partCmd(istringstream &ss, Client *client);
-		void topicCmd(istringstream &ss, Client *client);
-		void modeCmd(istringstream &ss, Client *client);
-		void passCmd(istringstream &ss, Client *client);
-		void nickCmd(istringstream &ss, Client *client);
-		void userCmd(istringstream &ss, Client *client);
-		void inviteCmd(istringstream &ss, Client *client);
-		void quitCmd(istringstream &ss, Client *client);
-		void kickCmd(istringstream &ss, Client *client);
-
-	public:
 		void saveData(void) const;
+		
 };

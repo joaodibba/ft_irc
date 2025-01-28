@@ -1,0 +1,1 @@
+ChaneelName | topic | operator | Mode | Num Users | Password

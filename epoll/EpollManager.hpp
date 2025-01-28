@@ -5,7 +5,7 @@
 class EpollManager
 {
 	private:
-		int spSock;
+		int epSock;
 		vector<int> listFds;
 
 	public:
@@ -21,5 +21,3 @@ class EpollManager
 		int getEpSock(void) const;
 
 };
-
-
