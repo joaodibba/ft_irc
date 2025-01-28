@@ -15,7 +15,7 @@ bool running = true;
 
 	if (recv(targetFd, &buffer, sizeof(buffer), 0) <= 0)
 		return ; 
-	//quitCmd(ss, client);
+		//quitCmd(ss, client);
 	client->_buffer += string (buffer);
 	if (client->_buffer.find('\n') == string::npos)
 		return;
@@ -27,15 +27,15 @@ bool running = true;
  void Irc::sendResponse(int targetFd){
 	Client* client = findClient(targetFd);
 	map<int, string>::iterator it = requests.find(targetFd);
+
 	istringstream RequestSs(it->second);
-	string tmpLIne;
+	string tmpLine;
 	string cmdName;
 
 	cout << WHITE << RequestSs.str() << END << endl;
-	while (getline(RequestSs, tmpLIne)) {
-		istringstream lineSs(tmpLIne);
+	while (getline(RequestSs, tmpLine)) {
+		istringstream lineSs(tmpLine);
 		lineSs >> cmdName;
-
 		if (cmdName == "CAP")
 			continue;
 		if (!client->isAuthenticated() && cmdName != "PASS" && cmdName != "NICK" &&
@@ -44,7 +44,7 @@ bool running = true;
 			continue;
 			}
 		if (this->cmds.find(cmdName) != this->cmds.end())
-			cout << endl; //(this->*(this->cmds[cmdName]))(lineSs, client);
+			(this->*(this->cmds[cmdName]))(lineSs, client);
 		else
 			sendMsg(client->getSock(), ERR_UNKNOWNCOMMAND(client->getNick(), cmdName));
 	}

@@ -4,6 +4,16 @@ bool Irc::isNewClient(int targetFd){
 	return ((targetFd == _serverSock) ? true : false);
 }
 
+/**
+ * @brief Sets the given file descriptor to non-blocking mode.
+ *
+ * This function sets the file descriptor pointed to by the given pointer to non-blocking mode
+ * using the fcntl system call. If the operation fails, it throws a runtime_error.
+ *
+ * @param ptr Pointer to the file descriptor to be set to non-blocking mode.
+ *
+ * @throws std::runtime_error if the operation fails.
+ */
 void Irc::setNonBloking(int *ptr) {
 	int fd = fcntl(*ptr, F_SETFL, O_NONBLOCK);
 	if (fd == -1)
@@ -25,6 +35,18 @@ void Irc::acceptClient(int serverFd){
 	cout << MAGENTA "Opening connection, fd; " << newSock << END << endl;
 }
 
+
+/**
+ * @brief Initializes the network for the IRC server.
+ * 
+ * This function sets up the server socket, configures it for non-blocking mode,
+ * and binds it to the specified port. It also sets the socket options and 
+ * prepares it to listen for incoming connections. Additionally, it adds the 
+ * server socket to the epoll instance for event-driven I/O.
+ * 
+ * @throws std::runtime_error if socket creation, setting socket options, 
+ * binding, or listening fails.
+ */
 void Irc::initNetwork(void)
 {
 	struct sockaddr_in address;
@@ -34,16 +56,21 @@ void Irc::initNetwork(void)
 	address.sin_family = AF_INET;
 	address.sin_addr.s_addr = htons(INADDR_ANY);
 	address.sin_port = htons(_port);
-
-	_serverSock = socket(AF_INET, SOCK_STREAM, 0);
+	// Criar um socket e associa a um fd no _serverSock/
+	_serverSock = socket(AF_INET, SOCK_STREAM, 0); // server socket  to listen the clients.
 	if (_serverSock == -1)
 		throw runtime_error("Failed to create socket");
 	
 	epfds = new EpollManager();
+	//EPOLLIN: Indica que esta pronto para leitura
+	//EPOLLET: Indica que sera notificado quando houver alteracao de status
 	epfds->addFd(_serverSock, EPOLLIN | EPOLLET);
 
 	int enable = 1;
 	setNonBloking(&_serverSock);
+	//setsockopt: configura o socket para reunitizacao de endereco local
+	//bind: associa o socket ao endereco e a porta especificadas.
+	//listen: coloca o socket do servidor no modo escuta, permitindo aceitar novos clientes no limite de BACKLOG
 	if (setsockopt(_serverSock, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
 		throw runtime_error("Failed to set setsockopt to SO_REUSEADDR");
 	if (bind(_serverSock, (struct sockaddr *)&address, addrlen) < 0)

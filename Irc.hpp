@@ -48,9 +48,6 @@ using std::find;
 using std::getline;
 using std::exception;
 
-
-
-
 class Client;
 class Channel;
 class EpollManager;
@@ -106,8 +103,8 @@ class Irc
 		void deleteClient(map<int, Client*>::iterator &it);
 
 		//Commands
-		// typedef void (Irc::*CommandPtr)(istringstream &line, Client *client);
-		// map<string, CommandPtr> cmds;
+		typedef void (Irc::*CommandPtr)(istringstream &line, Client *client);
+		map<string, CommandPtr> cmds;
 
 		// void privmsgCmd(istringstream &ss, Client *client);
 		// void joinCmd(istringstream &ss, Client *client);
@@ -115,10 +112,10 @@ class Irc
 		// void topicCmd(istringstream &ss, Client *client);
 		// void modeCmd(istringstream &ss, Client *client);
 		// void passCmd(istringstream &ss, Client *client);
-		// void nickCmd(istringstream &ss, Client *client);
-		// void userCmd(istringstream &ss, Client *client);
+		void nickCmd(istringstream &ss, Client *client);
+		void userCmd(istringstream &ss, Client *client);
 		// void inviteCmd(istringstream &ss, Client *client);
-		// void quitCmd(istringstream &ss, Client *client);
+		void quitCmd(istringstream &ss, Client *client);
 		// void kickCmd(istringstream &ss, Client *client);
 
 	public:
