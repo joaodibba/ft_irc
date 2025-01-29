@@ -2,17 +2,17 @@
 
 Irc::Irc(void)
 {
-	// cmds["JOIN"] = &Irc::joinCmd;
+	cmds["JOIN"] = &Irc::joinCmd;
 	// cmds["TOPIC"] = &Irc::topicCmd;
 	// cmds["PRIVMSG"] = &Irc::privmsgCmd;
-	// cmds["PASS"] = &Irc::passCmd;
-	cmds["NICK"] = &Irc::nickCmd;
-	cmds["USER"] = &Irc::userCmd;
+	cmds["PASS"] = &Irc::passCmd;
 	// cmds["PART"] = &Irc::partCmd;
 	// cmds["MODE"] = &Irc::modeCmd;
-	// cmds["INVITE"] = &Irc::inviteCmd;
+	cmds["NICK"] = &Irc::nickCmd;
+	cmds["USER"] = &Irc::userCmd;
+	cmds["INVITE"] = &Irc::inviteCmd;
 	cmds["QUIT"] = &Irc::quitCmd;
-	// cmds["KICK"] = &Irc::kickCmd;
+	cmds["KICK"] = &Irc::kickCmd;
 	cout << CYAN "Server started (Ctrl+c to quit)" END << endl;
 }
 

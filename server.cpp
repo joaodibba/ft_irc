@@ -14,8 +14,7 @@ bool running = true;
 	Client *client = findClient(targetFd);
 
 	if (recv(targetFd, &buffer, sizeof(buffer), 0) <= 0)
-		return ; 
-		//quitCmd(ss, client);
+		quitCmd(ss, client);
 	client->_buffer += string (buffer);
 	if (client->_buffer.find('\n') == string::npos)
 		return;
@@ -36,6 +35,7 @@ bool running = true;
 	while (getline(RequestSs, tmpLine)) {
 		istringstream lineSs(tmpLine);
 		lineSs >> cmdName;
+		cout << "Command: " << cmdName << endl; //my
 		if (cmdName == "CAP")
 			continue;
 		if (!client->isAuthenticated() && cmdName != "PASS" && cmdName != "NICK" &&

@@ -44,7 +44,7 @@
 
 #define ERR_USERNOTINCHANNEL(nick, targetNick, channelName)(ERR_SAMPLE_3("441", "They aren't on that channel", nick, targetNick, channelName))
 
-#define ERR_NOTNCHANNEL(nick, channelName)(ERR_SAMPLE_2("422", "You're not on that channel", nick, channelName))
+#define ERR_NOTONCHANNEL(nick, channelName)(ERR_SAMPLE_2("422", "You're not on that channel", nick, channelName))
 
 #define ERR_USERONCHANNEL(nick, targetNick, channelName)(ERR_SAMPLE_3("433", "is already on channel", nick, targetNick, channelName))
 

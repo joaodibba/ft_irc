@@ -12,7 +12,7 @@ void Irc::userCmd(istringstream &ss, Client *client) {
 		return sendMsg(client->getSock(), NOTICE_MSG("Empty nick, please set a nick first"));
 	if (client->isAuthenticated())
 		return sendMsg(client->getSock(), ERR_ALREADYREGISTRED(client->getNick()));
-	ss >> user;
+	// ss >> user;
 
 	if (!(str == "0" && ss >> str && str == "*" && ss >> str && str == ":realname"))
 		sendMsg(client->getSock(), NOTICE_MSG("Unwaned input, username still changed"));
