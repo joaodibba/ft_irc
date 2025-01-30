@@ -1,0 +1,179 @@
+[global_config]
+  handle_size = 6
+  scroll_tabbar = True
+  inactive_color_offset = 0.8433734939759037
+  enabled_plugins = ActivityWatch, InactivityWatch, TestPlugin, TerminalShot, CustomCommandsMenu, Logger, MavenPluginURLHandler, LaunchpadBugURLHandler, LaunchpadCodeURLHandler, APTURLHandler
+  suppress_multiple_term_dialog = True
+  line_height = 1.7
+[keybindings]
+[profiles]
+  [[default]]
+    audible_bell = True
+    visible_bell = True
+    urgent_bell = True
+    background_darkness = 0.82
+    background_type = transparent
+    cursor_color = "#aaaaaa"
+    font = Monospace 8
+    scrollbar_position = hidden
+    scroll_on_keystroke = False
+    scrollback_infinite = True
+    exit_action = hold
+    palette = "#1f2229:#d41919:#5ebdab:#fea44c:#367bf0:#9755b3:#49aee6:#e6e6e6:#198388:#ec0101:#47d4b9:#ff8a18:#277fff:#962ac3:#05a1f7:#ffffff"
+    login_shell = True
+    custom_command = tmux
+    use_system_font = False
+    working_directory = "~/02_commoncore/ft_irc"
+  [[irc]]
+    cursor_color = "#aaaaaa"
+    login_shell = True
+[layouts]
+  [[default]]
+    [[[child0]]]
+      type = Window
+      parent = ""
+      order = 0
+      position = 662:92
+      maximised = False
+      fullscreen = False
+      size = 1000, 600
+      title = irc_server
+      last_active_term = f1ec913c-6ed0-4980-93a0-dc9d4243f3e9
+      last_active_window = True
+    [[[child1]]]
+      type = HPaned
+      parent = child0
+      order = 0
+      position = 261
+      ratio = 0.2623115577889447
+    [[[terminal2]]]
+      type = Terminal
+      parent = child1
+      order = 0
+      profile = default
+      uuid = f54002cd-6b3f-4020-9e7b-b53b4a1b449d
+      title = server
+      command = 02_commoncore/ft_irc; c; rm; ./ircserv 6667 rpr
+    [[[child3]]]
+      type = VPaned
+      parent = child1
+      order = 1
+      position = 298
+      ratio = 0.5008403361344538
+    [[[child4]]]
+      type = VPaned
+      parent = child3
+      order = 0
+      position = 146
+      ratio = 0.49829351535836175
+    [[[child5]]]
+      type = HPaned
+      parent = child4
+      order = 0
+      position = 245
+      ratio = 0.33653846153846156
+    [[[terminal6]]]
+      type = Terminal
+      parent = child5
+      order = 0
+      profile = default
+      uuid = 1f425f80-9aa1-4d26-be1f-ee82f23699ac
+      title = fd
+      command = tail -f file_client.txt
+    [[[child7]]]
+      type = HPaned
+      parent = child5
+      order = 1
+      position = 272
+      ratio = 0.570230607966457
+    [[[terminal8]]]
+      type = Terminal
+      parent = child7
+      order = 0
+      profile = default
+      uuid = b25d2452-98fe-42df-9781-03c9e7fb7c2a
+      title = file_client
+      command = tail -f file_client.txt
+    [[[terminal9]]]
+      type = Terminal
+      parent = child7
+      order = 1
+      profile = default
+      title = painel 3
+      command = terminator/count_fd.sh
+      uuid = f1ec913c-6ed0-4980-93a0-dc9d4243f3e9
+    [[[terminal10]]]
+      type = Terminal
+      parent = child4
+      order = 1
+      profile = default
+      uuid = cef5ca33-7f6d-4449-b547-3b32ccff7c88
+      title = painel 4
+      command = terminator/monitor_fd.sh
+    [[[child11]]]
+      type = VPaned
+      parent = child3
+      order = 1
+      position = 146
+      ratio = 0.5017182130584192
+    [[[child12]]]
+      type = HPaned
+      parent = child11
+      order = 0
+      position = 372
+      ratio = 0.510989010989011
+    [[[terminal13]]]
+      type = Terminal
+      parent = child12
+      order = 0
+      profile = default
+      uuid = 29d0ad27-537c-401b-8d2b-cd3cbb8b325b
+      title = cliente - 1
+      command = c; nc localhost 6667
+    [[[terminal14]]]
+      type = Terminal
+      parent = child12
+      order = 1
+      profile = default
+      uuid = 6461b412-67cd-4682-b0c9-ec8ed46da66f
+      title = client - 2
+      command = c; nc localhost 6667
+    [[[child15]]]
+      type = HPaned
+      parent = child11
+      order = 1
+      position = 372
+      ratio = 0.510989010989011
+    [[[terminal16]]]
+      type = Terminal
+      parent = child15
+      order = 0
+      profile = default
+      uuid = 0b4d7740-0a09-45cd-b899-a8639c6df144
+      title = cliente - 3
+      command = c; nc localhost 6667
+    [[[terminal17]]]
+      type = Terminal
+      parent = child15
+      order = 1
+      profile = default
+      uuid = a8413bc6-5446-41b1-b020-12bf6b3dfaa8
+      title = client - 4
+      command = c; nc localhost 6667
+[plugins]
+  [[CustomCommandsMenu]]
+    [[[start]]]
+      enabled = True
+      name = start
+      command = cd ~/02_commoncore/ft_irc
+      position = 0
+    [[[init ircserv]]]
+      enabled = False
+      name = init ircserv
+      command = c; ./ircserv 6667 rpr
+      position = 1
+    [[[client]]]
+      enabled = True
+      name = client
+      command = " c; nc localhost 6667  "
+      position = 2

@@ -47,3 +47,31 @@ E altera o status do epoll para o fd(socket) do cliente para pronto para enviar 
 
 
 ## Inicialização
+
+
+## em run_server
+em isNewClient, evs[i]].data.fd, caso o fd retornado pelo evento sejam igual ao fd o server, significa que se trata de um novo cliente.
+Na funcao acceptClinet é iniciado um novo cliente com:
+	* criação de um novo Sock e respectivo fd.
+	* na criação do novo Sock é feita a parametrização de:
+    	* sockaddr_in
+    	* Associacao do n
+
+
+cockpit:
+[[[terminal2]]]
+title = server
+command = c; rm; ./ircserv 6667 rpr
+
+[[[terminal6]]]
+title = fd
+
+
+terminator/count_fd.sh
+terminator/monitor_fd.sh
+
+[[[terminal8]]]
+title = file_client
+command = tail -f file_client.txt
+
+command = c; cn localhost 6667

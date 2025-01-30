@@ -33,7 +33,7 @@ void Irc::setPortAndPassword(char **av)
 	int num = strtol(av[1], &end, 10);
 
 	if (*end || num <= 0 || num >= 65535)
-		throw runtime_error("Invalid password!");
+		throw runtime_error("Invalid port!");
 	
 	_port = num;
 	_serverPassWord = av[2];

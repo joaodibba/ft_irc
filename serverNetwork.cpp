@@ -30,11 +30,10 @@ void Irc::acceptClient(int serverFd){
 		throw runtime_error("Failed to accept connection");
 
 	setNonBloking(&newSock);
-	epfds->addFd(newSock, EPOLLIN | EPOLLERR | EPOLLHUP);
+	epfds->addFd(newSock, EPOLLIN | EPOLLOUT | EPOLLERR | EPOLLHUP ); // OBS EPOLLOUT incluido para teste
 	_clients.insert(make_pair(newSock, (new Client(newSock))));
 	cout << MAGENTA "Opening connection, fd; " << newSock << END << endl;
 }
-
 
 /**
  * @brief Initializes the network for the IRC server.
@@ -53,11 +52,12 @@ void Irc::initNetwork(void)
 	int addrlen = sizeof(address);
 	bzero(&address, addrlen);
 
-	address.sin_family = AF_INET;
-	address.sin_addr.s_addr = htons(INADDR_ANY);
-	address.sin_port = htons(_port);
-	// Criar um socket e associa a um fd no _serverSock/
-	_serverSock = socket(AF_INET, SOCK_STREAM, 0); // server socket  to listen the clients.
+	address.sin_family = AF_INET; // indica que o socket e do tipo internet (ipv4)
+	address.sin_addr.s_addr = htons(INADDR_ANY); // indica que o socket pode receber pacotes de qualquer endereco
+	address.sin_port = htons(_port); // indica a porta que o socket vai escutar
+	
+	_serverSock = socket(AF_INET, SOCK_STREAM, 0); // cria um socket do tipo TCP'
+	cout << CYAN "Server socket created: " << _serverSock << endl;
 	if (_serverSock == -1)
 		throw runtime_error("Failed to create socket");
 	
@@ -67,14 +67,11 @@ void Irc::initNetwork(void)
 	epfds->addFd(_serverSock, EPOLLIN | EPOLLET);
 
 	int enable = 1;
-	setNonBloking(&_serverSock);
-	//setsockopt: configura o socket para reunitizacao de endereco local
-	//bind: associa o socket ao endereco e a porta especificadas.
-	//listen: coloca o socket do servidor no modo escuta, permitindo aceitar novos clientes no limite de BACKLOG
-	if (setsockopt(_serverSock, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
+	setNonBloking(&_serverSock); 
+	if (setsockopt(_serverSock, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0) // configura o socket para reutilizacao de endereco local
 		throw runtime_error("Failed to set setsockopt to SO_REUSEADDR");
-	if (bind(_serverSock, (struct sockaddr *)&address, addrlen) < 0)
+	if (bind(_serverSock, (struct sockaddr *)&address, addrlen) < 0) // associa o socket ao endereco e a porta especificadas 	
 		throw runtime_error("Failed to bind socket to a port");
-	if (listen(_serverSock, BACKLOG) < 0)
+	if (listen(_serverSock, BACKLOG) < 0) // coloca o socket do servidor no modo escuta, permitindo aceitar novos clientes no limite de BACKLOG
 		throw runtime_error("Failed to listen to socket");
 }
