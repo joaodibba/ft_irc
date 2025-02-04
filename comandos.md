@@ -59,19 +59,21 @@ Na funcao acceptClinet é iniciado um novo cliente com:
 
 
 cockpit:
-[[[terminal2]]]
-title = server
-command = c; rm; ./ircserv 6667 rpr
 
-[[[terminal6]]]
-title = fd
+command = c; mr; ./ircserv 6667 RPR
 
-
-terminator/count_fd.sh
-terminator/monitor_fd.sh
-
-[[[terminal8]]]
-title = file_client
 command = tail -f file_client.txt
 
-command = c; cn localhost 6667
+command = tail -f file_ServerChannel.txt
+
+command = fd
+
+command = c; monitor_irc
+
+command = terminator/monitor_irc.sh
+
+command = terminator/monitor_fd.sh
+
+command = terminator/count_fd.sh
+
+command = c; nc localhost 6667

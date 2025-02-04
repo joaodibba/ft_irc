@@ -44,9 +44,18 @@ alias mb='make build'
 
 alias cc='~/.confenv/.cc.sh'
 alias sp='~/.confenv/.sp.sh'
+
+
+# IRC / Terminator
 alias fd='lsof -i -n -P | grep ircserv'
 
 alias t='terminator -g ~/.config/terminator/default'
-alias tirc='terminator -g ~/.config/terminator/irc_terminator'
+alias t1='terminator -g ~/.config/terminator/irc_terminator'
+alias t2='terminator -g ~/.config/terminator/irc_terminator2'
+alias t3='terminator -g ~/.config/terminator/irc_terminator3'
+alias monitor_irc="~/02_commoncore/ft_irc/terminator/monitor_irc.sh"
+
 
 alias rl='source ~/.zshrc'
+
+#Make

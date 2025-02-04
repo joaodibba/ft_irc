@@ -35,7 +35,7 @@ bool running = true;
 	while (getline(RequestSs, tmpLine)) {
 		istringstream lineSs(tmpLine);
 		lineSs >> cmdName;
-		cout << "Command: " << cmdName << endl; //my
+		// cout << "Command: " << cmdName << endl; //my
 		if (cmdName == "CAP")
 			continue;
 		if (!client->isAuthenticated() && cmdName != "PASS" && cmdName != "NICK" &&
@@ -71,9 +71,7 @@ bool running = true;
 			for (int i = 0 ; i < event_count; i++) {
 				logger(3, evs[i].data.fd);
 				logger(4, evs[i].events);
-				cout << "Listen Fd: " << evs[i].data.fd << endl;
-				// se o fd do evs for o do servidor, significa que fd e um novo cliente
-				if (isNewClient(evs[i].data.fd) && evs[i].events & EPOLLIN)
+				if (isNewClient(evs[i].data.fd) && evs[i].events & EPOLLIN) // se o fd do evs for o do servidor, significa que fd e um novo cliente
 					acceptClient(evs[i].data.fd);
 				else if (evs[i].events & EPOLLIN)
 					receiveRequest(evs[i].data.fd);

@@ -25,12 +25,11 @@ void Irc::acceptClient(int serverFd){
 	struct sockaddr_in address;
 	socklen_t addrlen = sizeof(address);
 	bzero(&address, addrlen);
-
 	if ((newSock = accept(serverFd, (struct sockaddr *)&address, &addrlen)) < 0)
 		throw runtime_error("Failed to accept connection");
 
 	setNonBloking(&newSock);
-	epfds->addFd(newSock, EPOLLIN | EPOLLOUT | EPOLLERR | EPOLLHUP ); // OBS EPOLLOUT incluido para teste
+	epfds->addFd(newSock, EPOLLIN | EPOLLERR | EPOLLHUP ); // OBS EPOLLOUT incluido para teste
 	_clients.insert(make_pair(newSock, (new Client(newSock))));
 	cout << MAGENTA "Opening connection, fd; " << newSock << END << endl;
 }

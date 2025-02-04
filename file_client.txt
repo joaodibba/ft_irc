@@ -1,5 +1,5 @@
 fd_cl | nick | autenticated | buffer
-5 |  | 0 |  | 
-6 |  | 0 |  | 
-7 |  | 0 |  | 
-8 |  | 0 |  | 
+5 | RPR | 1 |  | 
+6 | KIKA | 1 |  | 
+7 | GAB | 1 |  | 
+8 | GIO | 1 |  | 

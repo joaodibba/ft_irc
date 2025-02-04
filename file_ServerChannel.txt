@@ -1,1 +1,5 @@
 ChaneelName | topic | operator | Mode | Num Users | Password
+#NS |  | +t | 0 |  | 
+#TRAUMA |  | +t | 0 |  | 
+#BIKE |  | +t | 0 |  | 
+#PNL |  | +t | 0 |  | 
