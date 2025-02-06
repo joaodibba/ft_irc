@@ -14,8 +14,7 @@ bool running = true;
 	Client *client = findClient(targetFd);
 
 	if (recv(targetFd, &buffer, sizeof(buffer), 0) <= 0)
-        //quitCmd(ss, client);
-		return ;
+		quitCmd(ss, client);
 	client->_buffer += string (buffer);
 	if (client->_buffer.find('\n') == string::npos)
 		return;
@@ -27,23 +26,24 @@ bool running = true;
  void Irc::sendResponse(int targetFd){
 	Client* client = findClient(targetFd);
 	map<int, string>::iterator it = requests.find(targetFd);
+
 	istringstream RequestSs(it->second);
-	string tmpLIne;
+	string tmpLine;
 	string cmdName;
 
 	cout << WHITE << RequestSs.str() << END << endl;
-	while (getline(RequestSs, tmpLIne)) {
-		istringstream lineSs(tmpLIne);
+	while (getline(RequestSs, tmpLine)) {
+		istringstream lineSs(tmpLine);
 		lineSs >> cmdName;
-
+		// cout << "Command: " << cmdName << endl; //my
 		if (cmdName == "CAP")
 			continue;
 		if (!client->isAuthenticated() && cmdName != "PASS" && cmdName != "NICK" &&
 			cmdName != "USER" && cmdName != "QUIT") {
 			sendMsg(client->getSock(), ERR_NOTREGISTERED(client->getNick()));
 			continue;
-		}
-		else if (this->cmds.find(cmdName) != this->cmds.end())
+			}
+		if (this->cmds.find(cmdName) != this->cmds.end())
 			(this->*(this->cmds[cmdName]))(lineSs, client);
 		else
 			sendMsg(client->getSock(), ERR_UNKNOWNCOMMAND(client->getNick(), cmdName));
@@ -71,7 +71,7 @@ bool running = true;
 			for (int i = 0 ; i < event_count; i++) {
 				logger(3, evs[i].data.fd);
 				logger(4, evs[i].events);
-				if (isNewClient(evs[i].data.fd) && evs[i].events & EPOLLIN)
+				if (isNewClient(evs[i].data.fd) && evs[i].events & EPOLLIN) // se o fd do evs for o do servidor, significa que fd e um novo cliente
 					acceptClient(evs[i].data.fd);
 				else if (evs[i].events & EPOLLIN)
 					receiveRequest(evs[i].data.fd);

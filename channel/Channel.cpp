@@ -4,7 +4,7 @@ Channel::Channel(string name):_channelName(name), _channelModes("+t"), _maxUsers
 
 Channel::~Channel(void){}
 
-void Channel::setChannelUser(bool oprt, Client* ptr) {
+void Channel::setChannelUsers(bool oprt, Client* ptr) {
 	vector<string>::iterator it = find(_inviteUsers.begin(), _inviteUsers.end(), ptr->getNick());
 	if (it != _inviteUsers.end())
 		_inviteUsers.erase(it);

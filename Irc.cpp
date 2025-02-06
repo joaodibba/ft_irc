@@ -1,22 +1,18 @@
 #include "Irc.hpp"
 
-static std::vector<std::string> split(const std::string& str,
-										const std::string& delimiters,
-										bool keepEmpty);
-
 Irc::Irc(void)
 {
-	//cmds["JOIN"] = &Irc::joinCmd;
+	// cmds["JOIN"] = &Irc::joinCmd;
 	// cmds["TOPIC"] = &Irc::topicCmd;
 	// cmds["PRIVMSG"] = &Irc::privmsgCmd;
-	cmds["PASS"] = &Irc::passCmd;
-	//cmds["NICK"] = &Irc::nickCmd;
-	// cmds["USER"] = &Irc::userCmd;
+	// cmds["PASS"] = &Irc::passCmd;
 	// cmds["PART"] = &Irc::partCmd;
 	// cmds["MODE"] = &Irc::modeCmd;
-	// cmds["INVITE"] = &Irc::inviteCmd;
-	// cmds["QUIT"] = &Irc::quitCmd;
-	// cmds["KICK"] = &Irc::kickCmd;
+	cmds["NICK"] = &Irc::nickCmd;
+	cmds["USER"] = &Irc::userCmd;
+	cmds["INVITE"] = &Irc::inviteCmd;
+	cmds["QUIT"] = &Irc::quitCmd;
+	cmds["KICK"] = &Irc::kickCmd;
 	cout << CYAN "Server started (Ctrl+c to quit)" END << endl;
 }
 
@@ -37,7 +33,7 @@ void Irc::setPortAndPassword(char **av)
 	int num = strtol(av[1], &end, 10);
 
 	if (*end || num <= 0 || num >= 65535)
-		throw runtime_error("Invalid password!");
+		throw runtime_error("Invalid port!");
 	
 	_port = num;
 	_serverPassWord = av[2];
@@ -45,60 +41,6 @@ void Irc::setPortAndPassword(char **av)
 		if (iswspace(_serverPassWord[i]))
 			throw runtime_error("Invalid password!");
 }
-
-//void Irc::joinCmd(istringstream &ss, Client* client){
-//  	ss.str("Func Join executed");
-//  }
-
-void Irc::passCmd(istringstream &ss, Client* client){
-	std::vector <string> splited_input;
-	splited_input = split(ss.str(), " ", false);
-	for (size_t i = 0; i < splited_input.size(); i++)
-		cout << splited_input[i] << endl;
-	if(splited_input.size() == 2){
-		client->setPassWord(splited_input[1]);
-	}
-}
-
-static std::vector<std::string> split(const std::string& str,
-										const std::string& delimiters,
-										bool keepEmpty) {
-	std::vector<std::string> tokens;
-	std::string::size_type pos = 0;
-	std::string::size_type prev = 0;
-
-	while ((pos = str.find_first_of(delimiters, prev)) != std::string::npos) {
-		if (keepEmpty || pos > prev) {
-			tokens.push_back(str.substr(prev, pos - prev));
-		}
-		prev = pos + 1;
-	}
-
-	if (prev < str.length()) {
-		tokens.push_back(str.substr(prev));
-	} else if (keepEmpty && prev == str.length()) {
-		tokens.push_back("");
-	}
-
-	return tokens;
-}
-
-//void Irc::nickCmd(istringstream &ss, Client* client){
-//  (void)client;
-//  vector<string> ss_contents = split(ss.str(), "' '\t", true);
-//  if (ss_contents.size() > 1) {
-//    ss_contents = split(ss_contents[1], "' ''\t'", true);
-//  }
-//  for (size_t it = 0; it <= ss_contents.size(); it++)
-//	  cout << ss_contents[it] << endl;
-//  string nick = ss_contents[0];
-//  cout << "What user sent: " << ss.str() << endl;
-//  getline(ss, nick);
-//  nick = nick.substr(1, nick.size() - 1);
-//  string::iterator end_pos = remove(nick.begin(), nick.end(), ' ');
-//  nick.erase(end_pos, nick.end());
-//  cout << "Nick: " << nick << endl;
-//}
 
 void Irc::saveData(void) const {
 	// Save Client

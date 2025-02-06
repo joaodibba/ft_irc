@@ -26,7 +26,7 @@ class Channel
 		void setMaxUsersNumber(size_t nb);
 		void setChannelTopic(string content);
 		void setChannelPassword(string pass);
-		void setChannelUser(bool oprt, Client* ptr);
+		void setChannelUsers(bool oprt, Client* ptr);
 
 		void removeClient(Client* ptr);
 		void removeChannelModesFlag(char flag);
