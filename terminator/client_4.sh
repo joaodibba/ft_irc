@@ -1,6 +1,6 @@
 #!/bin/bash
 exec 3<>/dev/tcp/localhost/6667
-
+sleep 1
 # Enviar comandos iniciais
     echo "PASS RPR" >&3
 	sleep 1

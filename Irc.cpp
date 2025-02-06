@@ -2,10 +2,10 @@
 
 Irc::Irc(void)
 {
-	cmds["JOIN"] = &Irc::joinCmd;
+	// cmds["JOIN"] = &Irc::joinCmd;
 	// cmds["TOPIC"] = &Irc::topicCmd;
 	// cmds["PRIVMSG"] = &Irc::privmsgCmd;
-	cmds["PASS"] = &Irc::passCmd;
+	// cmds["PASS"] = &Irc::passCmd;
 	// cmds["PART"] = &Irc::partCmd;
 	// cmds["MODE"] = &Irc::modeCmd;
 	cmds["NICK"] = &Irc::nickCmd;

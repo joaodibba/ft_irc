@@ -5,7 +5,10 @@
 [profiles]
   [[default]]
     background_darkness = 0.81
+    cursor_color = "#aaaaaa"
+    font = MesloLGS NF 10
     login_shell = True
+    use_system_font = False
 [layouts]
   [[default]]
     [[[child0]]]
