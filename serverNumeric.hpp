@@ -24,7 +24,8 @@
 
 #define RPL_CHANNELMODEIS(nick, channelName, modeFlags)(":localhost 324 " + nick + ' ' + channelName + ' ' + modeFlags + "\r\n")
 
-#define RPL_NOTOPIC(nick, channelName)(ERR_SAMPLE_2("331", "No topic is set", nick channelName))
+// #define RPL_NOTOPIC(nick, channelName)(ERR_SAMPLE_2("331", "No topic is set", nick channelName))
+#define RPL_NOTOPIC(nick, channelName) (ERR_SAMPLE_2("331", "No topic is set", nick, channelName))
 
 #define RPL_TOPIC(nick, channelName, channelTopic)(":localhost 332 " + nick + ' ' + channelName + ' ' + channelTopic + "\r\n")
 
