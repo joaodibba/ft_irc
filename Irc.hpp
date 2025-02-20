@@ -113,11 +113,11 @@ class Irc
 		typedef void (Irc::*CommandPtr)(istringstream &line, Client *client);
 		map<string, CommandPtr> cmds;
 
-		// void privmsgCmd(istringstream &ss, Client *client);
+		void privmsgCmd(istringstream &ss, Client *client);
 		void joinCmd(istringstream &ss, Client *client);
-		// void partCmd(istringstream &ss, Client *client);
-		// void topicCmd(istringstream &ss, Client *client);
-		// void modeCmd(istringstream &ss, Client *client);
+		void partCmd(istringstream &ss, Client *client);
+		void topicCmd(istringstream &ss, Client *client);
+		void modeCmd(istringstream &ss, Client *client);
 		void passCmd(istringstream &ss, Client *client);
 		void nickCmd(istringstream &ss, Client *client);
 		void userCmd(istringstream &ss, Client *client);

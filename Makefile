@@ -19,7 +19,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@$(CXX) $(CXXFLAGS) $^ -o $@
-	@echo "\n$(BLUE)$(NAME)$(END) $(GREEN)stuff compiled$(END) 💻\n"
+	@echo "\n$(BLUE)$(NAME)$(END) $(GREEN)stuff compiled$(END)\n"
 
 $(OBJSDIR)/%.o: %.cpp
 	@mkdir -p $(dir $@)
@@ -30,36 +30,6 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
-	@echo "\n$(BLUE)$(NAME)$(END) $(GREEN)stuff removed$(END) 🗑️\n"
+	@echo "\n$(BLUE)$(NAME)$(END) $(GREEN)stuff removed$(END)\n"
 
 re: fclean all
-
-VARS := 8080 123
-
-run: re
-	@echo "\n$(BLUE)$(NAME)$(END) $(GREEN)started$(END) 🟢\n"
-	@./$(NAME) $(VARS)
-
-detached: re
-	@echo "\n$(BLUE)$(NAME)$(END) $(GREEN)started detached$(END) 🟣\n"
-	@./$(NAME) $(VARS) &
-
-stop:
-	@echo "\n$(BLUE)$(NAME)$(END) $(GREEN)stopped$(END) 🔴\n"
-	@kill $$(pgrep $(NAME))
-
-kill:
-	@echo "\n$(BLUE)$(NAME)$(END) $(GREEN)killed$(END) ⚫🔴⚫\n"
-	@kill -9 $$(pgrep $(NAME))
-
-reload: re stop detached
-
-val: re
-	@echo "\n$(BLUE)$(NAME)$(END) $(GREEN)started with valgrind$(END) ⚫\n"
-	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes ./$(NAME) $(VARS)
-
-alex:
-	@clear
-	@make -s run
-
-.PHONY: all clean fclean re run detached stop reload val
