@@ -11,7 +11,15 @@ CXX			:= c++
 CXXFLAGS	:= -Wall -Wextra -Werror -g -std=c++98
 
 OBJSDIR		:= objs
-SRCS		:= $(shell find -name '*.cpp')
+UNAME := $(shell uname)
+
+# Set SRCS based on OS
+ifeq ($(UNAME), Darwin)
+    SRCS := $(shell find . -name '*.cpp')  # macOS requires the dot explicitly
+else
+    SRCS := $(shell find -name '*.cpp')    # Works on Linux
+endif
+
 OBJS		:= $(addprefix $(OBJSDIR)/, $(SRCS:.cpp=.o))
 NAME		:= ircserv
 

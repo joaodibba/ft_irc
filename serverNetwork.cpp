@@ -59,7 +59,7 @@ void Irc::initNetwork(void)
 	cout << CYAN "Server socket created: " << _serverSock << endl;
 	if (_serverSock == -1)
 		throw runtime_error("Failed to create socket");
-	
+
 	epfds = new EpollManager();
 	//EPOLLIN: Indica que esta pronto para leitura
 	//EPOLLET: Indica que sera notificado quando houver alteracao de status
