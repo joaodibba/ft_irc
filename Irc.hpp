@@ -77,7 +77,7 @@ class Irc
 
 		// ServerNetwork
 		void initNetwork(void);
-		void setNonBloking(int *ptr);
+		void setNonBlocking(int fd);
 		bool isNewClient(int targetFd);
 		void acceptClient(int serverFd);
 
@@ -86,11 +86,11 @@ class Irc
 		void receiveRequest(int targetFd);
 
 		// ServerChannelModes
-		void apllyInviteOnlyFlag(bool optr, Channel *targetChannel);
-		void apllyTopicRestrictionFlag(bool optr, Channel *targetChannel);
-		void applyMode(istringstream &ss, Channel *targetChannel, Client *client, string modeFlag);
-		bool apllyPasswordFlag(istringstream &ss, string &modeFlag, Client *client, Channel *targetChannel);
-		bool apllyLimitRestrictionFlag(istringstream &ss, string &modeFlag, Client *client, Channel *targetChannel);
+		void applyInviteOnlyFlag(bool optr, Channel *targetChannel);
+		void applyTopicRestrictionFlag(bool optr, Channel *targetChannel);
+		void applyMode(istringstream &ss, Channel *targetChannel, Client *client, string modeFlag); // ! FIXME maybe use this 
+		bool applyPasswordFlag(istringstream &ss, string &modeFlag, Client *client, Channel *targetChannel);
+		bool applyLimitRestrictionFlag(istringstream &ss, string &modeFlag, Client *client, Channel *targetChannel);
 		bool applyOperatorPrivilegeFlag(istringstream &ss, string &modeFlag, Client *client, Channel *targetChannel);
 	
 	public:
@@ -99,6 +99,7 @@ class Irc
 		Client *findClient(string name);
 		Channel *findChannel(string name);
 		Channel *createChannel(string name);
+		void deleteChannel(string name);
 		void leaveAllChannels(Client *ptr);
 		void deleteClient(map<int, Client*>::iterator &it);
 
@@ -112,6 +113,9 @@ class Irc
 		//Commands
 		typedef void (Irc::*CommandPtr)(istringstream &line, Client *client);
 		map<string, CommandPtr> cmds;
+
+		void sendToChannel(Client* sender, const string& channelName, const string& message);
+		void sendToUser(Client* sender, const string& recipient, const string& message);
 
 		void privmsgCmd(istringstream &ss, Client *client);
 		void joinCmd(istringstream &ss, Client *client);

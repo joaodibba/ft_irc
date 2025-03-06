@@ -3,11 +3,11 @@
 Irc::Irc(void)
 {
 	cmds["JOIN"] = &Irc::joinCmd;
-	//cmds["TOPIC"] = &Irc::topicCmd;
-	//cmds["PRIVMSG"] = &Irc::privmsgCmd;
+	cmds["TOPIC"] = &Irc::topicCmd;
+	cmds["PRIVMSG"] = &Irc::privmsgCmd;
 	cmds["PASS"] = &Irc::passCmd;
-	//cmds["PART"] = &Irc::partCmd;
-	//cmds["MODE"] = &Irc::modeCmd;
+	cmds["PART"] = &Irc::partCmd;
+	cmds["MODE"] = &Irc::modeCmd;
 	cmds["NICK"] = &Irc::nickCmd;
 	cmds["USER"] = &Irc::userCmd;
 	cmds["INVITE"] = &Irc::inviteCmd;
@@ -35,69 +35,79 @@ void Irc::setPortAndPassword(char **av)
 	if (*end || num <= 0 || num >= 65535)
 		throw runtime_error("Invalid port!");
 	
-	_port = num;
-	_serverPassWord = av[2];
-	for (size_t i = 0; i < _serverPassWord.size(); i++)
+	_port = num; // ! FIXME check if port is valid and use a setter
+	_serverPassWord = av[2]; // ! FIXME check if password is valid should be stronger and use a setter
+	for (size_t i = 0; i < _serverPassWord.size(); i++) {
 		if (iswspace(_serverPassWord[i]))
 			throw runtime_error("Invalid password!");
+        if(_serverPassWord[i] == ',')
+            throw runtime_error("Invalid password!");
+    }
+
 }
 
 void Irc::saveData(void) const {
-	// Save Client
-	string filename_client = "file_client.txt";
-	ofstream outFile_client(filename_client.c_str());
-    if (!outFile_client) {
-    	cerr << "Erro ao abrir o arquivo para escrita: " << filename_client << endl;
-    	return;
-	}
-    outFile_client << "fd_cl | nick | autenticated | buffer" << endl;
-	map<int, Client*>::const_iterator it;
-    for (it = _clients.begin(); it != _clients.end(); ++it) {
-        outFile_client 	\
-		<< it->first << " | " \
-		<< it->second->getNick() << " | " \
-		<< it->second->isAuthenticated() << " | " \
-		<< it->second->_buffer << " | " \
-		<< endl;
+
+	// Save Clients
+    std::string filename_client = "clients.csv";
+    std::ofstream outfile_client(filename_client.c_str());
+    if (!outfile_client) {
+        std::cerr << "Error: Unable to open file for writing: " << filename_client << std::endl;
+        return;
     }
-   	outFile_client.close();
-	
-	// Save Requests
-	string filename_requests =  "file_request.txt";
-	ofstream outFile_requests(filename_requests.c_str());
+
+    // CSV Header
+    outfile_client << "fd_cl,nick,authenticated,buffer" << std::endl;
+
+    for (std::map<int, Client*>::const_iterator it = _clients.begin(); it != _clients.end(); ++it) {
+        if (!it->second) continue; // Ensure pointer is valid
+
+        outfile_client << it->first << ","
+                       << it->second->getNick() << ","
+                       << it->second->isAuthenticated() << ","
+                       << "\"" << it->second->_buffer << "\"" // Wrap in quotes in case of commas
+                       << std::endl;
+    }
+    outfile_client.close();
+
+    // Save Requests
+    std::string filename_requests = "requests.csv";
+    std::ofstream outFile_requests(filename_requests.c_str());
     if (!outFile_requests) {
-    	cerr << "Erro ao abrir o arquivo para escrita: " << filename_requests << endl;
-    	return;
-	}
-    outFile_requests << "fd_client | string" << endl;
-	map<int, string>::const_iterator it_r;
-    for (it_r = requests.begin(); it_r != requests.end(); ++it_r) {
-        outFile_requests \
-		<< it_r->first << " | " \
-		<< it_r->second << endl;
+        std::cerr << "Error: Unable to open file for writing: " << filename_requests << std::endl;
+        return;
     }
-	outFile_requests.close();
-	
-	// Save ServerChannel
-	string filename_severChannel = "file_ServerChannel.txt";
-	ofstream outFile_serverChannel(filename_severChannel.c_str());
+
+    // CSV Header
+    outFile_requests << "fd_client,string" << std::endl;
+
+    for (std::map<int, std::string>::const_iterator it_r = requests.begin(); it_r != requests.end(); ++it_r) {
+        outFile_requests << it_r->first << ",\"" << it_r->second << "\"" << std::endl;
+    }
+    outFile_requests.close();
+
+    // Save Server Channels
+    std::string filename_serverChannel = "server_channels.csv";
+    std::ofstream outFile_serverChannel(filename_serverChannel.c_str());
     if (!outFile_serverChannel) {
-    	cerr << "Erro ao abrir o arquivo para escrita: " << filename_severChannel << endl;
-    	return;
-	}
-    outFile_serverChannel << "ChaneelName | topic | operator | Mode | Num Users | Password" << endl;
-   	vector<Channel*>::const_iterator it_sc;
-	for (it_sc = _serverChannels.begin(); it_sc != _serverChannels.end(); ++it_sc) {
+        std::cerr << "Error: Unable to open file for writing: " << filename_serverChannel << std::endl;
+        return;
+    }
+
+    // CSV Header
+    outFile_serverChannel << "ChannelName,Topic,Mode,MaxUsers,Password" << std::endl;
+
+    for (std::vector<Channel*>::const_iterator it_sc = _serverChannels.begin(); it_sc != _serverChannels.end(); ++it_sc) {
         Channel *channel = *it_sc;
-		outFile_serverChannel \
-		<< channel->getChannelName() << " | " \
-		<< channel->getChannelTopic() << " | " \
-		<< channel->getChannelModes() << " | " \
-		<< channel->getMaxUsersNumber() << " | " \
-		<< channel->getChannelPassword() << " | " \
-		<< endl;
+        if (!channel) continue; // Ensure pointer is valid
 
-	}
-	outFile_serverChannel.close();
+        outFile_serverChannel
+            << channel->getChannelName() << ","
+            << "\"" << channel->getChannelTopic() << "\"," // Wrap in quotes in case of commas
+            << channel->getChannelModes() << ","
+            << channel->getMaxUsersNumber() << ","
+            << "\"" << channel->getChannelPassword() << "\"" // Password might have commas
+            << std::endl;
+    }
+    outFile_serverChannel.close();
 }
-

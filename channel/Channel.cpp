@@ -17,7 +17,7 @@ void Channel::setChannelTopic(string content){
 }
 
 void Channel::setChannelPassword(string pass){
-	_channelPassword = pass;
+	_channelPassword = pass; // ! FIXME password validation before setting
 }
 
 void Channel::setMaxUsersNumber(size_t nb){
@@ -66,8 +66,11 @@ void Channel::removeClient(Client* ptr) {
 	_channelUsers.erase(it);
 }
 
-void Channel::removeChannelModesFlag(char flag){
-	_channelModes.erase(_channelModes.find(flag), 1);
+void Channel::removeChannelModesFlag(char flag) {
+    std::size_t pos = _channelModes.find(flag);
+    if (pos != std::string::npos) {
+        _channelModes.erase(pos, 1);
+    }
 }
 
 bool Channel::isPartOfChannel(string nick) const {
@@ -98,6 +101,10 @@ bool Channel::isOperator(string nick) const {
 
 bool Channel::isUserInvited(string nick) const {
 	return ((find(_inviteUsers.begin(), _inviteUsers.end(), nick) != _inviteUsers.end()) ? true : false);
+}
+
+bool Channel::isEmpty(void) const {
+	return ((_channelUsers.size() == 0) ? true : false);
 }
 
 void Channel::sendPrivMsg(int fd, string msg) const {

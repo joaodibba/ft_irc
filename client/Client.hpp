@@ -24,6 +24,7 @@ class Client
 		string getNick(void) const;
 		string getUser(void) const;
 		string getPassWord(void) const;
+		string getHostName(void) const;
 
 		void authenticated(void);
 		void setNick(string name);

@@ -1,2 +1,8 @@
 .clang-format
 idea/
+objs/
+file_client.txt
+file_request.txt
+file_ServerChannel.txt
+.vscode/c_cpp_properties.json
+.vscode/settings.json

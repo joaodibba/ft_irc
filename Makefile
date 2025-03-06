@@ -15,7 +15,7 @@ UNAME := $(shell uname)
 
 # Set SRCS based on OS
 ifeq ($(UNAME), Darwin)
-    SRCS := $(shell find . -name '*.cpp')  # macOS requires the dot explicitly
+    SRCS := $(shell find . -name '*.cpp')  # macOS requires the dot explicitly  # !FIX This is using wildcard and may be considered bad practice
 else
     SRCS := $(shell find -name '*.cpp')    # Works on Linux
 endif
@@ -34,6 +34,7 @@ $(OBJSDIR)/%.o: %.cpp
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
+	@rm -f $(NAME)
 	@rm -rf $(OBJSDIR)
 
 fclean: clean

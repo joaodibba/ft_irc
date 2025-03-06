@@ -23,7 +23,7 @@ void Irc::joinCmd(istringstream &ss, Client* client)
 	if (!(ss >> channelName))
 		return sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), "JOIN"));
 
-	if (channelName[0] != '#')
+	if (channelName.empty() || channelName[0] != '#')
 		return sendMsg(client->getSock(), ERR_NOSUCHCHANNEL(client->getNick(), channelName));
 
 	Channel* tarChannel;
@@ -35,7 +35,7 @@ void Irc::joinCmd(istringstream &ss, Client* client)
 		{
 			tarChannel->setChannelUsers(false, client);	
 			cout << "Send to client fd: " << client->getSock() << endl;
-			tarChannel->sendAll(RPL_JOIN(client->getNick(), client->getUser(), channelName, string("realname")));
+			tarChannel->sendAll(RPL_JOIN(client->getNick(), client->getUser(), channelName, string("realname"))); //!FIXME realname is not implemented?
 		}
 		return;
 	}
@@ -43,5 +43,5 @@ void Irc::joinCmd(istringstream &ss, Client* client)
 	tarChannel->setChannelUsers(true, client);
 
 	cout << "Send to client fd: " << client->getSock() << endl;	
-	tarChannel->sendAll(RPL_JOIN(client->getNick(), client->getUser(), channelName, string("realname")));
+	tarChannel->sendAll(RPL_JOIN(client->getNick(), client->getUser(), channelName, string("realname"))); //!FIXME realname is not implemented?
 }

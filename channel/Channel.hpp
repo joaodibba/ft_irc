@@ -39,6 +39,7 @@ class Channel
 		bool isOperator(string nick) const;
 		bool isUserInvited(string nick) const;
 		bool isPartOfChannel(string nick) const;
+		bool isEmpty(void) const;
 
 		void giveOrTakeOperatorPrivilege(string targetNick, bool privilege = false);
 

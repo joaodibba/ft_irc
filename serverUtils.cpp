@@ -6,6 +6,17 @@ Channel *Irc::createChannel(string name) {
 	return (newChannel);
 }
 
+void Irc::deleteChannel(string name) {
+	vector<Channel*>::iterator it;
+	for (it = _serverChannels.begin(); it != _serverChannels.end(); it++) {
+		if ((*it)->getChannelName() == name) {
+			delete (*it);
+			_serverChannels.erase(it);
+			break;
+		}
+	}
+}
+
 Channel *Irc::findChannel(string name){
 	vector<Channel*>::iterator it;
 	for (it = _serverChannels.begin(); it != _serverChannels.end(); it++)

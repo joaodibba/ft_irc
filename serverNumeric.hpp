@@ -35,6 +35,16 @@
 
 #define ERR_NOSUCHCHANNEL(nick, channelName)( ERR_SAMPLE_2("403", "No such channel", nick, channelName))
 
+#define ERR_CANNOTSENDTOCHAN(nick, channelName)( ERR_SAMPLE_2("404", "Cannot send to channel", nick, channelName))
+
+#define ERR_NORECIPIENT(nick, targetCommand)( ERR_SAMPLE_2("411", "No recipient given", nick, targetCommand))
+
+#define ERR_NOTEXTTOSEND(nick)( ERR_SAMPLE("412", "No text to send", nick))
+
+#define ERR_NOTOPLEVEL(nick, targetNick)( ERR_SAMPLE_2("413", "Invalid toplevel", nick, targetNick))
+
+#define ERR_WILDTOPLEVEL(nick, targetNick)( ERR_SAMPLE_2("414", "Wildcard in toplevel", nick, targetNick))
+
 #define ERR_UNKNOWNCOMMAND(nick, targetCommand)( ERR_SAMPLE_2("421", "unknown command", nick, targetCommand))
 
 #define ERR_NONICKNAMEGIVEN(nick)(ERR_SAMPLE("431", "No nickname given", nick))
