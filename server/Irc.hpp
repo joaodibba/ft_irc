@@ -53,9 +53,9 @@ class Channel;
 class EpollManager;
 
 #include "serverNumeric.hpp"
-#include "client/Client.hpp"
-#include "channel/Channel.hpp"
-#include "epoll/EpollManager.hpp"
+#include "../client/Client.hpp"
+#include "../channel/Channel.hpp"
+#include "../epoll/EpollManager.hpp"
 
 extern bool running;
 
