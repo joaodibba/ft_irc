@@ -129,5 +129,4 @@ private:
 	void inviteCmd(istringstream &ss, Client *client);
 	void quitCmd(istringstream &ss, Client *client);
 	void kickCmd(istringstream &ss, Client *client);
-	void infoCmd(istringstream &ss, Client *client);
 };

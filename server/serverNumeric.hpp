@@ -22,6 +22,26 @@
 
 #define RPL_WELCOME()(":localhost 001 * :Welcome to the Internet Relay Network *!\r\n Type INFO for information.\r\n")
 
+#define RPL_INFO() ( \
+    "Put the server's password with command P\r\n" \
+    "INFO: Server Command Usage Guide\r\n" \
+    "=====================================\r\n" \
+    "1. PASS <password>      - Authenticate on the server using the password.\r\n" \
+    "2. NICK <nickname>      - Set a nickname for the user.\r\n" \
+    "3. USER <username> <hostname> <servername> <realname> - Register a user.\r\n" \
+    "4. JOIN <#channel>      - Join a specified channel.\r\n" \
+    "5. PART <#channel>      - Leave a specified channel.\r\n" \
+    "6. PRIVMSG <target> <message> - Send a private message.\r\n" \
+    "7. MODE <target> <modes> - Change user/channel modes.\r\n" \
+    "8. TOPIC <#channel> [new_topic] - View or set a channel topic.\r\n" \
+    "9. KICK <#channel> <user> [reason] - Remove a user from a channel.\r\n" \
+    "10. INVITE <user> <#channel> - Invite a user to a channel.\r\n" \
+    "11. QUIT [message]       - Disconnect from the server.\r\n" \
+    "=====================================\r\n" \
+    "NOTE: Follow the correct order for proper interaction.\r\n" \
+    "Example: PASS secretpass -> NICK MyNick -> USER myuser host serv RealName\r\n" \
+)
+
 // ERROR CODES
 
 #define RPL_CHANNELMODEIS(nick, channelName, modeFlags)(":localhost 324 " + nick + ' ' + channelName + ' ' + modeFlags + "\r\n")
