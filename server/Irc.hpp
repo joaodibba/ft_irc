@@ -65,6 +65,22 @@ void logger(int type, int data);
 
 class Irc
 {
+	public:
+		Irc(void);
+		~Irc(void);
+		int run_server(char **av);
+		void setPortAndPassword(char **av);
+		void saveData(void) const;
+		// ServerUtils
+		Client *findClient(int target);
+		Client *findClient(string name);
+		Channel *findChannel(string name);
+		Channel *createChannel(string name);
+		void deleteChannel(string name);
+		void leaveAllChannels(Client *ptr);
+		void deleteClient(map<int, Client*>::iterator &it);
+		
+
 	private:
 		int _port;
 		string _serverPassWord;
@@ -95,24 +111,7 @@ class Irc
 		bool applyPasswordFlag(istringstream &ss, string &modeFlag, Client *client, Channel *targetChannel);
 		bool applyLimitRestrictionFlag(istringstream &ss, string &modeFlag, Client *client, Channel *targetChannel);
 		bool applyOperatorPrivilegeFlag(istringstream &ss, string &modeFlag, Client *client, Channel *targetChannel);
-	
-	public:
-		// ServerUtils
-		Client *findClient(int target);
-		Client *findClient(string name);
-		Channel *findChannel(string name);
-		Channel *createChannel(string name);
-		void deleteChannel(string name);
-		void leaveAllChannels(Client *ptr);
-		void deleteClient(map<int, Client*>::iterator &it);
 
-	public:	
-		Irc(void);
-		~Irc(void);
-		int run_server(char **av);
-		void setPortAndPassword(char **av);
-		
-	private:
 		//Commands
 		typedef void (Irc::*CommandPtr)(istringstream &line, Client *client);
 		map<string, CommandPtr> cmds;
@@ -131,8 +130,5 @@ class Irc
 		void inviteCmd(istringstream &ss, Client *client);
 		void quitCmd(istringstream &ss, Client *client);
 		void kickCmd(istringstream &ss, Client *client);
-
-	public:
-		void saveData(void) const;
 		
 };
