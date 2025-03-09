@@ -2,40 +2,53 @@
 
 Client::Client(int socket) : _connectionSock(socket), _isAuthenticated(0) {}
 
-Client::~Client(void){}
+Client::~Client(void) {}
 
-int Client::getSock(void) const {
+int Client::getSock(void) const
+{
 	return (_connectionSock);
 }
 
-int Client::isAuthenticated(void) const {
+int Client::isAuthenticated(void) const
+{
 	return (_isAuthenticated);
 }
 
-string Client::getNick(void) const {
+string Client::getNick(void) const
+{
 	return (_nick);
 }
 
-string Client::getUser(void) const {
+string Client::getUser(void) const
+{
 	return (_user);
 }
 
-string Client::getPassWord(void) const {
+string Client::getPassWord(void) const
+{
 	return (_passWord);
 }
 
-void Client::authenticated(void) {
+void Client::authenticated(void)
+{
 	_isAuthenticated = 1;
 }
 
-void Client::setNick(string name) {
+void Client::setNick(string name)
+{
 	_nick = name;
 }
 
-void Client::setUser(string name) {
+void Client::setUser(string name)
+{
 	_user = name;
 }
 
-void Client::setPassWord(string pass) {
+void Client::setPassWord(string pass)
+{
+	if (pass.empty() == 0)
+		throw runtime_error("Password cannot be empty");
+	if (pass.find(",") != string::npos)
+		throw runtime_error("Password cannot contain ','");
 	_passWord = pass;
 }
