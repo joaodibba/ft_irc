@@ -10,7 +10,7 @@ WHITE		:= \033[1;37m
 
 # Compiler settings
 CXX			:= c++
-CXXFLAGS	:= -Wall -Wextra -Werror -g -std=c++11
+CXXFLAGS	:= -Wall -Wextra -Werror -g -std=c++98
 
 # Directories
 SRCDIRS		:= channel client cmd epoll server
