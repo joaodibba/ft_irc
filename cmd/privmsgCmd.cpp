@@ -1,4 +1,4 @@
-#include "../Irc.hpp"
+#include "../server/Irc.hpp"
 
 void Irc::sendToUser(Client* sender, const string& recipient, const string& message)
 {

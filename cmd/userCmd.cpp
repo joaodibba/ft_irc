@@ -1,4 +1,4 @@
-#include "../Irc.hpp"
+#include "../server/Irc.hpp"
 
 void Irc::userCmd(istringstream &ss, Client *client) {
 	int length = ssLength(ss);

@@ -1,4 +1,4 @@
-#include "../Irc.hpp"
+#include "../server/Irc.hpp"
 
 /**
  * @brief used to leave a channel

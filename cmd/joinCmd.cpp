@@ -1,5 +1,5 @@
 
-#include "../Irc.hpp"
+#include "../server/Irc.hpp"
 
 static bool verifyChannelmodes(Channel* tarChannel, Client* client, istringstream& ss)
 {

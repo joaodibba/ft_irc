@@ -1,4 +1,4 @@
-#include "../Irc.hpp"
+#include "../server/Irc.hpp"
 
 /**
  * @brief Handles the MODE command for setting channel modes.

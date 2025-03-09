@@ -27,30 +27,31 @@ Irc::~Irc(void)
 	cout << CYAN "Sever terminated" END << endl;
 }
 
-void Irc::setPortAndPassword(char **av)
+void Irc::setPort(int port)
 {
-	char *end;
-	int num = strtol(av[1], &end, 10);
 
-	if (*end || num <= 0 || num >= 65535)
-		throw runtime_error("Invalid port!");
-	
-	_port = num; // ! FIXME check if port is valid and use a setter
-	_serverPassWord = av[2]; // ! FIXME check if password is valid should be stronger and use a setter
-	for (size_t i = 0; i < _serverPassWord.size(); i++) {
-		if (iswspace(_serverPassWord[i]))
-			throw runtime_error("Invalid password!");
-        if(_serverPassWord[i] == ',')
-            throw runtime_error("Invalid password!");
+    if (port <= 0 || port >= 65535)
+        throw std::runtime_error("Invalid port!");
+
+    _port = port;
+}
+
+void Irc::setPassword(string password)
+{
+    for (size_t i = 0; i < password.size(); i++) {
+        if (iswspace(password[i]))
+            throw std::runtime_error("Invalid password! No whitespaces allowed.");
+        if (password[i] == ',')
+            throw std::runtime_error("Invalid password! No commas allowed.");
     }
-
+    _serverPassWord = password;
 }
 
 void Irc::saveData(void) const {
 
 	// Save Clients
     std::string filename_client = "clients.csv";
-    std::ofstream outfile_client(filename_client.c_str());
+    std::ofstream outfile_client(filename_client.c_str(), std::ios::app);
     if (!outfile_client) {
         std::cerr << "Error: Unable to open file for writing: " << filename_client << std::endl;
         return;
@@ -72,7 +73,7 @@ void Irc::saveData(void) const {
 
     // Save Requests
     std::string filename_requests = "requests.csv";
-    std::ofstream outFile_requests(filename_requests.c_str());
+    std::ofstream outFile_requests(filename_requests.c_str(), std::ios::app);
     if (!outFile_requests) {
         std::cerr << "Error: Unable to open file for writing: " << filename_requests << std::endl;
         return;
@@ -88,7 +89,7 @@ void Irc::saveData(void) const {
 
     // Save Server Channels
     std::string filename_serverChannel = "server_channels.csv";
-    std::ofstream outFile_serverChannel(filename_serverChannel.c_str());
+    std::ofstream outFile_serverChannel(filename_serverChannel.c_str(), std::ios::app);
     if (!outFile_serverChannel) {
         std::cerr << "Error: Unable to open file for writing: " << filename_serverChannel << std::endl;
         return;

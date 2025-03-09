@@ -57,7 +57,8 @@ int Irc::run_server(char **av) {
 	struct epoll_event evs[MAX_EVENTS];
 	try {
 		signal(SIGINT, handler);
-		setPortAndPassword(av);
+		setPort(atoi(av[1]));
+		setPassword(av[2]);
 		initNetwork();
 
 		int event_count = 0;

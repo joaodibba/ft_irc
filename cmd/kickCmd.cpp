@@ -1,4 +1,4 @@
-#include "../Irc.hpp"
+#include "../server/Irc.hpp"
 
 void Irc::kickCmd(istringstream &ss, Client *client){
 	

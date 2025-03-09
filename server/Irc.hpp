@@ -53,9 +53,9 @@ class Channel;
 class EpollManager;
 
 #include "serverNumeric.hpp"
-#include "client/Client.hpp"
-#include "channel/Channel.hpp"
-#include "epoll/EpollManager.hpp"
+#include "../client/Client.hpp"
+#include "../channel/Channel.hpp"
+#include "../epoll/EpollManager.hpp"
 
 extern bool running;
 
@@ -65,6 +65,22 @@ void logger(int type, int data);
 
 class Irc
 {
+	public:
+		Irc(void);
+		~Irc(void);
+		int run_server(char **av);
+		void setPortAndPassword(char **av);
+		void saveData(void) const;
+		// ServerUtils
+		Client *findClient(int target);
+		Client *findClient(string name);
+		Channel *findChannel(string name);
+		Channel *createChannel(string name);
+		void deleteChannel(string name);
+		void leaveAllChannels(Client *ptr);
+		void deleteClient(map<int, Client*>::iterator &it);
+		
+
 	private:
 		int _port;
 		string _serverPassWord;
@@ -74,6 +90,9 @@ class Irc
 		map<int , Client*> _clients;
 		map<int, string> requests;
 		vector<Channel*> _serverChannels;
+
+		void setPassword(string password);
+		void setPort(int port);
 
 		// ServerNetwork
 		void initNetwork(void);
@@ -111,21 +130,5 @@ class Irc
 		void inviteCmd(istringstream &ss, Client *client);
 		void quitCmd(istringstream &ss, Client *client);
 		void kickCmd(istringstream &ss, Client *client);
-	
-	public:
-		Irc(void);
-		~Irc(void);
-		int run_server(char **av);
-		void setPortAndPassword(char **av);
-
-		// ServerUtils
-		Client *findClient(int target);
-		Client *findClient(string name);
-		Channel *findChannel(string name);
-		Channel *createChannel(string name);
-		void deleteChannel(string name);
-		void leaveAllChannels(Client *ptr);
-		void deleteClient(map<int, Client*>::iterator &it);
-
-		void saveData(void) const;
+		
 };

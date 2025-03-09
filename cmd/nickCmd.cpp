@@ -1,4 +1,4 @@
-#include "../Irc.hpp"
+#include "../server/Irc.hpp"
 
 void Irc::nickCmd(istringstream &ss, Client* client) {
 	string str;

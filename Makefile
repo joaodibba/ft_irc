@@ -1,3 +1,4 @@
+# Colors for output
 END			:= \033[0m
 RED			:= \033[1;31m
 GREEN		:= \033[1;32m
@@ -7,38 +8,45 @@ MAGENTA		:= \033[1;35m
 CYAN		:= \033[1;36m
 WHITE		:= \033[1;37m
 
+# Compiler settings
 CXX			:= c++
-CXXFLAGS	:= -Wall -Wextra -Werror -g -std=c++98
+CXXFLAGS	:= -Wall -Wextra -Werror -g -std=c++11
 
+# Directories
+SRCDIRS		:= channel client cmd epoll server
 OBJSDIR		:= objs
-UNAME := $(shell uname)
 
-# Set SRCS based on OS
-ifeq ($(UNAME), Darwin)
-    SRCS := $(shell find . -name '*.cpp')  # macOS requires the dot explicitly  # !FIX This is using wildcard and may be considered bad practice
-else
-    SRCS := $(shell find -name '*.cpp')    # Works on Linux
-endif
-
+# Find source files
+SRCS		:= $(shell find $(SRCDIRS) -name '*.cpp')
 OBJS		:= $(addprefix $(OBJSDIR)/, $(SRCS:.cpp=.o))
+
+# Executable
 NAME		:= ircserv
 
+# Build all
 all: $(NAME)
 
 $(NAME): $(OBJS)
 	@$(CXX) $(CXXFLAGS) $^ -o $@
-	@echo "\n$(BLUE)$(NAME)$(END) $(GREEN)stuff compiled$(END)\n"
+	@echo "$(BLUE)"
+	@echo "$(NAME) successfully compiled!"
+	@echo "$(END)"
 
+# Compile object files
 $(OBJSDIR)/%.o: %.cpp
 	@mkdir -p $(dir $@)
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
+# Clean build files
 clean:
-	@rm -f $(NAME)
 	@rm -rf $(OBJSDIR)
 
 fclean: clean
 	@rm -f $(NAME)
-	@echo "\n$(BLUE)$(NAME)$(END) $(GREEN)stuff removed$(END)\n"
+	@echo "$(BLUE)"
+	@echo "$(NAME) fully cleaned!"
+	@echo "$(END)"
 
 re: fclean all
+
+.PHONY: all clean fclean re
