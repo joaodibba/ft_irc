@@ -17,10 +17,6 @@ void Irc::userCmd(istringstream &ss, Client *client) {
 	if (!(str == "0" && ss >> str && str == "*" && ss >> str && str == ":realname"))
 		sendMsg(client->getSock(), NOTICE_MSG("Unwaned input, username still changed"));
 	
-	if (client->getPassWord() != _serverPassWord){
-		sendMsg(client->getSock(), ERR_PASSWDMISMATCH(client->getNick()));
-		return quitCmd(ss, client);
-	}
 	client->setUser(user);
 	client->authenticated();
 	sendMsg(client->getSock(), NOTICE_MSG("\x03" "Welcome to the server!"));
