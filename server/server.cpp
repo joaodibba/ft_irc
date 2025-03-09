@@ -39,6 +39,10 @@ void Irc::sendResponse(int targetFd){
 		// cout << "Command: " << cmdName << endl; //my
 		if (cmdName == "CAP")
 			continue;
+		if (cmdName == "INFO") {
+			sendMsg(client->getSock(), RPL_INFO());
+			continue;
+		}
 		if (!client->isAuthenticated() && cmdName != "PASS" && cmdName != "NICK" &&
 			cmdName != "USER" && cmdName != "QUIT") {
 			sendMsg(client->getSock(), ERR_NOTREGISTERED(client->getNick()));
