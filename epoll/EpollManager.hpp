@@ -12,12 +12,11 @@ class EpollManager
 		EpollManager(void);
 		~EpollManager(void);
 
-	public:
+		int getEpSock(void) const;
+
 		void addFd(int fd, uint32_t newEvent);
 		void deleteFd(int fd);
+		void modifyEpollFd(int op, int targetFd, uint32_t newEvent);
 		void modFd(int fd, uint32_t newEvent);
-
-	public:
-		int getEpSock(void) const;
 
 };

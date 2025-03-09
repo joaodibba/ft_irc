@@ -46,7 +46,7 @@ void Client::setUser(string name)
 
 void Client::setPassWord(string pass)
 {
-	if (pass.empty() == 0)
+	if (pass.empty() == true)
 		throw runtime_error("Password cannot be empty");
 	if (pass.find(",") != string::npos)
 		throw runtime_error("Password cannot contain ','");
