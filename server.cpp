@@ -1,13 +1,14 @@
 #include "Irc.hpp"
 
 bool running = true;
- void handler(int signal) {
+
+void handler(int signal) {
 	(void)signal;
 	running = false;
 	cout << endl;
- }
+}
 
- void Irc::receiveRequest(int targetFd) {
+void Irc::receiveRequest(int targetFd) {
 	char buffer[30000];
 	bzero(buffer, sizeof(buffer));
 	istringstream ss;
@@ -21,9 +22,9 @@ bool running = true;
 	requests.insert(make_pair(targetFd, client->_buffer));
 	epfds->modFd(targetFd, EPOLLOUT);
 	client->_buffer.clear();	
- }
+}
 
- void Irc::sendResponse(int targetFd){
+void Irc::sendResponse(int targetFd){
 	Client* client = findClient(targetFd);
 	map<int, string>::iterator it = requests.find(targetFd);
 
@@ -50,9 +51,9 @@ bool running = true;
 	}
 	requests.erase(it);
 	epfds->modFd(targetFd, EPOLLIN);
- }
+}
 
- int Irc::run_server(char **av) {
+int Irc::run_server(char **av) {
 	struct epoll_event evs[MAX_EVENTS];
 	try {
 		signal(SIGINT, handler);
@@ -90,4 +91,4 @@ bool running = true;
 			cerr << "Error: " << e.what() << "  " << '\n';
 	}
 	return 0;
- }
+}
