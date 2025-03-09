@@ -10,7 +10,7 @@ WHITE		:= \033[1;37m
 
 # Compiler settings
 CXX			:= c++
-CXXFLAGS	:= -Wall -Wextra -Werror -g -std=c++98
+CXXFLAGS	:= -Wall -Wextra -Werror -g -std=c++11
 
 # Directories
 SRCDIRS		:= channel client cmd epoll server
@@ -34,7 +34,9 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@$(CXX) $(CXXFLAGS) $^ -o $@
-	@echo "\n$(BLUE)$(NAME)$(END) $(GREEN)successfully compiled!$(END)\n"
+	@echo "$(BLUE)"
+	@echo "$(NAME) successfully compiled!"
+	@echo "$(END)"
 
 # Compile object files
 $(OBJSDIR)/%.o: %.cpp
@@ -47,14 +49,18 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
-	@echo "\n$(BLUE)$(NAME)$(END) $(GREEN)fully cleaned!$(END)\n"
+	@echo "$(BLUE)"
+	@echo "$(NAME) fully cleaned!"
+	@echo "$(END)"
 
 re: fclean all
 
 # Test compilation
 test: $(TSTOBJ)
 	@$(CXX) $(CXXFLAGS) $(TSTFLAGS) $^ -o $(TSTDIR)/test
-	@echo "\n$(BLUE)Tests$(END) $(GREEN)compiled successfully!$(END)\n"
+	@echo "$(BLUE)"
+	@echo "Tests compiled successfully!"
+	@echo "$(END)"
 
 # Clean test files
 testclean:
