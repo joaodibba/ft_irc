@@ -29,10 +29,8 @@ Irc::~Irc(void)
 
 void Irc::setPort(int port)
 {
-
-    if (port <= 0 || port >= 65535)
-        throw std::runtime_error("Invalid port!");
-
+    if (port <= 0 || port > MAX_TCP_PORT)
+        throw std::runtime_error("Invalid port! Port must be between 1 and 65535.");
     _port = port;
 }
 
@@ -61,12 +59,13 @@ void Irc::saveData(void) const {
     outfile_client << "fd_cl,nick,authenticated,buffer" << std::endl;
 
     for (std::map<int, Client*>::const_iterator it = _clients.begin(); it != _clients.end(); ++it) {
-        if (!it->second) continue; // Ensure pointer is valid
+        if (!it->second) 
+            continue; // Ensure pointer is valid
 
         outfile_client << it->first << ","
                        << it->second->getNick() << ","
                        << it->second->getAuthenticated() << ","
-                       << "\"" << it->second->_buffer << "\"" // Wrap in quotes in case of commas
+                       << "\"" << it->second->getBuffer() << "\"" // Wrap in quotes in case of commas
                        << std::endl;
     }
     outfile_client.close();

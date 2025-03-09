@@ -30,6 +30,8 @@
 
 #define BACKLOG 100
 #define MAX_EVENTS 1024
+#define BUFFER_SIZE 4096 
+#define MAX_TCP_PORT 65535
 
 using std::cerr;
 using std::cout;
@@ -69,7 +71,6 @@ public:
 	Irc(void);
 	~Irc(void);
 	int run_server(char **av);
-	void setPortAndPassword(char **av);
 	void saveData(void) const;
 	// ServerUtils
 	Client *findClient(int target);
