@@ -29,6 +29,16 @@ string Client::getPassWord(void) const
 	return (_passWord);
 }
 
+string Client::getBuffer(void) const
+{
+	return (_buffer);
+}
+
+void Client::setBuffer(string buffer)
+{
+	_buffer = buffer;
+}
+
 void Client::setAuthenticated(bool auth)
 {
 	_authenticated = auth;
