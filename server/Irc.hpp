@@ -75,6 +75,9 @@ class Irc
 		map<int, string> requests;
 		vector<Channel*> _serverChannels;
 
+		void setPassword(string password);
+		void setPort(int port);
+
 		// ServerNetwork
 		void initNetwork(void);
 		void setNonBlocking(int fd);
