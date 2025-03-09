@@ -4,7 +4,7 @@ void Irc::nickCmd(istringstream &ss, Client* client) {
 	string str;
 	ss >> str;
 
-	if (!client->isAuthenticated() && client->getPassWord().empty())
+	if (!client->getAuthenticated() && client->getPassWord().empty())
 		return sendMsg(client->getSock(), NOTICE_MSG("Empty pass, please set a pass first"));
 	if (findClient(str))
 		sendMsg(client->getSock(), ERR_NICKNAMEINUSE(str));

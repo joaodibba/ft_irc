@@ -43,7 +43,7 @@ void Irc::sendResponse(int targetFd){
 			sendMsg(client->getSock(), RPL_INFO());
 			continue;
 		}
-		if (!client->isAuthenticated() && cmdName != "PASS" && cmdName != "NICK" &&
+		if (!client->getAuthenticated() && cmdName != "PASS" && cmdName != "NICK" &&
 			cmdName != "USER" && cmdName != "QUIT") {
 			sendMsg(client->getSock(), ERR_NOTREGISTERED(client->getNick()));
 			continue;

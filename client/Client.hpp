@@ -6,7 +6,7 @@ class Client
 {
 private:
 	int _connectionSock;
-	int _isAuthenticated;
+	bool _authenticated;
 
 	string _nick;
 	string _user;
@@ -19,14 +19,14 @@ public:
 
 public:
 	int getSock(void) const;
-	int isAuthenticated(void) const;
+	bool getAuthenticated(void) const;
 
 	string getNick(void) const;
 	string getUser(void) const;
 	string getPassWord(void) const;
 	string getHostName(void) const;
 
-	void authenticated(void);
+	void setAuthenticated(bool auth);
 	void setNick(string name);
 	void setUser(string name);
 	void setPassWord(string pass);

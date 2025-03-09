@@ -10,7 +10,7 @@ void Irc::userCmd(istringstream &ss, Client *client) {
 		return sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), "USER"));
 	if (client->getNick().empty())
 		return sendMsg(client->getSock(), NOTICE_MSG("Empty nick, please set a nick first"));
-	if (client->isAuthenticated())
+	if (client->getAuthenticated())
 		return sendMsg(client->getSock(), ERR_ALREADYREGISTRED(client->getNick()));
 	// ss >> user;
 
@@ -18,6 +18,6 @@ void Irc::userCmd(istringstream &ss, Client *client) {
 		sendMsg(client->getSock(), NOTICE_MSG("Unwaned input, username still changed"));
 	
 	client->setUser(user);
-	client->authenticated();
+	client->setAuthenticated(true);
 	sendMsg(client->getSock(), NOTICE_MSG("\x03" "Welcome to the server!"));
 }

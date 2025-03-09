@@ -1,6 +1,6 @@
 #include "Client.hpp"
 
-Client::Client(int socket) : _connectionSock(socket), _isAuthenticated(0) {}
+Client::Client(int socket) : _connectionSock(socket), _authenticated(false) {}
 
 Client::~Client(void) {}
 
@@ -9,9 +9,9 @@ int Client::getSock(void) const
 	return (_connectionSock);
 }
 
-int Client::isAuthenticated(void) const
+bool Client::getAuthenticated(void) const
 {
-	return (_isAuthenticated);
+	return (_authenticated);
 }
 
 string Client::getNick(void) const
@@ -29,9 +29,9 @@ string Client::getPassWord(void) const
 	return (_passWord);
 }
 
-void Client::authenticated(void)
+void Client::setAuthenticated(bool auth)
 {
-	_isAuthenticated = 1;
+	_authenticated = auth;
 }
 
 void Client::setNick(string name)
