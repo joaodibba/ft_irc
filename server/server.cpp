@@ -43,7 +43,7 @@ void Irc::sendResponse(int targetFd){
 			cmdName != "USER" && cmdName != "QUIT") {
 			sendMsg(client->getSock(), ERR_NOTREGISTERED(client->getNick()));
 			continue;
-			}
+		}
 		if (this->cmds.find(cmdName) != this->cmds.end())
 			(this->*(this->cmds[cmdName]))(lineSs, client);
 		else

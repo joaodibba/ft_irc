@@ -6,3 +6,7 @@ file_request.csv
 file_ServerChannel.csv
 .vscode/c_cpp_properties.json
 .vscode/settings.json
+clients.csv
+requests.csv
+server_channels.csv
+ircserv
