@@ -130,5 +130,22 @@ class Irc
 		void inviteCmd(istringstream &ss, Client *client);
 		void quitCmd(istringstream &ss, Client *client);
 		void kickCmd(istringstream &ss, Client *client);
-		
+		void infoCmd(istringstream &ss, Client *client);
+	
+	public:
+		Irc(void);
+		~Irc(void);
+		int run_server(char **av);
+		void setPortAndPassword(char **av);
+
+		// ServerUtils
+		Client *findClient(int target);
+		Client *findClient(string name);
+		Channel *findChannel(string name);
+		Channel *createChannel(string name);
+		void deleteChannel(string name);
+		void leaveAllChannels(Client *ptr);
+		void deleteClient(map<int, Client*>::iterator &it);
+
+		void saveData(void) const;
 };

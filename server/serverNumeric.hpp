@@ -20,6 +20,8 @@
 
 #define RPL_JOIN(nick, user, channelName, msg)(RPL(nick, user, "JOIN", channelName, " * :", msg))
 
+#define RPL_WELCOME()(":localhost 001 * :Welcome to the Internet Relay Network *!\r\n Type INFO for information.\r\n")
+
 // ERROR CODES
 
 #define RPL_CHANNELMODEIS(nick, channelName, modeFlags)(":localhost 324 " + nick + ' ' + channelName + ' ' + modeFlags + "\r\n")
