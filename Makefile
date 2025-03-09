@@ -15,7 +15,6 @@ CXXFLAGS	:= -Wall -Wextra -Werror -g -std=c++11
 # Directories
 SRCDIRS		:= channel client cmd epoll server
 OBJSDIR		:= objs
-TSTDIR		:= test
 
 # Find source files
 SRCS		:= $(shell find $(SRCDIRS) -name '*.cpp')
@@ -23,11 +22,6 @@ OBJS		:= $(addprefix $(OBJSDIR)/, $(SRCS:.cpp=.o))
 
 # Executable
 NAME		:= ircserv
-
-# Test files
-TSTSRC		:= $(shell find $(TSTDIR) -name '*.cpp')
-TSTOBJ		:= $(patsubst ./%, $(OBJSDIR)/%, $(TSTSRC:.cpp=.o))
-TSTFLAGS	:= -lgtest -lgtest_main -pthread
 
 # Build all
 all: $(NAME)
@@ -55,15 +49,4 @@ fclean: clean
 
 re: fclean all
 
-# Test compilation
-test: $(TSTOBJ)
-	@$(CXX) $(CXXFLAGS) $(TSTFLAGS) $^ -o $(TSTDIR)/test
-	@echo "$(BLUE)"
-	@echo "Tests compiled successfully!"
-	@echo "$(END)"
-
-# Clean test files
-testclean:
-	@rm -f $(TSTOBJ)
-
-.PHONY: all clean fclean re test testclean
+.PHONY: all clean fclean re

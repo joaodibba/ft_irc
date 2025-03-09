@@ -4,7 +4,7 @@ set -euo pipefail
 
 IMAGE_NAME="valgrind_tmp"
 CONTAINER_NAME="valgrind_tmp"
-DEPENDENCIES="g++ valgrind make tree vim netcat libgtest-dev"
+DEPENDENCIES="g++ valgrind make tree vim netcat"
 BASE_IMAGE="ubuntu:20.04"
 WORK_DIR="/tmp/cpp"
 
