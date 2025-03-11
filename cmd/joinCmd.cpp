@@ -29,7 +29,7 @@ void Irc::joinCmd(istringstream &ss, Client *client)
 
 	Channel *tarChannel;
 	std::cout << "Channel name: " << channelName << std::endl;
-	//separate channel names
+
 	if (channelName.find(",") != string::npos)
 	{
 		istringstream ss(channelName);
