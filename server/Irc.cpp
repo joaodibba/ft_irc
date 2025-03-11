@@ -50,7 +50,7 @@ void Irc::saveData(void) const
 {
 
     // Save Clients
-    std::string filename_client = "clients.csv";
+    std::string filename_client = "data/clients.csv";
     std::ofstream outfile_client(filename_client.c_str(), std::ios::app);
     if (!outfile_client)
     {
@@ -75,7 +75,7 @@ void Irc::saveData(void) const
     outfile_client.close();
 
     // Save Requests
-    std::string filename_requests = "requests.csv";
+    std::string filename_requests = "data/requests.csv";
     std::ofstream outFile_requests(filename_requests.c_str(), std::ios::app);
     if (!outFile_requests)
     {
@@ -93,7 +93,7 @@ void Irc::saveData(void) const
     outFile_requests.close();
 
     // Save Server Channels
-    std::string filename_serverChannel = "server_channels.csv";
+    std::string filename_serverChannel = "data/server_channels.csv";
     std::ofstream outFile_serverChannel(filename_serverChannel.c_str(), std::ios::app);
     if (!outFile_serverChannel)
     {
@@ -102,7 +102,7 @@ void Irc::saveData(void) const
     }
 
     // CSV Header
-    outFile_serverChannel << "ChannelName,Topic,Mode,MaxUsers,Password" << std::endl;
+    outFile_serverChannel << "ChannelName,Topic, InviteOnly, TopicRestricted, PasswordProtected, UserLimited, UserLimit, Password" << std::endl;
 
     for (std::vector<Channel *>::const_iterator it_sc = _serverChannels.begin(); it_sc != _serverChannels.end(); ++it_sc)
     {
@@ -122,4 +122,6 @@ void Irc::saveData(void) const
             << std::endl;
     }
     outFile_serverChannel.close();
+
+    // channel users
 }

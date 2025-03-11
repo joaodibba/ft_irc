@@ -100,17 +100,8 @@ private:
 	bool isNewClient(int targetFd);
 	void acceptClient(int serverFd);
 
-	// Server
 	void sendResponse(int targetFd);
 	void receiveRequest(int targetFd);
-
-	// ServerChannelModes
-	void applyInviteOnlyFlag(bool optr, Channel *targetChannel);
-	void applyTopicRestrictionFlag(bool optr, Channel *targetChannel);
-	void applyMode(istringstream &ss, Channel *targetChannel, Client *client, string modeFlag); // ! FIXME maybe use this
-	bool applyPasswordFlag(istringstream &ss, string &modeFlag, Client *client, Channel *targetChannel);
-	bool applyLimitRestrictionFlag(istringstream &ss, string &modeFlag, Client *client, Channel *targetChannel);
-	bool applyOperatorPrivilegeFlag(istringstream &ss, string &modeFlag, Client *client, Channel *targetChannel);
 
 	//Commands
 	typedef void (Irc::*CommandPtr)(istringstream &line, Client *client);

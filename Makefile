@@ -16,6 +16,9 @@ CXXFLAGS	:= -Wall -Wextra -Werror -g -std=c++98
 SRCDIRS		:= channel client cmd epoll server
 OBJSDIR		:= objs
 
+DATA_DIR	:= data
+DATA_FILES	:= channels.csv clients.csv requests.csv channel_users.csv
+
 # Find source files
  SRCS		:= $(shell find $(SRCDIRS) -name '*.cpp')
 #SRCS		:=	channel/ChannelUser.cpp \
@@ -63,7 +66,12 @@ $(OBJSDIR)/%.o: %.cpp
 clean:
 	@rm -rf $(OBJSDIR)
 
-fclean: clean
+clean_data:
+	@for file in $(DATA_FILES); do \
+		> $(DATA_DIR)/$$file; \
+	done
+
+fclean: clean clean_data
 	@rm -f $(NAME)
 	@echo "$(BLUE)"
 	@echo "$(NAME) fully cleaned!"
