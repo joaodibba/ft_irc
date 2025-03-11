@@ -22,6 +22,4 @@ public:
     bool is_invited() const;
 
     void set_invited(bool is_invited);
-
-    int getSock();
 };

@@ -81,7 +81,7 @@ void Channel::set_operator(const Client *client, const bool is_operator) {
     }
 }
 
-bool Channel::isInvited(const Client *client) const {
+bool Channel::is_invited(const Client *client) const {
     const int clientId = client->getSock();
     const std::map<int, ChannelUser*>::const_iterator it = _users.find(clientId);
     if (it != _users.end()) {
@@ -114,7 +114,7 @@ void Channel::send_private_message(Client *sender, const string &message) {
         {
             if (receiver->getSock() != sender->getSock())
             {
-                if (send(it->second->getSock(), message.c_str(), message.size(), 0) == -1)
+                if (send(it->second->get_client()->getSock(), message.c_str(), message.size(), 0) == -1)
                     throw runtime_error("Cannot send response");
             }
         }
@@ -130,7 +130,7 @@ void Channel::send_message(const string &message) {
         const Client *client = it->second->get_client();
         if (client)
         {
-            if (send(it->second->getSock(), message.c_str(), message.size(), 0) == -1)
+            if (send(it->second->get_client()->getSock(), message.c_str(), message.size(), 0) == -1)
                 throw runtime_error("Cannot send response");
         }
     }

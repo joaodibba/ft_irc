@@ -17,7 +17,6 @@ public:
 	explicit Client(int connectionSock);
 	~Client();
 
-public:
 	int getSock() const;
 	bool getAuthenticated() const;
 

@@ -84,4 +84,3 @@ void Irc::privmsgCmd(istringstream &ss, Client* client)
         sendToUser(client, recipient, message);
     }
 }
-

@@ -38,7 +38,7 @@ public:
 
     void set_operator(const Client* client, bool is_operator);
 
-    bool isInvited(const Client *client) const;
+    bool is_invited(const Client *client) const;
 
     void set_invited(const Client* client, bool is_invited);
 
