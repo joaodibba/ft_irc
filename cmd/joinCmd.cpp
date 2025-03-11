@@ -49,7 +49,7 @@ void Irc::joinCmd(istringstream &ss, Client *client)
 				{
 					tarChannel->add_client(client);
 					cout << "Send to client fd: " << client->getSock() << endl;
-					tarChannel->send_message(RPL_JOIN(client->getNick(), client->getUser(), channel, client->getRealName));
+					tarChannel->send_message(RPL_JOIN(client->getNick(), client->getUser(), channel, client->getRealName()));
 				}
 				continue;
 			}
@@ -57,7 +57,7 @@ void Irc::joinCmd(istringstream &ss, Client *client)
 			tarChannel->add_client(client);
 			tarChannel->set_operator(client, true);
 			cout << "Send to client fd: " << client->getSock() << endl;
-			tarChannel->send_message(RPL_JOIN(client->getNick(), client->getUser(), channel, client->getRealName));
+			tarChannel->send_message(RPL_JOIN(client->getNick(), client->getUser(), channel, client->getRealName()));
 		}
 		return;
 	}
@@ -66,5 +66,5 @@ void Irc::joinCmd(istringstream &ss, Client *client)
 	tarChannel->set_operator(client, true);
 
 	cout << "Send to client fd: " << client->getSock() << endl;
-	tarChannel->send_message(RPL_JOIN(client->getNick(), client->getUser(), channelName, string("realname"))); //!FIXME realname is not implemented?
+	tarChannel->send_message(RPL_JOIN(client->getNick(), client->getUser(), channelName, client->getRealName()));
 }

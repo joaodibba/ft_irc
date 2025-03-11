@@ -1,0 +1,8 @@
+fd_client,string
+fd_client,string
+5,"CAP LS 302
+PASS pass
+NICK heldergoncalves
+USER derinho 0 * :realname
+"
+fd_client,string

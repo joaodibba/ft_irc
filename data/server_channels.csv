@@ -1033,3 +1033,6 @@ ChannelName,Topic, InviteOnly, TopicRestricted, PasswordProtected, UserLimited, 
 ChannelName,Topic, InviteOnly, TopicRestricted, PasswordProtected, UserLimited, UserLimit, Password
 #foo,"",0,0,0,0,0,""
 #bar,"",0,0,0,0,0,""
+ChannelName,Topic, InviteOnly, TopicRestricted, PasswordProtected, UserLimited, UserLimit, Password
+ChannelName,Topic, InviteOnly, TopicRestricted, PasswordProtected, UserLimited, UserLimit, Password
+ChannelName,Topic, InviteOnly, TopicRestricted, PasswordProtected, UserLimited, UserLimit, Password
