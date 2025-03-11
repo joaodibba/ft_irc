@@ -20,7 +20,7 @@
 
 #define RPL_JOIN(nick, user, channelName, msg)(RPL(nick, user, "JOIN", channelName, " * :", msg))
 
-#define RPL_WELCOME()(":localhost 001 * :Welcome to the Internet Relay Network *!\r\n Type INFO for information.\r\n")
+#define RPL_WELCOME(nick) (":localhost 001 " + (nick.empty() ? std::string("*") : nick) + " :Welcome to the Internet Relay Network *!\r\n Type INFO for information.\r\n")
 
 #define RPL_INFO() ( \
     "Put the server's password with command P\r\n" \

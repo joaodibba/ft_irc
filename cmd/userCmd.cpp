@@ -19,5 +19,6 @@ void Irc::userCmd(istringstream &ss, Client *client) {
 	
 	client->setUser(user);
 	client->setAuthenticated(true);
-	sendMsg(client->getSock(), NOTICE_MSG("\x03" "Welcome to the server!"));
+	//sendMsg(client->getSock(), NOTICE_MSG("\x03" "Welcome to the server!"));
+	sendMsg(client->getSock(), RPL_WELCOME(client->getNick()));
 }

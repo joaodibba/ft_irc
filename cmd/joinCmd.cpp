@@ -30,7 +30,10 @@ void Irc::joinCmd(istringstream &ss, Client* client)
 	if ((tarChannel = findChannel(channelName)))
 	{
 		if (tarChannel->isPartOfChannel(client->getNick()))
+		{
+			sendMsg(client->getSock(), "Already in this channel\n\r");
 			return;
+		}
 		if (!verifyChannelmodes(tarChannel, client, ss))
 		{
 			tarChannel->setChannelUsers(false, client);	
