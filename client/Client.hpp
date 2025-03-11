@@ -12,6 +12,7 @@ private:
 	string _user;
 	string _passWord;
 	string _buffer;
+	string _realname;
 
 public:
 	explicit Client(int connectionSock);
@@ -25,10 +26,12 @@ public:
 	string getUser() const;
 	string getPassWord() const;
 	string getHostName() const;
+	string getRealName() const;
 
 	void setAuthenticated(bool auth);
 	void setNick(const string &name);
 	void setUser(const string &name);
 	void setPassWord(const string &pass);
 	void setBuffer(const string &buffer);
+	void setRealName(const string &realname);
 };

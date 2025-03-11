@@ -38,8 +38,11 @@ void Irc::modeCmd(istringstream &ss, Client *client)
     // if (!channel->is_member(client)) // FIXME check if user is in channel
 
     // ERR_CHANOPRIVSNEEDED (482) - User is not an operator
-    if (!channel->is_operator(client)) // Use 'client' instead of 'sender'
+    if (!channel->is_operator(client)){ // Use 'client' instead of 'sender'
         return sendMsg(client->getSock(), ERR_CHANOPRIVSNEEDED(client->getNick(), channelName));
+	}
+
+	std::cout << "MODE " << channelName << " " << modes << std::endl;
 
     bool adding = true; // True for +, false for -
 
@@ -49,29 +52,29 @@ void Irc::modeCmd(istringstream &ss, Client *client)
         char mode = modes[i];
         switch (mode)
         {
-        case '+':
-            adding = true;
-            break;
-        case '-':
-            adding = false;
-            break;
-        case 'o': // Operator privilege
-            channel->set_operator(client, adding);
-            return channel->send_message(RPL_CHANNELMODEIS(client->getNick(), channelName, modes));
-        case 'i': // Invite-only channel
-            channel->modes().set_invite_only(adding);
-            return channel->send_message(RPL_CHANNELMODEIS(client->getNick(), channelName, modes));
-        case 't': // Topic restrictions
-            channel->modes().set_topic_restricted(adding);
-            return channel->send_message(RPL_CHANNELMODEIS(client->getNick(), channelName, modes));
-        case 'k': // Channel key (password)
-            channel->modes().set_password_protected(adding);
-            return channel->send_message(RPL_CHANNELMODEIS(client->getNick(), channelName, modes));
-        case 'l': // User limit
-            channel->modes().set_user_limit(adding);
-            return channel->send_message(RPL_CHANNELMODEIS(client->getNick(), channelName, modes));
-        default:
-            return sendMsg(client->getSock(), ERR_UNKNOWNMODE(client->getNick(), string(1, mode)));
+			case '+':
+				adding = true;
+				break;
+			case '-':
+				adding = false;
+				break;
+			case 'o': // Operator privilege
+				channel->set_operator(client, adding);
+				return channel->send_message(RPL_CHANNELMODEIS(client->getNick(), channelName, modes));
+			case 'i': // Invite-only channel
+				channel->modes().set_invite_only(adding);
+				return channel->send_message(RPL_CHANNELMODEIS(client->getNick(), channelName, modes));
+			case 't': // Topic restrictions
+				channel->modes().set_topic_restricted(adding);
+				return channel->send_message(RPL_CHANNELMODEIS(client->getNick(), channelName, modes));
+			case 'k': // Channel key (password)
+				channel->modes().set_password_protected(adding);
+				return channel->send_message(RPL_CHANNELMODEIS(client->getNick(), channelName, modes));
+			case 'l': // User limit
+				channel->modes().set_user_limit(adding);
+				return channel->send_message(RPL_CHANNELMODEIS(client->getNick(), channelName, modes));
+			default:
+				return sendMsg(client->getSock(), ERR_UNKNOWNMODE(client->getNick(), string(1, mode)));
         }
     }
 }

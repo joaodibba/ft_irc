@@ -12,7 +12,7 @@ void Irc::passCmd(istringstream &ss, Client *client)
 	if (str != _serverPassWord)
 	{
 		sendMsg(client->getSock(), ERR_PASSWDMISMATCH(client->getNick()));
-		// client should notice that is disconnected ?
+		// client should notice that is disconnected ? yes
 		return quitCmd(ss, client);
 	}
 	// this might trow exception

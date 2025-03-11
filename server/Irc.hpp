@@ -107,7 +107,7 @@ private:
 	typedef void (Irc::*CommandPtr)(istringstream &line, Client *client);
 	map<string, CommandPtr> cmds;
 
-	void sendToChannel(const Client *sender, const string &channelName, const string &message);
+	void sendToChannel(Client *sender, const string &channelName, const string &message);
 	void sendToUser(const Client *sender, const string &recipient, const string &message);
 
 	void privmsgCmd(istringstream &ss, Client *client);

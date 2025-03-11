@@ -12,7 +12,7 @@ void Irc::sendToUser(const Client *sender, const string &recipient, const string
     sendMsg(targetClient->getSock(), RPL_PRIVMSG(sender->getNick(), sender->getUser(), recipient, message));
 }
 
-void Irc::sendToChannel(const Client *sender, const string &channelName, const string &message)
+void Irc::sendToChannel(Client *sender, const string &channelName, const string &message)
 {
     Channel *channel = findChannel(channelName);
 
@@ -25,7 +25,7 @@ void Irc::sendToChannel(const Client *sender, const string &channelName, const s
     //     return sendMsg(sender->getSock(), ERR_CANNOTSENDTOCHAN(sender->getNick(), channelName));
 
     // Send message to all clients in the channel (excluding sender)
-    channel->send_message(RPL_PRIVMSG(sender->getNick(), sender->getUser(), channelName, message));
+    channel->send_private_message(sender, RPL_PRIVMSG(sender->getNick(), sender->getUser(), channelName, message));
 }
 
 /**

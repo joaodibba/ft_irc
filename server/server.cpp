@@ -43,7 +43,7 @@ void Irc::receiveRequest(int targetFd)
 
 	epfds->modFd(targetFd, EPOLLOUT);
 
-	client->getBuffer().clear();
+	client->setBuffer("");
 }
 
 void Irc::sendResponse(int targetFd)
