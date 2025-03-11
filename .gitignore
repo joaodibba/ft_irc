@@ -4,5 +4,8 @@ objs/
 .vscode/
 .vscode/c_cpp_properties.json
 .vscode/settings.json
+data/channel_users.csv
+data/channels.csv
+data/clients.csv
+data/requests.csv
 ircserv
-performance.cpp
