@@ -61,21 +61,6 @@ void Irc::joinCmd(istringstream &ss, Client *client)
 		}
 		return;
 	}
-	// if ((tarChannel = findChannel(channelName)))
-	// {
-	// 	if (tarChannel->is_member(client))
-	// 	{
-	// 		sendMsg(client->getSock(), "Already in this channel\n\r");
-	// 		return;
-	// 	}
-	// 	if (!verifyChannelmodes(tarChannel, client, ss))
-	// 	{
-	// 		tarChannel->add_client(client);
-	// 		cout << "Send to client fd: " << client->getSock() << endl;
-	// 		tarChannel->send_message(RPL_JOIN(client->getNick(), client->getUser(), channelName, string("realname"))); //!FIXME realname is not implemented?
-	// 	}
-	// 	return;
-	// }
 	tarChannel = createChannel(channelName);
 	tarChannel->add_client(client);
 	tarChannel->set_operator(client, true);
