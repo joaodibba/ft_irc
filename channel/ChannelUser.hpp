@@ -13,7 +13,7 @@ public:
     explicit ChannelUser(Client *client);
     ~ChannelUser();
 
-    Client * get_client() const;
+    Client *get_client() const;
 
     bool is_operator() const;
 

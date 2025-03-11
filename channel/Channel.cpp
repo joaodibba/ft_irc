@@ -1,46 +1,56 @@
 #include "Channel.hpp"
 
-Channel::Channel(const string& name) : _channelName(name) {}
+Channel::Channel(const string &name) : _channelName(name) {}
 
-Channel::~Channel() {
+Channel::~Channel()
+{
     map<int, ChannelUser *>::iterator it = _users.begin();
-    for (; it != _users.end(); it++) {
+    for (; it != _users.end(); it++)
+    {
         delete it->second;
     }
     _users.clear();
 }
 
-void Channel::set_channel_topic(const string &channel_topic) {
+void Channel::set_channel_topic(const string &channel_topic)
+{
     _channelTopic = channel_topic;
 }
 
-string Channel::get_channel_topic() const {
+string Channel::get_channel_topic() const
+{
     return _channelTopic;
 }
 
-void Channel::set_channel_name(const string &channel_name) {
+void Channel::set_channel_name(const string &channel_name)
+{
     _channelName = channel_name;
 }
 
-string Channel::get_channel_name() const {
+string Channel::get_channel_name() const
+{
     return _channelName;
 }
 
-ChannelMode & Channel::modes() {
+ChannelMode &Channel::modes()
+{
     return _modes;
 }
 
-const ChannelMode & Channel::modes() const {
+const ChannelMode &Channel::modes() const
+{
     return _modes;
 }
 
-bool Channel::add_client(Client *client) {
+bool Channel::add_client(Client *client)
+{
     if (is_full())
         return false;
 
     const int client_sock = client->getSock();
 
-    if (_users.find(client_sock) != _users.end()) {
+    if (_users.find(client_sock) != _users.end())
+    {
         cerr << "Client already in channel.\n";
         return false;
     }
@@ -50,12 +60,14 @@ bool Channel::add_client(Client *client) {
     return true;
 }
 
-bool Channel::remove_client(const Client *client) {
+bool Channel::remove_client(const Client *client)
+{
     if (is_full())
         return false;
 
     const int client_sock = client->getSock();
-    if (_users.find(client_sock) != _users.end()) {
+    if (_users.find(client_sock) != _users.end())
+    {
         delete _users[client_sock];
         _users.erase(client_sock);
         return true;
@@ -66,47 +78,56 @@ bool Channel::remove_client(const Client *client) {
 bool Channel::is_operator(const Client *client) const
 {
     int client_sock = client->getSock();
-    const std::map<int, ChannelUser*>::const_iterator it = _users.find(client_sock);
-    if (it != _users.end()) {
+    const std::map<int, ChannelUser *>::const_iterator it = _users.find(client_sock);
+    if (it != _users.end())
+    {
         return it->second->is_operator();
     }
     return false;
 }
 
-void Channel::set_operator(const Client *client, const bool is_operator) {
+void Channel::set_operator(const Client *client, const bool is_operator)
+{
     int client_sock = client->getSock();
-    const std::map<int, ChannelUser*>::iterator it = _users.find(client_sock);
-    if (it != _users.end()) {
+    const std::map<int, ChannelUser *>::iterator it = _users.find(client_sock);
+    if (it != _users.end())
+    {
         it->second->set_operator(is_operator);
     }
 }
 
-bool Channel::is_invited(const Client *client) const {
+bool Channel::is_invited(const Client *client) const
+{
     const int clientId = client->getSock();
-    const std::map<int, ChannelUser*>::const_iterator it = _users.find(clientId);
-    if (it != _users.end()) {
+    const std::map<int, ChannelUser *>::const_iterator it = _users.find(clientId);
+    if (it != _users.end())
+    {
         return it->second->is_invited();
     }
     return false;
 }
 
-void Channel::set_invited(const Client *client, const bool is_invited) {
+void Channel::set_invited(const Client *client, const bool is_invited)
+{
     const int clientId = client->getSock();
-    const std::map<int, ChannelUser*>::const_iterator it = _users.find(clientId);
-    if (it != _users.end()) {
+    const std::map<int, ChannelUser *>::const_iterator it = _users.find(clientId);
+    if (it != _users.end())
+    {
         return it->second->set_invited(is_invited);
     }
 }
 
-bool Channel::is_full() const {
+bool Channel::is_full() const
+{
     if (_modes.get_user_limit() == 0)
         return false;
     return _users.size() >= _modes.get_user_limit();
 }
 
-void Channel::send_private_message(Client *sender, const string &message) {
+void Channel::send_private_message(Client *sender, const string &message)
+{
 
-    std::map<int, ChannelUser*>::iterator it = _users.begin();
+    std::map<int, ChannelUser *>::iterator it = _users.begin();
     for (; it != _users.end(); ++it)
     {
         const Client *receiver = it->second->get_client();
@@ -121,9 +142,10 @@ void Channel::send_private_message(Client *sender, const string &message) {
     }
 }
 
-void Channel::send_message(const string &message) {
+void Channel::send_message(const string &message)
+{
 
-    std::map<int, ChannelUser*>::iterator it = _users.begin();
+    std::map<int, ChannelUser *>::iterator it = _users.begin();
     cout << WHITE << message << END << endl;
     for (; it != _users.end(); ++it)
     {
@@ -135,5 +157,3 @@ void Channel::send_message(const string &message) {
         }
     }
 }
-
-
