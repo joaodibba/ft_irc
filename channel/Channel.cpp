@@ -1,171 +1,139 @@
 #include "Channel.hpp"
 
-Channel::Channel(string name) : _channelName(name), _channelModes("+t"), _maxUsersNumber(0) {}
+Channel::Channel(const string& name) : _channelName(name) {}
 
-Channel::~Channel(void) {}
-
-void Channel::setChannelUsers(bool oprt, Client *ptr)
-{
-	vector<string>::iterator it = find(_inviteUsers.begin(), _inviteUsers.end(), ptr->getNick());
-	if (it != _inviteUsers.end())
-		_inviteUsers.erase(it);
-
-	_channelUsers.insert(make_pair(ptr, oprt));
+Channel::~Channel() {
+    map<int, ChannelUser *>::iterator it = _users.begin();
+    for (; it != _users.end(); it++) {
+        delete it->second;
+    }
+    _users.clear();
 }
 
-void Channel::setChannelTopic(string content)
-{
-	_channelTopic = content;
+void Channel::set_channel_topic(const string &channel_topic) {
+    _channelTopic = channel_topic;
 }
 
-void Channel::setChannelPassword(string pass)
-{
-	if (pass.empty() == true)
-		throw runtime_error("Password cannot be empty");
-	if (pass.find(",") != string::npos)
-		throw runtime_error("Password cannot contain ','");
-	_channelPassword = pass;
+string Channel::get_channel_topic() const {
+    return _channelTopic;
 }
 
-void Channel::setMaxUsersNumber(size_t nb)
-{
-	_maxUsersNumber = nb;
+void Channel::set_channel_name(const string &channel_name) {
+    _channelName = channel_name;
 }
 
-void Channel::setInviteUser(string nick)
-{
-	if (_inviteUsers.size() == 0 || find(_inviteUsers.begin(), _inviteUsers.end(), nick) == _inviteUsers.end())
-		_inviteUsers.push_back(nick);
+string Channel::get_channel_name() const {
+    return _channelName;
 }
 
-void Channel::setChannelModes(char flag)
-{
-	_channelModes.push_back(flag);
+ChannelMode & Channel::modes() {
+    return _modes;
 }
 
-string Channel::getChannelName(void) const
-{
-	return (_channelName);
+const ChannelMode & Channel::modes() const {
+    return _modes;
 }
 
-string Channel::getChannelTopic(void) const
-{
-	return (_channelTopic);
+bool Channel::add_client(Client *client) {
+    if (is_full())
+        return false;
+
+    const int client_sock = client->getSock();
+
+    if (_users.find(client_sock) != _users.end()) {
+        cerr << "Client already in channel.\n";
+        return false;
+    }
+
+    ChannelUser *user = new ChannelUser(client);
+    _users[client_sock] = user;
+    return true;
 }
 
-string Channel::getChannelModes(void) const
-{
-	return (_channelModes);
+bool Channel::remove_client(const Client *client) {
+    if (is_full())
+        return false;
+
+    const int client_sock = client->getSock();
+    if (_users.find(client_sock) != _users.end()) {
+        delete _users[client_sock];
+        _users.erase(client_sock);
+        return true;
+    }
+    return false;
 }
 
-size_t Channel::getMaxUsersNumber(void) const
+bool Channel::is_operator(const Client *client) const
 {
-	return (_maxUsersNumber);
+    int client_sock = client->getSock();
+    const std::map<int, ChannelUser*>::const_iterator it = _users.find(client_sock);
+    if (it != _users.end()) {
+        return it->second->is_operator();
+    }
+    return false;
 }
 
-string Channel::getChannelPassword(void) const
-{
-	return (_channelPassword);
+void Channel::set_operator(const Client *client, const bool is_operator) {
+    int client_sock = client->getSock();
+    const std::map<int, ChannelUser*>::iterator it = _users.find(client_sock);
+    if (it != _users.end()) {
+        it->second->set_operator(is_operator);
+    }
 }
 
-size_t Channel::getNumberOfUsersOnChannel(void) const
-{
-	return (_channelUsers.size());
+bool Channel::isInvited(const Client *client) const {
+    const int clientId = client->getSock();
+    const std::map<int, ChannelUser*>::const_iterator it = _users.find(clientId);
+    if (it != _users.end()) {
+        return it->second->is_invited();
+    }
+    return false;
 }
 
-void Channel::removeClient(Client *ptr)
-{
-	map<Client *, bool>::iterator it;
-	for (it = _channelUsers.begin(); it != _channelUsers.end(); it++)
-	{
-		if (it->first == ptr)
-			break;
-	}
-	_channelUsers.erase(it);
+void Channel::set_invited(const Client *client, const bool is_invited) {
+    const int clientId = client->getSock();
+    const std::map<int, ChannelUser*>::const_iterator it = _users.find(clientId);
+    if (it != _users.end()) {
+        return it->second->set_invited(is_invited);
+    }
 }
 
-void Channel::removeChannelModesFlag(char flag)
-{
-	std::size_t pos = _channelModes.find(flag);
-	if (pos != std::string::npos)
-	{
-		_channelModes.erase(pos, 1);
-	}
+bool Channel::is_full() const {
+    if (_modes.get_user_limit() == 0)
+        return false;
+    return _users.size() >= _modes.get_user_limit();
 }
 
-bool Channel::isPartOfChannel(string nick) const
-{
-	map<Client *, bool>::const_iterator it;
-	for (it = _channelUsers.begin(); it != _channelUsers.end(); it++)
-	{
-		if (it->first->getNick() == nick)
-			return true;
-	}
-	return false;
+void Channel::send_private_message(Client *sender, const string &message) {
+
+    std::map<int, ChannelUser*>::iterator it = _users.begin();
+    for (; it != _users.end(); ++it)
+    {
+        const Client *receiver = it->second->get_client();
+        if (receiver)
+        {
+            if (receiver->getSock() != sender->getSock())
+            {
+                if (send(it->second->getSock(), message.c_str(), message.size(), 0) == -1)
+                    throw runtime_error("Cannot send response");
+            }
+        }
+    }
 }
 
-bool Channel::isFlagSet(char flag) const
-{
-	return ((_channelModes.find(flag) != string::npos) ? 1 : 0);
+void Channel::send_message(const string &message) {
+
+    std::map<int, ChannelUser*>::iterator it = _users.begin();
+    cout << WHITE << message << END << endl;
+    for (; it != _users.end(); ++it)
+    {
+        const Client *client = it->second->get_client();
+        if (client)
+        {
+            if (send(it->second->getSock(), message.c_str(), message.size(), 0) == -1)
+                throw runtime_error("Cannot send response");
+        }
+    }
 }
 
-bool Channel::isChannelFull(void) const
-{
-	return ((getNumberOfUsersOnChannel() >= getMaxUsersNumber()) ? 1 : 0);
-}
 
-bool Channel::isOperator(string nick) const
-{
-	map<Client *, bool>::const_iterator it;
-	for (it = _channelUsers.begin(); it != _channelUsers.end(); it++)
-	{
-		if (it->first->getNick() == nick)
-			return ((it->second) ? true : false);
-	}
-	return (false);
-}
-
-bool Channel::isUserInvited(string nick) const
-{
-	return ((find(_inviteUsers.begin(), _inviteUsers.end(), nick) != _inviteUsers.end()) ? true : false);
-}
-
-bool Channel::isEmpty(void) const
-{
-	return ((_channelUsers.size() == 0) ? true : false);
-}
-
-void Channel::sendPrivMsg(int fd, string msg) const
-{
-	map<Client *, bool>::const_iterator it;
-	for (it = _channelUsers.begin(); it != _channelUsers.end(); it++)
-	{
-		if (it->first->getSock() != fd)
-		{
-			if (send(it->first->getSock(), msg.c_str(), msg.size(), 0) == -1)
-				throw runtime_error("Cannot send response");
-		}
-	}
-}
-
-void Channel::sendAll(string msg) const
-{
-	map<Client *, bool>::const_iterator it;
-	cout << WHITE << msg << END << endl;
-	for (it = _channelUsers.begin(); it != _channelUsers.end(); it++)
-	{
-		if (send(it->first->getSock(), msg.c_str(), msg.size(), 0) == -1)
-			throw runtime_error("Cannot send response");
-	}
-}
-
-void Channel::giveOrTakeOperatorPrivilege(string targetNick, bool privilege)
-{
-	map<Client *, bool>::iterator it;
-	for (it = _channelUsers.begin(); it != _channelUsers.end(); it++)
-	{
-		if (it->first->getNick() == targetNick)
-			break;
-	}
-	it->second = privilege;
-}

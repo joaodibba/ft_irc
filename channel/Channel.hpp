@@ -1,49 +1,50 @@
 #pragma once
 
 #include "../server/Irc.hpp"
+#include "ChannelUser.hpp"
+#include "ChannelMode.hpp"
 
 class Channel
 {
 private:
-	string _channelName;
-	string _channelModes;
-	string _channelTopic;	 // t:set/remove restrictions of the TOPIC
-	string _channelPassword; // k: set/remove the channel key (password)
-	map<Client *, bool> _channelUsers;
-	vector<string> _inviteUsers; // i: set/remove invite-only channel
-	size_t _maxUsersNumber;		 // l: set/remove limit of user on channel
+    string _channelName;
+    string _channelTopic;
+
+    ChannelMode _modes;
+    map<int, ChannelUser*> _users; // client socket file descriptor and pointer to ChannelUser
 
 public:
-	string getChannelName(void) const;
-	string getChannelTopic(void) const;
-	string getChannelModes(void) const;
-	string getChannelPassword(void) const;
-	size_t getMaxUsersNumber(void) const;
-	size_t getNumberOfUsersOnChannel(void) const;
 
-	void setChannelModes(char flag);
-	void setInviteUser(string nick);
-	void setMaxUsersNumber(size_t nb);
-	void setChannelTopic(string content);
-	void setChannelPassword(string pass);
-	void setChannelUsers(bool oprt, Client *ptr);
+    explicit Channel(const string& name);
+    ~Channel();
 
-	void removeClient(Client *ptr);
-	void removeChannelModesFlag(char flag);
+    string get_channel_name() const;
 
-	void sendAll(string msg) const;
-	void sendPrivMsg(int fd, string msg) const;
+    void set_channel_name(const string &channel_name);
 
-	bool isChannelFull(void) const;
-	bool isFlagSet(char flag) const;
-	bool isOperator(string nick) const;
-	bool isUserInvited(string nick) const;
-	bool isPartOfChannel(string nick) const;
-	bool isEmpty(void) const;
+    string get_channel_topic() const;
 
-	void giveOrTakeOperatorPrivilege(string targetNick, bool privilege = false);
+    void set_channel_topic(const string &channel_topic);
 
-public:
-	Channel(string name);
-	~Channel(void);
+    ChannelMode& modes();
+
+    const ChannelMode& modes() const;
+
+    bool add_client(Client* client);
+
+    bool remove_client(const Client* client);
+
+    bool is_operator(const Client* client) const;
+
+    void set_operator(const Client* client, bool is_operator);
+
+    bool isInvited(const Client *client) const;
+
+    void set_invited(const Client* client, bool is_invited);
+
+    bool is_full() const;
+
+    void send_private_message(Client* client, const string& message);
+
+    void send_message(const string& message);
 };

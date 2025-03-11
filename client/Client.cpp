@@ -1,64 +1,64 @@
 #include "Client.hpp"
 
-Client::Client(int socket) : _connectionSock(socket), _authenticated(false) {}
+Client::Client(const int connectionSock) : _connectionSock(connectionSock), _authenticated(false) {}
 
-Client::~Client(void) {}
+Client::~Client() {}
 
-int Client::getSock(void) const
+int Client::getSock() const
 {
 	return (_connectionSock);
 }
 
-bool Client::getAuthenticated(void) const
+bool Client::getAuthenticated() const
 {
 	return (_authenticated);
 }
 
-string Client::getNick(void) const
+string Client::getNick() const
 {
 	return (_nick);
 }
 
-string Client::getUser(void) const
+string Client::getUser() const
 {
 	return (_user);
 }
 
-string Client::getPassWord(void) const
+string Client::getPassWord() const
 {
 	return (_passWord);
 }
 
-string Client::getBuffer(void) const
+string Client::getBuffer() const
 {
 	return (_buffer);
 }
 
-void Client::setBuffer(string buffer)
+void Client::setBuffer(const string& buffer)
 {
 	_buffer = buffer;
 }
 
-void Client::setAuthenticated(bool auth)
+void Client::setAuthenticated(const bool auth)
 {
 	_authenticated = auth;
 }
 
-void Client::setNick(string name)
+void Client::setNick(const string& name)
 {
 	_nick = name;
 }
 
-void Client::setUser(string name)
+void Client::setUser(const string& name)
 {
 	_user = name;
 }
 
-void Client::setPassWord(string pass)
+void Client::setPassWord(const string& pass)
 {
 	if (pass.empty() == true)
 		throw runtime_error("Password cannot be empty");
-	if (pass.find(",") != string::npos)
+	if (pass.find(',') != string::npos)
 		throw runtime_error("Password cannot contain ','");
 	_passWord = pass;
 }

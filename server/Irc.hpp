@@ -30,7 +30,7 @@
 
 #define BACKLOG 100
 #define MAX_EVENTS 1024
-#define BUFFER_SIZE 4096 
+#define BUFFER_SIZE 1024 
 #define MAX_TCP_PORT 65535
 
 using std::cerr;
@@ -87,7 +87,7 @@ private:
 
 	int _serverSock;
 	EpollManager *epfds;
-	map<int, Client *> _clients;
+	map<int, Client *> _clients; // map<fd, Client*>
 	map<int, string> requests;
 	vector<Channel *> _serverChannels;
 
