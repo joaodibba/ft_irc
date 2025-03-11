@@ -28,6 +28,7 @@ fi
 docker run -it --rm \
     -v "$PWD:$WORK_DIR" \
     -w $WORK_DIR \
+	-p 6667:6667 \
     --name $CONTAINER_NAME \
     $IMAGE_NAME \
 	bash
