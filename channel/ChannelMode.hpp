@@ -1,19 +1,22 @@
 #pragma once
 
-#include "../client/Client.hpp"
+#include <string>
+#include <cstddef>
+
+using namespace std;
 
 class ChannelMode
 {
 private:
-    bool _inviteOnly = false;
-    bool _topicRestricted = false;
-    bool _passwordProtected = false;
-    size_t _userLimit = 0;
+    bool _inviteOnly;
+    bool _topicRestricted;
+    bool _passwordProtected;
+    size_t _userLimit;
     string _password;
 
 public:
-    ChannelMode() {}
-    ~ChannelMode() {}
+    ChannelMode();
+    ~ChannelMode();
 
     bool is_invite_only() const;
 
@@ -26,6 +29,8 @@ public:
     bool is_password_protected() const;
 
     void set_password_protected(bool password_protected);
+
+    bool is_user_limited() const;
 
     size_t get_user_limit() const;
 

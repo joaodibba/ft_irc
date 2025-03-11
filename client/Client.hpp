@@ -27,8 +27,8 @@ public:
 	string getHostName() const;
 
 	void setAuthenticated(bool auth);
-	void setNick(const string& name);
-	void setUser(const string& name);
-	void setPassWord(const string& pass);
-	void setBuffer(const string& buffer);
+	void setNick(const string &name);
+	void setUser(const string &name);
+	void setPassWord(const string &pass);
+	void setBuffer(const string &buffer);
 };

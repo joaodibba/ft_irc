@@ -1,4 +1,5 @@
-#include "Channel.hpp"
+#include "channel.hpp"
+#include "channeluser.hpp"
 
 Channel::Channel(const string &name) : _channelName(name) {}
 
@@ -75,9 +76,16 @@ bool Channel::remove_client(const Client *client)
     return false;
 }
 
+bool Channel::is_member(const Client *client) const
+{
+    const int client_sock = client->getSock();
+    const std::map<int, ChannelUser *>::const_iterator it = _users.find(client_sock);
+    return (it != _users.end());
+}
+
 bool Channel::is_operator(const Client *client) const
 {
-    int client_sock = client->getSock();
+    const int client_sock = client->getSock();
     const std::map<int, ChannelUser *>::const_iterator it = _users.find(client_sock);
     if (it != _users.end())
     {
@@ -122,6 +130,11 @@ bool Channel::is_full() const
     if (_modes.get_user_limit() == 0)
         return false;
     return _users.size() >= _modes.get_user_limit();
+}
+
+size_t Channel::size() const
+{
+    return _users.size();
 }
 
 void Channel::send_private_message(Client *sender, const string &message)

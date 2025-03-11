@@ -34,7 +34,7 @@ string Client::getBuffer() const
 	return (_buffer);
 }
 
-void Client::setBuffer(const string& buffer)
+void Client::setBuffer(const string &buffer)
 {
 	_buffer = buffer;
 }
@@ -44,17 +44,17 @@ void Client::setAuthenticated(const bool auth)
 	_authenticated = auth;
 }
 
-void Client::setNick(const string& name)
+void Client::setNick(const string &name)
 {
 	_nick = name;
 }
 
-void Client::setUser(const string& name)
+void Client::setUser(const string &name)
 {
 	_user = name;
 }
 
-void Client::setPassWord(const string& pass)
+void Client::setPassWord(const string &pass)
 {
 	if (pass.empty() == true)
 		throw runtime_error("Password cannot be empty");

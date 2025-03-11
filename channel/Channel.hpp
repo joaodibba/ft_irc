@@ -1,15 +1,16 @@
 #pragma once
 
+#include "channelmode.hpp"
+#include "../client/Client.hpp"
 #include "../server/Irc.hpp"
-#include "ChannelUser.hpp"
-#include "ChannelMode.hpp"
+
+class ChannelUser;
 
 class Channel
 {
 private:
     string _channelName;
     string _channelTopic;
-
     ChannelMode _modes;
     map<int, ChannelUser *> _users; // client socket file descriptor and pointer to ChannelUser
 
@@ -33,6 +34,8 @@ public:
 
     bool remove_client(const Client *client);
 
+    bool is_member(const Client *client) const;
+
     bool is_operator(const Client *client) const;
 
     void set_operator(const Client *client, bool is_operator);
@@ -42,6 +45,8 @@ public:
     void set_invited(const Client *client, bool is_invited);
 
     bool is_full() const;
+
+    size_t size() const;
 
     void send_private_message(Client *client, const string &message);
 

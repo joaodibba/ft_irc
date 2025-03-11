@@ -1,4 +1,9 @@
-#include "ChannelMode.hpp"
+#include "channelmode.hpp"
+
+ChannelMode::ChannelMode()
+    : _inviteOnly(false), _topicRestricted(false), _passwordProtected(false), _userLimit(0) {}
+
+ChannelMode::~ChannelMode() {}
 
 bool ChannelMode::is_invite_only() const
 {
@@ -28,6 +33,11 @@ bool ChannelMode::is_password_protected() const
 void ChannelMode::set_password_protected(const bool password_protected)
 {
     _passwordProtected = password_protected;
+}
+
+bool ChannelMode::is_user_limited() const
+{
+    return _userLimit != 0;
 }
 
 size_t ChannelMode::get_user_limit() const

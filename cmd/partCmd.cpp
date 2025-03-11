@@ -21,19 +21,20 @@ void Irc::partCmd(istringstream &ss, Client *client)
         return sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), "PART"));
 
     Channel *channel = findChannel(channelName);
-    
+
     if (!channel)
         return sendMsg(client->getSock(), ERR_NOSUCHCHANNEL(client->getNick(), channelName));
 
-    if (!channel->isPartOfChannel(client->getNick()))
+    if (!channel->is_member(client))
         return sendMsg(client->getSock(), ERR_NOTONCHANNEL(client->getNick(), channelName));
 
-    channel->sendAll(RPL_PART(client->getNick(), client->getUser(), channelName, "Leaving"));
+    channel->send_message(RPL_PART(client->getNick(), client->getUser(), channelName, "Leaving"));
 
     // Remove the client from the channel
-    channel->removeClient(client);
+    channel->remove_client(client);
 
-    if (channel->isEmpty()) { 
+    if (channel->size() == 0)
+    {
         deleteChannel(channelName);
     }
 }

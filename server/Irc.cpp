@@ -2,29 +2,29 @@
 
 Irc::Irc(void)
 {
-	cmds["JOIN"] = &Irc::joinCmd;
-	cmds["TOPIC"] = &Irc::topicCmd;
-	cmds["PRIVMSG"] = &Irc::privmsgCmd;
-	cmds["PASS"] = &Irc::passCmd;
-	cmds["PART"] = &Irc::partCmd;
-	cmds["MODE"] = &Irc::modeCmd;
-	cmds["NICK"] = &Irc::nickCmd;
-	cmds["USER"] = &Irc::userCmd;
-	cmds["INVITE"] = &Irc::inviteCmd;
-	cmds["QUIT"] = &Irc::quitCmd;
-	cmds["KICK"] = &Irc::kickCmd;
-	cout << CYAN "Server started (Ctrl+c to quit)" END << endl;
+    cmds["JOIN"] = &Irc::joinCmd;
+    cmds["TOPIC"] = &Irc::topicCmd;
+    cmds["PRIVMSG"] = &Irc::privmsgCmd;
+    cmds["PASS"] = &Irc::passCmd;
+    cmds["PART"] = &Irc::partCmd;
+    cmds["MODE"] = &Irc::modeCmd;
+    cmds["NICK"] = &Irc::nickCmd;
+    cmds["USER"] = &Irc::userCmd;
+    cmds["INVITE"] = &Irc::inviteCmd;
+    cmds["QUIT"] = &Irc::quitCmd;
+    cmds["KICK"] = &Irc::kickCmd;
+    cout << CYAN "Server started (Ctrl+c to quit)" END << endl;
 }
 
 Irc::~Irc(void)
 {
-	for (map<int, Client*>::iterator it = _clients.begin(); it != _clients.end(); it++)
-		deleteClient(it);
-	for (vector<Channel*>::iterator it = _serverChannels.begin(); it != _serverChannels.end(); it++)
-		delete *it;
-	if(epfds)
-		delete epfds;
-	cout << CYAN "Sever terminated" END << endl;
+    for (map<int, Client *>::iterator it = _clients.begin(); it != _clients.end(); it++)
+        deleteClient(it);
+    for (vector<Channel *>::iterator it = _serverChannels.begin(); it != _serverChannels.end(); it++)
+        delete *it;
+    if (epfds)
+        delete epfds;
+    cout << CYAN "Sever terminated" END << endl;
 }
 
 void Irc::setPort(int port)
@@ -36,7 +36,8 @@ void Irc::setPort(int port)
 
 void Irc::setPassword(string password)
 {
-    for (size_t i = 0; i < password.size(); i++) {
+    for (size_t i = 0; i < password.size(); i++)
+    {
         if (iswspace(password[i]))
             throw std::runtime_error("Invalid password! No whitespaces allowed.");
         if (password[i] == ',')
@@ -45,12 +46,14 @@ void Irc::setPassword(string password)
     _serverPassWord = password;
 }
 
-void Irc::saveData(void) const {
+void Irc::saveData(void) const
+{
 
-	// Save Clients
+    // Save Clients
     std::string filename_client = "clients.csv";
     std::ofstream outfile_client(filename_client.c_str(), std::ios::app);
-    if (!outfile_client) {
+    if (!outfile_client)
+    {
         std::cerr << "Error: Unable to open file for writing: " << filename_client << std::endl;
         return;
     }
@@ -58,8 +61,9 @@ void Irc::saveData(void) const {
     // CSV Header
     outfile_client << "fd_cl,nick,authenticated,buffer" << std::endl;
 
-    for (std::map<int, Client*>::const_iterator it = _clients.begin(); it != _clients.end(); ++it) {
-        if (!it->second) 
+    for (std::map<int, Client *>::const_iterator it = _clients.begin(); it != _clients.end(); ++it)
+    {
+        if (!it->second)
             continue; // Ensure pointer is valid
 
         outfile_client << it->first << ","
@@ -73,7 +77,8 @@ void Irc::saveData(void) const {
     // Save Requests
     std::string filename_requests = "requests.csv";
     std::ofstream outFile_requests(filename_requests.c_str(), std::ios::app);
-    if (!outFile_requests) {
+    if (!outFile_requests)
+    {
         std::cerr << "Error: Unable to open file for writing: " << filename_requests << std::endl;
         return;
     }
@@ -81,7 +86,8 @@ void Irc::saveData(void) const {
     // CSV Header
     outFile_requests << "fd_client,string" << std::endl;
 
-    for (std::map<int, std::string>::const_iterator it_r = requests.begin(); it_r != requests.end(); ++it_r) {
+    for (std::map<int, std::string>::const_iterator it_r = requests.begin(); it_r != requests.end(); ++it_r)
+    {
         outFile_requests << it_r->first << ",\"" << it_r->second << "\"" << std::endl;
     }
     outFile_requests.close();
@@ -89,7 +95,8 @@ void Irc::saveData(void) const {
     // Save Server Channels
     std::string filename_serverChannel = "server_channels.csv";
     std::ofstream outFile_serverChannel(filename_serverChannel.c_str(), std::ios::app);
-    if (!outFile_serverChannel) {
+    if (!outFile_serverChannel)
+    {
         std::cerr << "Error: Unable to open file for writing: " << filename_serverChannel << std::endl;
         return;
     }
@@ -97,16 +104,21 @@ void Irc::saveData(void) const {
     // CSV Header
     outFile_serverChannel << "ChannelName,Topic,Mode,MaxUsers,Password" << std::endl;
 
-    for (std::vector<Channel*>::const_iterator it_sc = _serverChannels.begin(); it_sc != _serverChannels.end(); ++it_sc) {
+    for (std::vector<Channel *>::const_iterator it_sc = _serverChannels.begin(); it_sc != _serverChannels.end(); ++it_sc)
+    {
         Channel *channel = *it_sc;
-        if (!channel) continue; // Ensure pointer is valid
+        if (!channel)
+            continue; // Ensure pointer is valid
 
         outFile_serverChannel
-            << channel->getChannelName() << ","
-            << "\"" << channel->getChannelTopic() << "\"," // Wrap in quotes in case of commas
-            << channel->getChannelModes() << ","
-            << channel->getMaxUsersNumber() << ","
-            << "\"" << channel->getChannelPassword() << "\"" // Password might have commas
+            << channel->get_channel_name() << ","
+            << "\"" << channel->get_channel_topic() << "\"," // Wrap in quotes in case of commas
+            << channel->modes().is_invite_only() << ","
+            << channel->modes().is_topic_restricted() << ","
+            << channel->modes().is_password_protected() << ","
+            << channel->modes().is_user_limited() << ","
+            << channel->modes().get_user_limit() << ","
+            << "\"" << channel->modes().get_password() << "\"" // Password might have commas
             << std::endl;
     }
     outFile_serverChannel.close();

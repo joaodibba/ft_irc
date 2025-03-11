@@ -28,7 +28,6 @@ void logger(int type, int data)
 		cout << RED "Reached uncommon place" END << endl;
 }
 
-
 int main(int ac, char **av)
 {
 	if (ac != 3 || !av[1][0] || !av[2][0])

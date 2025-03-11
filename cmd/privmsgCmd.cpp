@@ -1,8 +1,8 @@
 #include "../server/Irc.hpp"
 
-void Irc::sendToUser(Client* sender, const string& recipient, const string& message)
+void Irc::sendToUser(const Client *sender, const string &recipient, const string &message)
 {
-    Client* targetClient = findClient(recipient);
+    Client *targetClient = findClient(recipient);
 
     // ERR_NOSUCHNICK (401) - No such user
     if (!targetClient)
@@ -12,9 +12,9 @@ void Irc::sendToUser(Client* sender, const string& recipient, const string& mess
     sendMsg(targetClient->getSock(), RPL_PRIVMSG(sender->getNick(), sender->getUser(), recipient, message));
 }
 
-void Irc::sendToChannel(Client* sender, const string& channelName, const string& message)
+void Irc::sendToChannel(const Client *sender, const string &channelName, const string &message)
 {
-    Channel* channel = findChannel(channelName);
+    Channel *channel = findChannel(channelName);
 
     // ERR_NOSUCHCHANNEL (401) - Channel does not exist
     if (!channel)
@@ -25,9 +25,8 @@ void Irc::sendToChannel(Client* sender, const string& channelName, const string&
     //     return sendMsg(sender->getSock(), ERR_CANNOTSENDTOCHAN(sender->getNick(), channelName));
 
     // Send message to all clients in the channel (excluding sender)
-    channel->sendAll(RPL_PRIVMSG(sender->getNick(), sender->getUser(), channelName, message));
+    channel->send_message(RPL_PRIVMSG(sender->getNick(), sender->getUser(), channelName, message));
 }
-
 
 /**
  * @brief Handles the PRIVMSG command to send a private message to a user or a channel.
@@ -46,7 +45,7 @@ void Irc::sendToChannel(Client* sender, const string& channelName, const string&
  * ERR_TOOMANYTARGETS (407) if multiple recipients are specified but not supported.
  * ERR_CANNOTSENDTOCHAN (404) if the recipient is a channel and messages cannot be sent. - Example: moderated, restricted
  */
-void Irc::privmsgCmd(istringstream &ss, Client* client)
+void Irc::privmsgCmd(istringstream &ss, Client *client)
 {
     string recipient;
     ss >> recipient;
@@ -58,7 +57,7 @@ void Irc::privmsgCmd(istringstream &ss, Client* client)
     // Extract message (everything after ':')
     string message;
     getline(ss, message);
-    
+
     // Remove leading ':' if present
     if (!message.empty() && message[0] == ' ')
         message.erase(0, 1);
@@ -78,9 +77,12 @@ void Irc::privmsgCmd(istringstream &ss, Client* client)
         return sendMsg(client->getSock(), ERR_NOTOPLEVEL(client->getNick(), recipient));
 
     // Determine if it's a channel or a user
-    if (recipient[0] == '#') {
+    if (recipient[0] == '#')
+    {
         sendToChannel(client, recipient, message);
-    } else {
+    }
+    else
+    {
         sendToUser(client, recipient, message);
     }
 }

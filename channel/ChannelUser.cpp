@@ -1,6 +1,7 @@
-#include "ChannelUser.hpp"
+#include "channeluser.hpp"
 
-ChannelUser::ChannelUser(Client *client) : _client(client) {}
+ChannelUser::ChannelUser(Client *client)
+    : _client(client), _operator(false), _invited(false) {}
 
 ChannelUser::~ChannelUser() {}
 

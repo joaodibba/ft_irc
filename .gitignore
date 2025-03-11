@@ -1,6 +1,7 @@
 .clang-format
-idea/
+.idea/
 objs/
+.vscode/
 file_client.csv
 file_request.csv
 file_ServerChannel.csv

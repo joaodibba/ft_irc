@@ -17,7 +17,29 @@ SRCDIRS		:= channel client cmd epoll server
 OBJSDIR		:= objs
 
 # Find source files
-SRCS		:= $(shell find $(SRCDIRS) -name '*.cpp')
+ SRCS		:= $(shell find $(SRCDIRS) -name '*.cpp')
+#SRCS		:=	channel/ChannelUser.cpp \
+#				channel/ChannelMode.cpp \
+#				channel/Channel.cpp \
+#				client/Client.cpp \
+#				cmd/userCmd.cpp \
+#				cmd/nickCmd.cpp \
+#				cmd/modeCmd.cpp \
+#				cmd/passCmd.cpp \
+#				cmd/joinCmd.cpp \
+#				cmd/quitCmd.cpp \
+#				cmd/privmsgCmd.cpp \
+#				cmd/topicCmd.cpp \
+#				cmd/partCmd.cpp \
+#				cmd/inviteCmd.cpp \
+#				cmd/kickCmd.cpp \
+#				epoll/EpollManager.cpp \
+#				server/serverNetwork.cpp \
+#				server/serverUtils.cpp \
+#				server/Irc.cpp \
+#				server/main.cpp \
+#				server/server.cpp
+
 OBJS		:= $(addprefix $(OBJSDIR)/, $(SRCS:.cpp=.o))
 
 # Executable

@@ -30,7 +30,7 @@
 
 #define BACKLOG 100
 #define MAX_EVENTS 1024
-#define BUFFER_SIZE 1024 
+#define BUFFER_SIZE 1024
 #define MAX_TCP_PORT 65535
 
 using std::cerr;
@@ -95,7 +95,7 @@ private:
 	void setPort(int port);
 
 	// ServerNetwork
-	void initNetwork(void);
+	void initNetwork();
 	void setNonBlocking(int fd);
 	bool isNewClient(int targetFd);
 	void acceptClient(int serverFd);
@@ -116,8 +116,8 @@ private:
 	typedef void (Irc::*CommandPtr)(istringstream &line, Client *client);
 	map<string, CommandPtr> cmds;
 
-	void sendToChannel(Client *sender, const string &channelName, const string &message);
-	void sendToUser(Client *sender, const string &recipient, const string &message);
+	void sendToChannel(const Client *sender, const string &channelName, const string &message);
+	void sendToUser(const Client *sender, const string &recipient, const string &message);
 
 	void privmsgCmd(istringstream &ss, Client *client);
 	void joinCmd(istringstream &ss, Client *client);

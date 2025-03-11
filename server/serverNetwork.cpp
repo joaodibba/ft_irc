@@ -1,6 +1,5 @@
 #include "Irc.hpp"
 
-
 /**
  * @brief Checks if the given file descriptor corresponds to a new client connection.
  * 
@@ -9,7 +8,8 @@
  * @return true If the file descriptor matches the server socket, indicating a new client connection.
  * @return false If the file descriptor does not match the server socket.
  */
-bool Irc::isNewClient(int targetFd){
+bool Irc::isNewClient(int targetFd)
+{
 	return ((targetFd == _serverSock) ? true : false);
 }
 
@@ -23,7 +23,8 @@ bool Irc::isNewClient(int targetFd){
  *
  * @throws std::runtime_error if the operation fails.
  */
-void Irc::setNonBlocking(int fd) {
+void Irc::setNonBlocking(int fd)
+{
 	if (fcntl(fd, F_SETFL, O_NONBLOCK) == -1)
 		throw runtime_error("Failed to set the socket to nonBlocking");
 }
@@ -38,7 +39,8 @@ void Irc::setNonBlocking(int fd) {
  * 
  * @throws std::runtime_error if the connection cannot be accepted.
 */
-void Irc::acceptClient(int serverFd){
+void Irc::acceptClient(int serverFd)
+{
 	int newSock;
 	struct sockaddr_in address;
 	socklen_t addrlen = sizeof(address);
@@ -47,7 +49,7 @@ void Irc::acceptClient(int serverFd){
 		throw runtime_error("Failed to accept connection");
 
 	setNonBlocking(newSock);
-	epfds->addFd(newSock, EPOLLIN | EPOLLERR | EPOLLHUP ); // OBS EPOLLOUT incluido para teste //!FIXME
+	epfds->addFd(newSock, EPOLLIN | EPOLLERR | EPOLLHUP); // OBS EPOLLOUT incluido para teste //!FIXME
 	_clients.insert(make_pair(newSock, (new Client(newSock))));
 	sendMsg(newSock, RPL_WELCOME(string("")));
 	cout << MAGENTA "Opening connection, fd: " << newSock << END << endl;
@@ -70,10 +72,10 @@ void Irc::initNetwork(void)
 	int addrlen = sizeof(address);
 	bzero(&address, addrlen);
 
-	address.sin_family = AF_INET; // indica que o socket e do tipo internet (ipv4)
+	address.sin_family = AF_INET;		  // indica que o socket e do tipo internet (ipv4)
 	address.sin_addr.s_addr = INADDR_ANY; // indica que o socket pode receber pacotes de qualquer endereco
-	address.sin_port = htons(_port); // indica a porta que o socket vai escutar
-	
+	address.sin_port = htons(_port);	  // indica a porta que o socket vai escutar
+
 	_serverSock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP); // cria um socket do tipo TCP'
 	if (_serverSock == -1)
 		throw runtime_error("Failed to create socket");
@@ -85,11 +87,11 @@ void Irc::initNetwork(void)
 	epfds->addFd(_serverSock, EPOLLIN | EPOLLET);
 
 	int enable = 1;
-	setNonBlocking(_serverSock); 
+	setNonBlocking(_serverSock);
 	if (setsockopt(_serverSock, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(enable)) < 0) // configura o socket para reutilizacao de endereco local
 		throw runtime_error("Failed to set setsockopt to SO_REUSEADDR");
 
-	if (bind(_serverSock, (struct sockaddr *)&address, addrlen) < 0) // associa o socket ao endereco e a porta especificadas 	
+	if (bind(_serverSock, (struct sockaddr *)&address, addrlen) < 0) // associa o socket ao endereco e a porta especificadas
 		throw runtime_error("Failed to bind socket to a port");
 	cout << CYAN "Server socket binded to port: " << _port << END << endl;
 
