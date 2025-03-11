@@ -4,7 +4,7 @@ set -euo pipefail
 
 IMAGE_NAME="valgrind_tmp"
 CONTAINER_NAME="valgrind_tmp"
-DEPENDENCIES="g++ valgrind make tree vim netcat"
+DEPENDENCIES="g++ valgrind make tree vim netcat tzdata"
 BASE_IMAGE="ubuntu:20.04"
 WORK_DIR="/tmp/cpp"
 
@@ -16,7 +16,7 @@ if [[ "$(docker images -q $IMAGE_NAME 2> /dev/null)" == "" ]]; then
     docker run --name $CONTAINER_NAME $BASE_IMAGE \
         bash -c "export DEBIAN_FRONTEND=noninteractive && \
         apt-get update && \
-        apt-get install -y $DEPENDENCIES tzdata && \
+        apt-get install -y $DEPENDENCIES && \
         apt-get clean && \
         rm -rf /var/lib/apt/lists/*"
 
