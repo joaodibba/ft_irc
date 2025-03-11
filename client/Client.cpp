@@ -34,6 +34,16 @@ string Client::getBuffer() const
 	return (_buffer);
 }
 
+string Client::getHostName() const
+{
+	return ("localhost");
+}
+
+string Client::getRealName() const
+{
+	return (_realname);
+}
+
 void Client::setBuffer(const string &buffer)
 {
 	_buffer = buffer;
@@ -61,4 +71,9 @@ void Client::setPassWord(const string &pass)
 	if (pass.find(',') != string::npos)
 		throw runtime_error("Password cannot contain ','");
 	_passWord = pass;
+}
+
+void Client::setRealName(const string &realname)
+{
+	_realname = realname;
 }
