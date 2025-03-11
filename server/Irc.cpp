@@ -93,7 +93,7 @@ void Irc::saveData(void) const
     outFile_requests.close();
 
     // Save Server Channels
-    std::string filename_serverChannel = "data/server_channels.csv";
+    std::string filename_serverChannel = "data/channels.csv";
     std::ofstream outFile_serverChannel(filename_serverChannel.c_str(), std::ios::app);
     if (!outFile_serverChannel)
     {
