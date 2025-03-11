@@ -16,6 +16,7 @@
  * - ERR_CHANOPRIVSNEEDED (482) - User is not an operator, but the channel is mode +t (only ops can change the topic).
  */
 
+// TODO Ensure this command follows the RFC https://www.rfc-editor.org/rfc/rfc2812.html#section-3.2.4
 void Irc::topicCmd(istringstream &ss, Client *client)
 {
     string channelName;

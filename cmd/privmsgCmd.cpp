@@ -45,6 +45,8 @@ void Irc::sendToChannel(const Client *sender, const string &channelName, const s
  * ERR_TOOMANYTARGETS (407) if multiple recipients are specified but not supported.
  * ERR_CANNOTSENDTOCHAN (404) if the recipient is a channel and messages cannot be sent. - Example: moderated, restricted
  */
+
+// TODO Ensure this command follows the RFC https://www.rfc-editor.org/rfc/rfc2812.html#section-3.3.1
 void Irc::privmsgCmd(istringstream &ss, Client *client)
 {
     string recipient;

@@ -1,5 +1,6 @@
 #include "../server/Irc.hpp"
 
+// TODO Ensure this command follows the RFC https://www.rfc-editor.org/rfc/rfc2812.html#section-3.2.7
 void Irc::inviteCmd(istringstream &ss, Client *client)
 {
 	// ss >> targetNick / channelName

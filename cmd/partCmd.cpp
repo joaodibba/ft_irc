@@ -12,6 +12,8 @@
  * ERR_NOTONCHANNEL if the client is not in the channel
  * ERR_NOSUCHCHANNEL if the channel does not exist
 */
+
+// TODO Ensure this command follows the RFC https://www.rfc-editor.org/rfc/rfc2812.html#section-3.2.2
 void Irc::partCmd(istringstream &ss, Client *client)
 {
     string channelName;

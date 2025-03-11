@@ -1,5 +1,6 @@
 #include "../server/Irc.hpp"
 
+// TODO Ensure this command follows the RFC https://www.rfc-editor.org/rfc/rfc2812.html#section-3.1.3
 void Irc::userCmd(istringstream &ss, Client *client)
 {
 	int length = ssLength(ss);

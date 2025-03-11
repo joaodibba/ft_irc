@@ -18,6 +18,7 @@
  * - RPL_CHANNELMODEIS (324) - Displays the current channel modes.
  */
 
+// TODO Ensure this command follows the RFC https://www.rfc-editor.org/rfc/rfc2812.html#section-3.2.3
 void Irc::modeCmd(istringstream &ss, Client *client)
 {
     string channelName, modes, param;

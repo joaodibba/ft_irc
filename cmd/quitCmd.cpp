@@ -18,6 +18,7 @@ void Irc::leaveAllChannels(Client *ptr)
 	}
 }
 
+// TODO Ensure this command follows the RFC https://www.rfc-editor.org/rfc/rfc2812.html#section-3.1.7
 void Irc::quitCmd(istringstream &ss, Client *client)
 {
 	(void)ss;

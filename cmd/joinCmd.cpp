@@ -16,6 +16,7 @@ static bool verifyChannelmodes(Channel *tarChannel, Client *client, istringstrea
 	return 0;
 }
 
+// TODO Ensure this command follows the RFC https://www.rfc-editor.org/rfc/rfc2812.html#section-3.2.1
 void Irc::joinCmd(istringstream &ss, Client *client)
 {
 	string msg;
