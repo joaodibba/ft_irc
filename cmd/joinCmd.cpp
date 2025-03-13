@@ -19,59 +19,39 @@ static bool verifyChannelmodes(Channel *tarChannel, Client *client, istringstrea
 // TODO Ensure this command follows the RFC https://www.rfc-editor.org/rfc/rfc2812.html#section-3.2.1
 void Irc::joinCmd(istringstream &ss, Client *client)
 {
-	string msg;
-	string channelName;
-	if (!(ss >> channelName))
-		return sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), "JOIN"));
+    string channelList;
+    if (!(ss >> channelList))
+        return sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), "JOIN"));
 
-	if (channelName.empty() || channelName[0] != '#')
-		return sendMsg(client->getSock(), ERR_NOSUCHCHANNEL(client->getNick(), channelName));
+    istringstream listStream(channelList);
+    string channelName;
 
-	Channel *tarChannel;
-	std::cout << "Channel name: " << channelName << std::endl;	
+    while (getline(listStream, channelName, ','))
+    {
+        if (channelName.empty() || channelName[0] != '#')
+            return sendMsg(client->getSock(), ERR_NOSUCHCHANNEL(client->getNick(), channelName));
 
+        Channel *channel = findChannel(channelName);
 
-	if (channelName.find(",") != string::npos)
-	{
-		std::cout << "caso com , " << std::endl;
-		istringstream ss(channelName);
-		string channel;
-		while (getline(ss, channel, ','))
-		{
-			if (channel.empty() || channel[0] != '#')
-				return sendMsg(client->getSock(), ERR_NOSUCHCHANNEL(client->getNick(), channel));
-			if ((tarChannel = findChannel(channel)))
-			{
-				if (tarChannel->is_member(client))
-					sendMsg(client->getSock(), "Already in this channel\n\r");
-				if (!verifyChannelmodes(tarChannel, client, ss))
-				{
-					tarChannel->add_client(client);
-					cout << "Send to client fd: " << client->getSock() << endl;
-					tarChannel->send_message(RPL_JOIN(client->getNick(), client->getUser(), channel, client->getRealName()));
-				}
-				continue;
-			}
-			tarChannel = createChannel(channel);
-			tarChannel->add_client(client);
-			tarChannel->set_operator(client, true);
-			cout << "Send to client fd: " << client->getSock() << endl;
-			tarChannel->send_message(RPL_JOIN(client->getNick(), client->getUser(), channel, client->getRealName()));
-		}
-		return;
-	}
+        if (channel && channel->is_member(client))
+        {
+            sendMsg(client->getSock(), ERR_USERONCHANNEL(client->getNick(), client->getNick(), channelName));
+            continue;
+        }
 
-	std::cout << "caso sem ," << std::endl;
-	if ((tarChannel = findChannel(channelName))){
-		if (!tarChannel->add_client(client))
-    		return ;
-	}
-	else{
-		tarChannel = createChannel(channelName);
-		tarChannel->add_client(client);
-		tarChannel->set_operator(client, true);
-	}
+        if (!channel)
+        {
+            channel = createChannel(channelName);
+            channel->set_operator(client, true);
+        }
 
-	cout << "Send to client fd: " << client->getSock() << endl;
-	tarChannel->send_message(RPL_JOIN(client->getNick(), client->getUser(), channelName, client->getRealName()));
+        if (verifyChannelmodes(channel, client, ss))
+            continue;
+
+        if (channel->add_client(client))
+        {
+            cout << "Send to client fd: " << client->getSock() << endl;
+            channel->send_message(RPL_JOIN(client->getNick(), client->getUser(), channelName, client->getRealName()));
+        }
+    }
 }
