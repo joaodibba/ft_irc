@@ -37,6 +37,7 @@ void Irc::kickCmd(istringstream &ss, Client *client)
 	if (channel->size() == 0)
 	{
 		_serverChannels.erase(find(_serverChannels.begin(), _serverChannels.end(), channel));
+		// TODO: revoke invite if channel is invite only
 		delete channel;
 	}
 }
