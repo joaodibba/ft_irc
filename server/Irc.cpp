@@ -51,7 +51,7 @@ void Irc::saveData(void) const
 
     // Save Clients
     std::string filename_client = "data/clients.csv";
-    std::ofstream outfile_client(filename_client.c_str(), std::ios::app);
+    std::ofstream outfile_client(filename_client.c_str());
     if (!outfile_client)
     {
         std::cerr << "Error: Unable to open file for writing: " << filename_client << std::endl;
@@ -76,7 +76,7 @@ void Irc::saveData(void) const
 
     // Save Requests
     std::string filename_requests = "data/requests.csv";
-    std::ofstream outFile_requests(filename_requests.c_str(), std::ios::app);
+    std::ofstream outFile_requests(filename_requests.c_str());
     if (!outFile_requests)
     {
         std::cerr << "Error: Unable to open file for writing: " << filename_requests << std::endl;
@@ -104,7 +104,11 @@ void Irc::saveData(void) const
     // CSV Header
     outFile_serverChannel << "ChannelName,Topic, InviteOnly, TopicRestricted, PasswordProtected, UserLimited, UserLimit, Password" << std::endl;
 
-    for (std::vector<Channel *>::const_iterator it_sc = _serverChannels.begin(); it_sc != _serverChannels.end(); ++it_sc)
+    cout << "Info about server channels: " << _serverChannels.size() << endl; // _serverChannels.size()
+
+    std::vector<Channel *>::const_iterator it_sc = _serverChannels.begin();
+
+    for (; it_sc != _serverChannels.end(); ++it_sc)
     {
         Channel *channel = *it_sc;
         if (!channel)
