@@ -13,6 +13,7 @@ Irc::Irc(void)
     cmds["INVITE"] = &Irc::inviteCmd;
     cmds["QUIT"] = &Irc::quitCmd;
     cmds["KICK"] = &Irc::kickCmd;
+    cmds["INFO_CHANNEL"] = &Irc::infoChannel;
     cout << CYAN "Server started (Ctrl+c to quit)" END << endl;
 }
 

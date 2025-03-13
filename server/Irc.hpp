@@ -121,4 +121,7 @@ private:
 	void inviteCmd(istringstream &ss, Client *client);
 	void quitCmd(istringstream &ss, Client *client);
 	void kickCmd(istringstream &ss, Client *client);
+
+	//Command to list informations about the channel
+	void infoChannel(istringstream &ss, Client *client);
 };

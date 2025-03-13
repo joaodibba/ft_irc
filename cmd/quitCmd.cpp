@@ -1,15 +1,16 @@
 #include "../server/Irc.hpp"
 
-void Irc::leaveAllChannels(Client *ptr)
+void Irc::leaveAllChannels(Client *client)
 {
 	for (vector<Channel *>::iterator it = _serverChannels.begin(); it != _serverChannels.end(); it++)
 	{
-		if (((*it)->is_member(ptr)))
+		if (((*it)->is_member(client)))
 		{
-			(*it)->send_private_message(ptr, RPL_PART(ptr->getNick(), ptr->getUser(), (*it)->get_channel_name(), "Leaving"));
-			(*it)->remove_client(ptr);
+			(*it)->send_private_message(client, RPL_PART(client->getNick(), client->getUser(), (*it)->get_channel_name(), "Leaving"));
+			(*it)->remove_client(client);
 			if ((*it)->size() == 0)
 			{
+				//TODO: if client last on the channel, give operator role to another user?
 				delete *it;
 				it = _serverChannels.erase(it);
 				it--;

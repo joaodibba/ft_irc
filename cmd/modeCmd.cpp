@@ -72,6 +72,7 @@ void Irc::modeCmd(istringstream &ss, Client *client)
 				return channel->send_message(RPL_CHANNELMODEIS(client->getNick(), channelName, modes));
 			case 'l': // User limit
 				channel->modes().set_user_limit(adding);
+				//
 				return channel->send_message(RPL_CHANNELMODEIS(client->getNick(), channelName, modes));
 			default:
 				return sendMsg(client->getSock(), ERR_UNKNOWNMODE(client->getNick(), string(1, mode)));
