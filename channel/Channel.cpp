@@ -180,3 +180,16 @@ void Channel::send_message(const string &message)
 map<int, ChannelUser *> Channel::getUsers(){
     return this->_users;
 }
+
+void Channel::leave_channel(Client* client){
+    if (client && is_member(client))
+        remove_client(client);
+
+    std::map<int, ChannelUser *>::iterator it = _users.begin();
+    for (; it != _users.end(); it++){
+        if((*it).second->is_operator())
+            return ;
+    }
+    if (_users.begin()->second)
+        _users.begin()->second->set_operator(true);
+}

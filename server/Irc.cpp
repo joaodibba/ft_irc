@@ -20,7 +20,7 @@ Irc::Irc(void)
 Irc::~Irc(void)
 {
     for (map<int, Client *>::iterator it = _clients.begin(); it != _clients.end(); it++)
-        deleteClient(it);
+        deleteClient((*it).second);
     for (vector<Channel *>::iterator it = _serverChannels.begin(); it != _serverChannels.end(); it++)
         delete *it;
     if (epfds)

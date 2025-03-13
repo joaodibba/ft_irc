@@ -53,4 +53,6 @@ public:
     void send_message(const string &message);
 
     map<int, ChannelUser *> getUsers();
+
+    void leave_channel(Client *client);
 };
