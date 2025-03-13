@@ -109,6 +109,8 @@ void Irc::saveData(void) const
 
     std::vector<Channel *>::const_iterator it_sc = _serverChannels.begin();
 
+    std::cout << "Channels size: " << _serverChannels.size() << std::endl;
+
     for (; it_sc != _serverChannels.end(); ++it_sc)
     {
         Channel *channel = *it_sc;

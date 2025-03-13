@@ -9,3 +9,5 @@ data/channels.csv
 data/clients.csv
 data/requests.csv
 ircserv
+__pycache__/
+*.pyc
