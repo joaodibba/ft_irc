@@ -7,9 +7,11 @@ sleep 1
 	sleep 1
     echo "NICK KIKA" >&3
 	sleep 1
-	echo "USER 0 * :realname KIKA" >&3
+	echo "USER KIKA 0 * :KIKA" >&3
 	sleep 1
-    echo "JOIN #TRAUMA" >&3
+    echo "JOIN #TRAUMA" >&3	
+	sleep 1
+	ecoh "PRIVMSG #TRAUMA :cuidado pessoal"  >&3
 	
 # Ler saída do servidor em background
 cat <&3 &

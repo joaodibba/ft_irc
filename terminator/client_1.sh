@@ -7,10 +7,15 @@ echo "PASS RPR" >&3
 sleep 1
 echo "NICK RPR" >&3
 sleep 1
-echo "USER 0 * :realname RPR" >&3
+echo "USER RPR 0 * :RPR" >&3
 sleep 1
 echo "JOIN #NS" >&3
-echo OLA >&3
+sleep 1
+
+echo "MODE #NS -i" >&3
+echo "MODE #NS -t" >&3
+echo "MODE #NS +l 2" >&3
+echo "PRIVMSG #NS :OLA NEUROSEMANTICISTAS" >&3
 
 # Ler saída do servidor em background
 cat <&3 &

@@ -1,12 +1,18 @@
 [global_config]
+  dbus = False
   handle_size = 8
+  geometry_hinting = True
   enabled_plugins = MavenPluginURLHandler, CurrDirOpen, Logger, LaunchpadBugURLHandler, LaunchpadCodeURLHandler, APTURLHandler
+  suppress_multiple_term_dialog = True
+  always_split_with_profile = True
 [keybindings]
 [profiles]
   [[default]]
     background_darkness = 0.81
     cursor_color = "#aaaaaa"
     font = MesloLGS NF 10
+    scroll_on_output = True
+    scrollback_infinite = True
     login_shell = True
     use_system_font = False
 [layouts]
@@ -67,7 +73,7 @@
       profile = default
       title = clients
       uuid = 0018e0ae-d9db-464d-9ca1-905f35dccc1b
-      command = tail -f file_client.txt
+      command = tail -f data/clients.csv
     [[[terminal8]]]
       type = Terminal
       parent = child6
@@ -75,7 +81,7 @@
       profile = default
       title = channels
       uuid = 6f9141a5-b59b-4ebb-ac16-e1d79cc49959
-      command = tail -f file_ServerChannel.txt
+      command = tail -f data/channels.csv
     [[[terminal9]]]
       type = Terminal
       parent = child5
@@ -83,7 +89,7 @@
       profile = default
       title = fd
       uuid = 777c03d6-d383-407f-9399-d61b862d0388
-      command = terminator/monitor_fd.sh
+      command = tail -f data/requests.csv
     [[[child10]]]
       type = VPaned
       parent = child4
@@ -97,7 +103,7 @@
       profile = default
       title = monitor
       uuid = 5684ca63-8f62-48ca-b485-b18cfeb83e07
-      command = terminator/monitor_irc.sh
+      command = tail -f data/channel_users.csv
     [[[terminal12]]]
       type = Terminal
       parent = child10

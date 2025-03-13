@@ -1,5 +1,5 @@
-#include "channel.hpp"
-#include "channeluser.hpp"
+#include "Channel.hpp"
+#include "ChannelUser.hpp"
 
 Channel::Channel(const string &name) : _channelName(name) {}
 
@@ -139,7 +139,6 @@ size_t Channel::size() const
 
 void Channel::send_private_message(Client *sender, const string &message)
 {
-
     std::map<int, ChannelUser *>::iterator it = _users.begin();
     for (; it != _users.end(); ++it)
     {

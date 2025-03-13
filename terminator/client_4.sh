@@ -6,10 +6,14 @@ sleep 1
 	sleep 1
     echo "NICK GIO" >&3
 	sleep 1
-	echo "USER 0 * :realname GIO" >&3
+	echo "USER GIO 0 * :GIO" >&3
 	sleep 1
     echo "JOIN #PNL" >&3
-
+	sleep 1
+	echo "PRIVMSG #PNL :LEMBREM-SE DE QUE O MAPA NAO É O TERRITORIO" >&3
+	echo "JOIN #NS" >&3
+	echo "PRIVMSG #NS :E AI PAI, TUDO BEM?" >&3
+	echo "PRIVMSG #PNL :LEMBREM-SE DE QUE O MAPA NAO É O TERRITORIO" >&3
 # Ler saída do servidor em background
 cat <&3 &
 
