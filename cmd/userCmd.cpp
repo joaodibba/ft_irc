@@ -23,7 +23,7 @@ void Irc::userCmd(istringstream &ss, Client *client)
 		return sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), "USER"));
 	if (client->getNick().empty())
 		return sendMsg(client->getSock(), NOTICE_MSG("Empty nick, please set a nick first"));
-	if (client->getAuthenticated())
+	if (client->getAuthState() >= USER_AUTH)
 		return sendMsg(client->getSock(), ERR_ALREADYREGISTRED(client->getNick()));
 	// ss >> user; // FIXME
 
@@ -56,7 +56,7 @@ void Irc::userCmd(istringstream &ss, Client *client)
 
 	client->setUser(user);
 	client->setRealName(realname);
-	client->setAuthenticated(true);
+	client->setAuthState(USER_AUTH);
 	//sendMsg(client->getSock(), NOTICE_MSG("\x03" "Welcome to the server!"));
 	sendMsg(client->getSock(), RPL_WELCOME(client->getNick()));
 }

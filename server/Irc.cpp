@@ -59,7 +59,7 @@ void Irc::saveData(void) const
     }
 
     // CSV Header
-    outfile_client << "fd_cl,nick,authenticated,buffer" << std::endl;
+    outfile_client << "fd_cl,nick,auth_state,authenticated,buffer" << std::endl;
 
     for (std::map<int, Client *>::const_iterator it = _clients.begin(); it != _clients.end(); ++it)
     {
@@ -68,6 +68,7 @@ void Irc::saveData(void) const
 
         outfile_client << it->first << ","
                        << it->second->getNick() << ","
+                       << it->second->getAuthState() << ","
                        << it->second->getAuthenticated() << ","
                        << "\"" << it->second->getBuffer() << "\"" // Wrap in quotes in case of commas
                        << std::endl;

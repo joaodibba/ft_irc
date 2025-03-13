@@ -1,6 +1,6 @@
 #include "Client.hpp"
 
-Client::Client(const int connectionSock) : _connectionSock(connectionSock), _authenticated(false) {}
+Client::Client(const int connectionSock) : _connectionSock(connectionSock), _authState(NO_AUTH), _authenticated(false) {}
 
 Client::~Client() {}
 
@@ -72,4 +72,17 @@ void Client::setPassWord(const string &pass)
 void Client::setRealName(const string &realname)
 {
 	_realname = realname;
+}
+
+authState Client::getAuthState() const
+{
+	return (_authState);
+}
+
+void Client::setAuthState(const authState state)
+{
+	_authState = state;
+	// separating user and pass auth allows for more flexibility in the future if needed
+	if (state == AUTHENTICATED || state == USER_AUTH)
+		_authenticated = true; // setting authenticated to true to ease the process with get authenticated
 }

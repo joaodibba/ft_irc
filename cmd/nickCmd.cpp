@@ -51,11 +51,13 @@ void Irc::nickCmd(istringstream &ss, Client *client)
 	string			newNick;
 	Channel			*channel = NULL;
 
-	if (client->getPassWord().empty())
+	if (client->getAuthState() < PASS_AUTH)
 		return (sendMsg(client->getSock(),
-				NOTICE_MSG("Error: A password is required to access this server. Please use the PASS command before continuing.")));
+				NOTICE_MSG("Error: You must provide a password before setting a nickname. Use the PASS command to register.")));
 	if (ssLength(ss) < 1 || !(ss >> newNick))
 		return (sendMsg(client->getSock(), ERR_NONICKNAMEGIVEN("*")));
+	if (newNick == client->getNick())
+		return; // no change
 	if (!is_valid_nick(newNick))
 		return (sendMsg(client->getSock(), ERR_ERRONEUSNICKNAME("*", newNick)));
 	if (findClient(newNick))

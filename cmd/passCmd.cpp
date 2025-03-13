@@ -7,14 +7,14 @@ void Irc::passCmd(istringstream &ss, Client *client)
 
 	if (!(ss >> str))
 		return sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), "PASS"));
-	if (client->getAuthenticated())
+	if (client->getAuthState() >= PASS_AUTH)
 		return sendMsg(client->getSock(), ERR_ALREADYREGISTRED(client->getNick()));
 	if (str != _serverPassWord)
 	{
 		sendMsg(client->getSock(), ERR_PASSWDMISMATCH(client->getNick()));
-		// client should notice that is disconnected ? yes
+		// FIXME client should notice that is disconnected ? yes
 		return quitCmd(ss, client);
 	}
-	// this might trow exception
 	client->setPassWord(str);
+	client->setAuthState(PASS_AUTH);
 }

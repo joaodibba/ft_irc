@@ -6,6 +6,7 @@ class Client
 {
 private:
 	int _connectionSock; // socket file descriptor that represents the client connection and the client's unique identifier
+	authState _authState;
 	bool _authenticated;
 
 	string _nick;
@@ -20,13 +21,14 @@ public:
 
 	int getSock() const;
 	bool getAuthenticated() const;
-
+	
 	string getBuffer() const;
 	string getNick() const;
 	string getUser() const;
 	string getPassWord() const;
 	string getHostName() const;
 	string getRealName() const;
+	authState getAuthState() const;
 
 	void setAuthenticated(bool auth);
 	void setNick(const string &name);
@@ -34,4 +36,5 @@ public:
 	void setPassWord(const string &pass);
 	void setBuffer(const string &buffer);
 	void setRealName(const string &realname);
+	void setAuthState(authState state);
 };
