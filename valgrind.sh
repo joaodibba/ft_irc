@@ -4,8 +4,7 @@ set -euo pipefail
 
 IMAGE_NAME="valgrind_tmp"
 CONTAINER_NAME="valgrind_tmp"
-DEPENDENCIES="g++ valgrind make tree vim netcat tzdata"
-BASE_IMAGE="ubuntu:20.04"
+DEPENDENCIES="g++ valgrind make tree vim netcat tzdata python3 python3-pip"
 WORK_DIR="/tmp/cpp"
 
 if [[ "$(docker images -q $IMAGE_NAME 2> /dev/null)" == "" ]]; then
