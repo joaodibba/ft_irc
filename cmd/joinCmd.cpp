@@ -16,7 +16,34 @@ static bool verifyChannelmodes(Channel *tarChannel, Client *client, istringstrea
 	return 0;
 }
 
-// TODO Ensure this command follows the RFC https://www.rfc-editor.org/rfc/rfc2812.html#section-3.2.1
+
+/**
+ * @brief Handles the JOIN command
+ *
+ * Syntax:
+ * - JOIN <channel>{,<channel>}
+ *   (Note: This implementation currently supports only <channel>{,<channel>})
+ *
+ * Allows a client to join one or more channels. If the channel does not exist,
+ * it is created and the client becomes the channel operator. If the client is
+ * already in the channel, an error is returned. The function also checks channel
+ * modes (e.g., invite-only, key-protected, full, etc.) before adding the client.
+ *
+ * @param ss Input string stream containing the command arguments.
+ * @param client The client issuing the JOIN command.
+ *
+ * Numeric Replies:
+ * - ERR_NEEDMOREPARAMS (461) - Missing parameters.
+ * - ERR_NOSUCHCHANNEL (403) - The specified channel name is invalid.
+ * - ERR_USERONCHANNEL (443) - The client is already in the channel.
+ * - ERR_INVITEONLYCHAN (473) - The channel is invite-only (checked in verifyChannelmodes).
+ * - ERR_CHANNELISFULL (471) - The channel is full (checked in verifyChannelmodes).
+ * - ERR_BADCHANNELKEY (475) - The provided key is incorrect (checked in verifyChannelmodes).
+ * - ERR_BANNEDFROMCHAN (474) - The client is banned from the channel (checked in verifyChannelmodes).
+ * 
+ * @see  https://www.rfc-editor.org/rfc/rfc2812.html#section-3.2.1
+ * 
+ */
 void Irc::joinCmd(istringstream &ss, Client *client)
 {
     string channelList;
@@ -45,6 +72,10 @@ void Irc::joinCmd(istringstream &ss, Client *client)
             channel->set_operator(client, true);
         }
 
+		//TODO: verify protected channel 475
+		//TODO: invite-only 473
+		//TODO: channel is full? 471
+		//TODO: KICK command cases (invite revoked if kicked, ...)
         if (verifyChannelmodes(channel, client, ss))
             continue;
 
