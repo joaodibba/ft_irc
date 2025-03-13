@@ -1,4 +1,4 @@
-#include "channeluser.hpp"
+#include "ChannelUser.hpp"
 
 ChannelUser::ChannelUser(Client *client)
     : _client(client), _operator(false), _invited(false) {}

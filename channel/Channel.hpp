@@ -1,6 +1,6 @@
 #pragma once
 
-#include "channelmode.hpp"
+#include "ChannelMode.hpp"
 #include "../client/Client.hpp"
 #include "../server/Irc.hpp"
 

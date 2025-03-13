@@ -1,0 +1,794 @@
+fd_client,string
+fd_client,string
+fd_client,string
+fd_client,string
+fd_client,string
+5,"CAP LS 302
+PASS pass
+NICK helferna
+USER helferna 0 * :realname
+"
+fd_client,string
+fd_client,string
+5,"JOIN wd
+"
+fd_client,string
+fd_client,string
+5,"JOIN wda
+"
+fd_client,string
+fd_client,string
+5,"JOIN #wda
+"
+fd_client,string
+fd_client,string
+5,"JOIN #wdaw
+"
+fd_client,string
+fd_client,string
+5,"JOIN #awdawdwd
+"
+fd_client,string
+fd_client,string
+fd_client,string
+5,"CAP LS 302
+PASS pass
+NICK helferna
+USER helferna 0 * :realname
+"
+fd_client,string
+fd_client,string
+5,"info
+"
+fd_client,string
+fd_client,string
+5,"INFO
+"
+fd_client,string
+fd_client,string
+fd_client,string
+5,"CAP LS 302
+PASS pass
+NICK helferna
+USER helferna 0 * :realname
+"
+fd_client,string
+fd_client,string
+5,"JOIN a
+"
+fd_client,string
+fd_client,string
+5,"JOIN #awd
+"
+fd_client,string
+fd_client,string
+5,"JOIN #awd
+"
+fd_client,string
+fd_client,string
+5,"JOIN #awd
+"
+fd_client,string
+fd_client,string
+5,"JOIN #awd
+"
+fd_client,string
+fd_client,string
+5,"JOIN #awd
+"
+fd_client,string
+fd_client,string
+5,"JOIN #awd
+"
+fd_client,string
+fd_client,string
+5,"JOIN #aww
+"
+fd_client,string
+fd_client,string
+5,"JOIN #aw
+"
+fd_client,string
+fd_client,string
+5,"JOIN #ba
+"
+fd_client,string
+fd_client,string
+5,"JOIN ba
+"
+fd_client,string
+fd_client,string
+5,"JOIN #ba
+"
+fd_client,string
+fd_client,string
+fd_client,string
+6,"PASS pass
+"
+fd_client,string
+fd_client,string
+6,"NICK derinho1
+"
+fd_client,string
+fd_client,string
+6,"USER derinho1 * 0 a
+"
+fd_client,string
+fd_client,string
+6,"JOIN ba
+"
+fd_client,string
+fd_client,string
+6,"JOIN #ba
+"
+fd_client,string
+fd_client,string
+6,"wda
+"
+fd_client,string
+fd_client,string
+6,"daw
+"
+fd_client,string
+fd_client,string
+6,"sdaw
+"
+fd_client,string
+fd_client,string
+5,"dwa
+"
+fd_client,string
+fd_client,string
+5,"awd
+"
+fd_client,string
+fd_client,string
+5,"info
+"
+fd_client,string
+fd_client,string
+5,"INFO
+"
+fd_client,string
+fd_client,string
+6,"PRIVMSG helferna hello
+"
+fd_client,string
+fd_client,string
+5,"PRIVMSG derinho1 :ola
+"
+fd_client,string
+fd_client,string
+5,"PRIVMSG derinho1 :dwa
+"
+fd_client,string
+fd_client,string
+5,"PRIVMSG derinho1 :dwa
+"
+fd_client,string
+fd_client,string
+5,"PRIVMSG derinho1 :awd
+"
+fd_client,string
+fd_client,string
+5,"PRIVMSG derinho1 :dsaw
+"
+fd_client,string
+fd_client,string
+5,"PRIVMSG derinho1 :ds
+"
+fd_client,string
+fd_client,string
+5,"PRIVMSG derinho1 :aw
+"
+fd_client,string
+fd_client,string
+6,"awd
+"
+fd_client,string
+fd_client,string
+6,"/PRIVMSG helferna awdawdwd
+"
+fd_client,string
+fd_client,string
+6,"PRIVMSG helferna awdawdwd
+"
+fd_client,string
+fd_client,string
+5,"QUIT :Leaving
+"
+fd_client,string
+fd_client,string
+6,"PRIVMSG helferna awdawd
+"
+fd_client,string
+fd_client,string
+fd_client,string
+fd_client,string
+fd_client,string
+fd_client,string
+5,"CAP LS 302
+PASS pass
+"
+fd_client,string
+fd_client,string
+5,"NICK helferna
+USER helferna 0 * :realname
+"
+fd_client,string
+fd_client,string
+5,"NICK derinho
+"
+fd_client,string
+fd_client,string
+5,"user derinho
+"
+fd_client,string
+fd_client,string
+5,"USER derinho
+"
+fd_client,string
+fd_client,string
+5,"USER derinho * 0 a
+"
+fd_client,string
+fd_client,string
+fd_client,string
+5,"CAP LS 302
+PASS pass
+NICK helferna
+USER helferna 0 * :realname
+"
+fd_client,string
+fd_client,string
+5,"JOIN #a
+"
+fd_client,string
+fd_client,string
+5,"PRIVMSG #a d
+"
+fd_client,string
+fd_client,string
+5,"JOIN #aw
+"
+fd_client,string
+fd_client,string
+fd_client,string
+6,"PASS pass
+"
+fd_client,string
+fd_client,string
+6,"MICK derinho
+"
+fd_client,string
+fd_client,string
+6,"NICK derinho
+"
+fd_client,string
+fd_client,string
+6,"USER derinho * 0 aw
+"
+fd_client,string
+fd_client,string
+6,"JOIN #aw
+"
+fd_client,string
+fd_client,string
+6,"PRIVMSG #aw ola
+"
+fd_client,string
+fd_client,string
+fd_client,string
+fd_client,string
+6,"PASS pass
+"
+fd_client,string
+fd_client,string
+6,"NICK derinho
+"
+fd_client,string
+fd_client,string
+6,"USER derinho * 0 ola
+"
+fd_client,string
+fd_client,string
+5,"CAP LS 302
+PASS pass
+NICK helferna
+USER helferna 0 * :realname
+"
+fd_client,string
+fd_client,string
+fd_client,string
+6,"PASS pass
+"
+fd_client,string
+fd_client,string
+6,"NICK derinho
+"
+fd_client,string
+fd_client,string
+6,"USER derinho * 0 ola
+"
+fd_client,string
+fd_client,string
+fd_client,string
+fd_client,string
+6,"PASS pass
+"
+fd_client,string
+fd_client,string
+6,"NICK derinho
+"
+fd_client,string
+fd_client,string
+6,"USER derinho * 0 ola
+"
+fd_client,string
+fd_client,string
+fd_client,string
+fd_client,string
+6,"PASS pass
+"
+fd_client,string
+fd_client,string
+6,"NICK derinho
+"
+fd_client,string
+fd_client,string
+6,"USER derinho * 0 ola
+"
+fd_client,string
+fd_client,string
+6,"/PRIVMSG helferna
+"
+fd_client,string
+fd_client,string
+6,"PRIVMSG helferna ola
+"
+fd_client,string
+fd_client,string
+5,"PRIVMSG derinho :ola
+"
+fd_client,string
+fd_client,string
+fd_client,string
+7,"PASS pass
+"
+fd_client,string
+fd_client,string
+7,"USER derinho
+"
+fd_client,string
+fd_client,string
+7,"NICK derinho
+"
+fd_client,string
+fd_client,string
+7,"NICK testA
+"
+fd_client,string
+fd_client,string
+7,"USER testA * 0 ola
+"
+fd_client,string
+fd_client,string
+5,"PRIVMSG derinho :wdaw
+"
+fd_client,string
+fd_client,string
+6,"JOIN #aa
+"
+fd_client,string
+fd_client,string
+7,"JOIN #aa
+"
+fd_client,string
+fd_client,string
+6,"PRIVMSG #aa ola putos
+"
+fd_client,string
+fd_client,string
+5,"JOIN #aa
+"
+fd_client,string
+fd_client,string
+5,"PRIVMSG #aa ola putos
+"
+fd_client,string
+fd_client,string
+7,"dwa
+"
+fd_client,string
+fd_client,string
+5,"JOIN awd
+"
+fd_client,string
+fd_client,string
+5,"JOIN #awd
+"
+fd_client,string
+fd_client,string
+5,"NICK derinho
+"
+fd_client,string
+fd_client,string
+5,"NICK a
+"
+fd_client,string
+fd_client,string
+5,"NICK derinho2
+"
+fd_client,string
+fd_client,string
+5,"JOIN #aa
+"
+fd_client,string
+fd_client,string
+fd_client,string
+5,"CAP LS 302
+PASS pass
+NICK helferna
+USER helferna 0 * :realname
+"
+fd_client,string
+fd_client,string
+5,"JOIN #aa
+"
+fd_client,string
+fd_client,string
+5,"JOIN #aa
+"
+fd_client,string
+fd_client,string
+5,"JOIN #ab
+"
+fd_client,string
+fd_client,string
+5,"JOIN #aa
+"
+fd_client,string
+fd_client,string
+5,"JOIN #ab
+"
+fd_client,string
+fd_client,string
+5,"QUIT :Leaving
+"
+fd_client,string
+fd_client,string
+fd_client,string
+5,"CAP LS 302
+PASS pass
+NICK *
+USER helferna 0 * :realname
+"
+fd_client,string
+fd_client,string
+5,"NICK a
+"
+fd_client,string
+fd_client,string
+5,"JOIN aa
+"
+fd_client,string
+fd_client,string
+5,"JOIN #aa
+"
+fd_client,string
+fd_client,string
+5,"USER helferna * 0 aa
+"
+fd_client,string
+fd_client,string
+5,"JOIN aa
+"
+fd_client,string
+fd_client,string
+5,"JOIN #aa
+"
+fd_client,string
+fd_client,string
+5,"JOIN #aa
+"
+fd_client,string
+fd_client,string
+fd_client,string
+5,"CAP LS 302
+PASS pass
+NICK helferna
+USER helferna 0 * :realname
+"
+fd_client,string
+fd_client,string
+5,"CAP LS 302
+PASS pass
+NICK helferna
+USER helferna 0 * :realname
+awd
+"
+fd_client,string
+fd_client,string
+5,"CAP LS 302
+PASS pass
+NICK helferna
+USER helferna 0 * :realname
+awd
+NICK a
+"
+fd_client,string
+fd_client,string
+5,"CAP LS 302
+PASS pass
+NICK helferna
+USER helferna 0 * :realname
+awd
+NICK a
+NICK a
+"
+fd_client,string
+fd_client,string
+5,"CAP LS 302
+PASS pass
+NICK helferna
+USER helferna 0 * :realname
+awd
+NICK a
+NICK a
+awd
+"
+fd_client,string
+fd_client,string
+fd_client,string
+6,"PASS pass
+"
+fd_client,string
+fd_client,string
+6,"PASS pass
+NICK derinho
+"
+fd_client,string
+fd_client,string
+6,"PASS pass
+NICK derinho
+USER derinho * 0 s
+"
+fd_client,string
+fd_client,string
+fd_client,string
+fd_client,string
+fd_client,string
+fd_client,string
+6,"PASS pass
+"
+fd_client,string
+fd_client,string
+6,"PASS pass
+NICK derinho
+"
+fd_client,string
+fd_client,string
+fd_client,string
+fd_client,string
+fd_client,string
+fd_client,string
+fd_client,string
+fd_client,string
+fd_client,string
+fd_client,string
+fd_client,string
+fd_client,string
+fd_client,string
+6,"PASS pass
+"
+fd_client,string
+fd_client,string
+6,"PASS pass
+awd"
+fd_client,string
+fd_client,string
+6,"PASS pass
+awdawdawd"
+fd_client,string
+fd_client,string
+6,"PASS pass
+awdawdawdawfda"
+fd_client,string
+fd_client,string
+6,"PASS pass
+awdawdawdawfdaNICK"
+fd_client,string
+fd_client,string
+6,"PASS pass
+awdawdawdawfdaNICK
+"
+fd_client,string
+fd_client,string
+6,"PASS pass
+awdawdawdawfdaNICK
+awda"
+fd_client,string
+fd_client,string
+6,"PASS pass
+awdawdawdawfdaNICK
+awda
+"
+fd_client,string
+fd_client,string
+6,"PASS pass
+awdawdawdawfdaNICK
+awda
+dawd"
+fd_client,string
+fd_client,string
+6,"PASS pass
+awdawdawdawfdaNICK
+awda
+dawd
+"
+fd_client,string
+fd_client,string
+6,"PASS pass
+awdawdawdawfdaNICK
+awda
+dawd
+
+"
+fd_client,string
+fd_client,string
+6,"PASS pass
+awdawdawdawfdaNICK
+awda
+dawd
+
+NICK"
+fd_client,string
+fd_client,string
+6,"PASS pass
+awdawdawdawfdaNICK
+awda
+dawd
+
+NICK derinho"
+fd_client,string
+fd_client,string
+6,"PASS pass
+awdawdawdawfdaNICK
+awda
+dawd
+
+NICK derinho
+"
+fd_client,string
+fd_client,string
+6,"PASS pass
+awdawdawdawfdaNICK
+awda
+dawd
+
+NICK derinho
+NICK"
+fd_client,string
+fd_client,string
+6,"PASS pass
+awdawdawdawfdaNICK
+awda
+dawd
+
+NICK derinho
+NICK ola"
+fd_client,string
+fd_client,string
+6,"PASS pass
+awdawdawdawfdaNICK
+awda
+dawd
+
+NICK derinho
+NICK ola
+"
+fd_client,string
+fd_client,string
+fd_client,string
+fd_client,string
+5,". *Ó­>Ïrzi€æ&FÅ¼çwßÆÄwýê¤¨´ý›¦?ú P©o L
+½÷&ª£¡Ñ×'VÌ~¨t$äÃõb(ŸL?â >À,À0 ŸÌ©Ì¨ÌªÀ+À/ žÀ$À( kÀ#À' gÀ
+À 9À	À 3  œ = < 5 / ÿ  £      	localhost    
+                * (	
+ +  -  3 & $   ±Ñl®ÆHâ¬¢ýÏ,‚3usPGÌ”¾"¿–+"
+fd_client,string
+fd_client,string
+5,"CAP LS 302
+PASS pass
+NICK helferna
+USER helferna 0 * :realname
+"
+fd_client,string
+fd_client,string
+5,"CAP LS 302
+PASS pass
+NICK helferna
+USER helferna 0 * :realname
+QUIT :Leaving
+"
+fd_client,string
+fd_client,string
+fd_client,string
+5,"CAP LS 302
+PASS pass
+"
+fd_client,string
+fd_client,string
+5,"CAP LS 302
+PASS pass
+NICK *
+USER helferna 0 * :realname
+"
+fd_client,string
+fd_client,string
+5,"CAP LS 302
+PASS pass
+NICK *
+USER helferna 0 * :realname
+NICK a
+"
+fd_client,string
+fd_client,string
+5,"CAP LS 302
+PASS pass
+NICK *
+USER helferna 0 * :realname
+NICK a
+NICK a
+"
+fd_client,string
+fd_client,string
+5,"CAP LS 302
+PASS pass
+NICK *
+USER helferna 0 * :realname
+NICK a
+NICK a
+NICK w
+"
+fd_client,string
+fd_client,string
+5,"CAP LS 302
+PASS pass
+NICK *
+USER helferna 0 * :realname
+NICK a
+NICK a
+NICK w
+dwa
+"
+fd_client,string
+fd_client,string
+5,"CAP LS 302
+PASS pass
+NICK *
+USER helferna 0 * :realname
+NICK a
+NICK a
+NICK w
+dwa
+JOIN #wad
+"
+fd_client,string
+fd_client,string
+fd_client,string
+6,"NICK derinho
+"
+fd_client,string
+fd_client,string
+6,"NICK derinho
+PASS pass
+"
+fd_client,string
+fd_client,string
+6,"NICK derinho
+PASS pass
+NICK derinho
+"
+fd_client,string
+fd_client,string
