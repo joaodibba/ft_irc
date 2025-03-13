@@ -17,7 +17,9 @@ void Irc::userCmd(istringstream &ss, Client *client)
 	string mode;
 	string unused;
 
-	if (length != 4)
+	// User command must have at least 4 parameters
+	// Eg.: USER guest 0 * :Ronnie (4 parameters) or USER guest 0 * :Ronnie the Bear (5 parameters)
+	if (length < 4)
 		return sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), "USER"));
 	if (client->getNick().empty())
 		return sendMsg(client->getSock(), NOTICE_MSG("Empty nick, please set a nick first"));
