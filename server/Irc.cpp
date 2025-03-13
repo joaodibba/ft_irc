@@ -94,7 +94,7 @@ void Irc::saveData(void) const
 
     // Save Server Channels
     std::string filename_serverChannel = "data/channels.csv";
-    std::ofstream outFile_serverChannel(filename_serverChannel.c_str(), std::ios::app);
+    std::ofstream outFile_serverChannel(filename_serverChannel.c_str());
     if (!outFile_serverChannel)
     {
         std::cerr << "Error: Unable to open file for writing: " << filename_serverChannel << std::endl;
