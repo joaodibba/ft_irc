@@ -51,7 +51,7 @@ void Irc::acceptClient(int serverFd)
 	setNonBlocking(newSock);
 	epfds->addFd(newSock, EPOLLIN | EPOLLERR | EPOLLHUP); // OBS EPOLLOUT incluido para teste //!FIXME
 	_clients.insert(make_pair(newSock, (new Client(newSock))));
-	sendMsg(newSock, RPL_WELCOME(string("")));
+	sendMsg(newSock, NOTICE_MSG("Type INFO for information"));
 	cout << MAGENTA "Opening connection, fd: " << newSock << END << endl;
 }
 

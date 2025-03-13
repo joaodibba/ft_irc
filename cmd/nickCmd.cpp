@@ -57,7 +57,7 @@ void Irc::nickCmd(istringstream &ss, Client *client)
 	if (ssLength(ss) < 1 || !(ss >> newNick))
 		return (sendMsg(client->getSock(), ERR_NONICKNAMEGIVEN("*")));
 	if (newNick == client->getNick())
-		return; // no change
+		return;
 	if (!is_valid_nick(newNick))
 		return (sendMsg(client->getSock(), ERR_ERRONEUSNICKNAME("*", newNick)));
 	if (findClient(newNick))
@@ -66,22 +66,14 @@ void Irc::nickCmd(istringstream &ss, Client *client)
 	const string	oldNick = client->getNick();
 	client->setNick(newNick);
 	
-	if (!oldNick.empty()) // if it is a rename
+	if (!oldNick.empty())
 		sendMsg(client->getSock(), RPL_NICK(oldNick, client->getUser(), client->getNick()));
 
-
-	std::vector<Channel *>::iterator it;
+	std::vector<Channel *>::iterator it; // send to all channels
 	for (it = _serverChannels.begin(); it != _serverChannels.end(); ++it)
 	{
 		channel = *it;
 		if (channel->is_member(client))
-		{
-			// send RPL_NICK to all members of the channels the client is in
 			channel->send_private_message(client, RPL_NICK(oldNick, client->getUser(),client->getNick()));
-		}
-		else
-		{
-			cout << client->getNick() << " is not in " << channel->get_channel_name() << endl;
-		}
 	}
 }
