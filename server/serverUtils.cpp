@@ -45,11 +45,11 @@ Client *Irc::findClient(string name)
 	return (NULL);
 }
 
-void Irc::deleteClient(map<int, Client *>::iterator &it)
+void Irc::deleteClient(Client* client)
 {
-	cout << YELLOW << "Closing connection, fd: " << it->first << END << endl;
-	delete it->second;
-	epfds->deleteFd(it->first);
+	cout << YELLOW << "Closing connection, fd: " << client->getSock() << END << endl;
+	epfds->deleteFd(client->getSock());
+	delete client;
 }
 
 void sendMsg(int fd, string msg)

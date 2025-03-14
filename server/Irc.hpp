@@ -97,7 +97,7 @@ public:
 	Channel *createChannel(string name);
 	void deleteChannel(string name);
 	void leaveAllChannels(Client *ptr);
-	void deleteClient(map<int, Client *>::iterator &it);
+	void deleteClient(Client* client);
 
 private:
 	int _port;
@@ -139,4 +139,7 @@ private:
 	void inviteCmd(istringstream &ss, Client *client);
 	void quitCmd(istringstream &ss, Client *client);
 	void kickCmd(istringstream &ss, Client *client);
+
+	//Command to list informations about the channel
+	void infoChannel(istringstream &ss, Client *client);
 };

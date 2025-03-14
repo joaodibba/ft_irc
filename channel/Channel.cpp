@@ -98,11 +98,16 @@ bool Channel::is_operator(const Client *client) const
 void Channel::set_operator(const Client *client, const bool is_operator)
 {
     int client_sock = client->getSock();
-    const std::map<int, ChannelUser *>::iterator it = _users.find(client_sock);
-    if (it != _users.end())
+    std::map<int, ChannelUser *>::iterator it = _users.find(client_sock);
+
+    if (it == _users.end())
     {
-        it->second->set_operator(is_operator);
+        std::cerr << "Client not found in channel when setting operator.\n";
+        return;
     }
+
+    std::cout << "Client Name: " << it->second->get_client()->getUser() << std::endl;
+    it->second->set_operator(is_operator);
 }
 
 bool Channel::is_invited(const Client *client) const
@@ -169,4 +174,21 @@ void Channel::send_message(const string &message)
                 throw runtime_error("Cannot send response");
         }
     }
+}
+
+map<int, ChannelUser *> Channel::getUsers(){
+    return this->_users;
+}
+
+void Channel::leave_channel(Client* client){
+    if (client && is_member(client))
+        remove_client(client);
+
+    std::map<int, ChannelUser *>::iterator it = _users.begin();
+    for (; it != _users.end(); it++){
+        if((*it).second->is_operator())
+            return ;
+    }
+    if (_users.begin()->second)
+        _users.begin()->second->set_operator(true);
 }
