@@ -1,6 +1,6 @@
 #pragma once
 
-#define NOTICE_MSG(message) (string(":localhost NOTICE * :") + message + "\r\n")
+#define NOTICE_MSG(message) (string(":localhost NOTICE * : ") + message + "\r\n")
 
 #define ERR_SAMPLE(code, errName, nick) (string(":localhost ") + (code) + ' ' + (nick) + " :" + (errName) + "\r\n")
 

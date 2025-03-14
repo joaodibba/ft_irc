@@ -6,57 +6,66 @@ void trim(std::string &str)
 	str.erase(str.find_last_not_of(" \t\n") + 1);
 }
 
-// TODO Ensure this command follows the RFC https://www.rfc-editor.org/rfc/rfc2812.html#section-3.1.3
+/**
+ * @brief Handles the USER command
+ *
+ * Syntax:
+ * - USER <username> 0 * :<realname>
+ *
+ * Set the user's username and realname. The username should not contain spaces.
+ * The realname should start with ':' and can contain spaces.
+ * 
+ * @param ss Input string stream containing the command arguments.
+ * @param client The client issuing the command.
+ *
+ * Numeric Replies:
+ * - ERR_NEEDMOREPARAMS (461) - Missing parameters.
+ * - ERR_ALREADYREGISTRED (462) - User is already registered.
+ *
+ * @see https://www.rfc-editor.org/rfc/rfc2812.html#section-3.1.3
+ * 
+ */
 void Irc::userCmd(istringstream &ss, Client *client)
 {
 	int length = ssLength(ss);
-	string user;
-	string pass;
-	string str;
-	string realname;
-	string mode;
-	string unused;
 
-	// User command must have at least 4 parameters
-	// Eg.: USER guest 0 * :Ronnie (4 parameters) or USER guest 0 * :Ronnie the Bear (5 parameters)
+	// USER command must have at least 4 parameters
 	if (length < 4)
 		return sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), "USER"));
+
 	if (client->getNick().empty())
-		return sendMsg(client->getSock(), NOTICE_MSG("Empty nick, please set a nick first"));
+		return sendMsg(client->getSock(), NOTICE_MSG("Error: Nickname not set. Use /NICK <nickname> first."));
+
+	// Prevent duplicate registration
 	if (client->getAuthState() >= USER_AUTH)
 		return sendMsg(client->getSock(), ERR_ALREADYREGISTRED(client->getNick()));
-	// ss >> user; // FIXME
 
-	// Extract username, mode, unused fields
-	if (!(ss >> user >> mode >> unused)) {
-		sendMsg(client->getSock(), NOTICE_MSG("Unwanted input, USER command malformed"));
-		return;
-	}
+	string user, mode, hostname;
+	if (!(ss >> user >> mode >> hostname))
+		return sendMsg(client->getSock(), NOTICE_MSG("Error: Malformed USER command. Expected format: 'USER <username> 0 * :<realname>'"));
 
-	// Extract realname (which may contain spaces)
-	std::string remaining;
-	getline(ss, remaining);
+	// Validate username (should not contain spaces)
+	if (user.empty() || user.find(' ') != std::string::npos)
+		return sendMsg(client->getSock(), NOTICE_MSG("Error: Invalid username. The username cannot be empty or contain spaces."));
 
-	trim(remaining);
+	if (mode != "0" || hostname != "*")
+		return sendMsg(client->getSock(), NOTICE_MSG("Error: Invalid USER command format. Expected 'USER <username> 0 * :<realname>'"));
 
-	// Ensure realname starts with ':'
-	if (remaining.empty() || remaining[0] != ':') {
-		sendMsg(client->getSock(), NOTICE_MSG("Unwanted input, realname missing"));
-		return;
-	}
+	string realname;
+	getline(ss, realname);
+	trim(realname);
 
-	// Remove the ':' from realname
-	realname = remaining.substr(1);
+	// Ensure realname starts with ':' and is not empty
+	if (realname.empty() || realname[0] != ':')
+		return sendMsg(client->getSock(), NOTICE_MSG("Error: Missing realname. Expected format: 'USER <username> 0 * :<realname>'"));
 
-	// Validate mode and unused field
-	if (mode != "0" || unused != "*") {
-		sendMsg(client->getSock(), NOTICE_MSG("Unwanted input, incorrect USER format"));
-		return;
-	}
+	// Remove ':' but preserve spaces in realname
+	realname = realname.substr(1);
+	trim(realname);
 
 	client->setUser(user);
 	client->setRealName(realname);
 	client->setAuthState(USER_AUTH);
-	//sendMsg(client->getSock(), NOTICE_MSG("\x03" "Welcome to the server!"));
+
 	sendMsg(client->getSock(), RPL_WELCOME(client->getNick()));
 }

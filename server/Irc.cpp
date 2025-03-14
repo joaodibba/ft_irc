@@ -105,11 +105,7 @@ void Irc::saveData(void) const
     // CSV Header
     outFile_serverChannel << "ChannelName,Topic, InviteOnly, TopicRestricted, PasswordProtected, UserLimited, UserLimit, Password" << std::endl;
 
-    cout << "Info about server channels: " << _serverChannels.size() << endl; // _serverChannels.size()
-
     std::vector<Channel *>::const_iterator it_sc = _serverChannels.begin();
-
-    std::cout << "Channels size: " << _serverChannels.size() << std::endl;
 
     for (; it_sc != _serverChannels.end(); ++it_sc)
     {
