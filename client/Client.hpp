@@ -28,7 +28,7 @@ public:
 	string getHostName() const;
 	string getRealName() const;
 	authState getAuthState() const;
-	bool getAuthenticated() const;
+	bool isAuthenticated() const;
 
 	void setNick(const string &name);
 	void setUser(const string &name);

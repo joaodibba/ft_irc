@@ -9,7 +9,7 @@ int Client::getSock() const
 	return (_connectionSock);
 }
 
-bool Client::getAuthenticated() const
+bool Client::isAuthenticated() const
 {
 	return (_authenticated);
 }
