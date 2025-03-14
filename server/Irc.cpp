@@ -59,7 +59,7 @@ void Irc::saveData(void) const
     }
 
     // CSV Header
-    outfile_client << "fd_cl,nick,authenticated,buffer" << std::endl;
+    outfile_client << "fd_cl,nick,auth_state,authenticated,buffer" << std::endl;
 
     for (std::map<int, Client *>::const_iterator it = _clients.begin(); it != _clients.end(); ++it)
     {
@@ -68,7 +68,8 @@ void Irc::saveData(void) const
 
         outfile_client << it->first << ","
                        << it->second->getNick() << ","
-                       << it->second->getAuthenticated() << ","
+                       << it->second->getAuthState() << ","
+                       << it->second->isAuthenticated() << ","
                        << "\"" << it->second->getBuffer() << "\"" // Wrap in quotes in case of commas
                        << std::endl;
     }
@@ -76,7 +77,7 @@ void Irc::saveData(void) const
 
     // Save Requests
     std::string filename_requests = "data/requests.csv";
-    std::ofstream outFile_requests(filename_requests.c_str(), std::ios::app);
+    std::ofstream outFile_requests(filename_requests.c_str());
     if (!outFile_requests)
     {
         std::cerr << "Error: Unable to open file for writing: " << filename_requests << std::endl;
@@ -104,7 +105,9 @@ void Irc::saveData(void) const
     // CSV Header
     outFile_serverChannel << "ChannelName,Topic, InviteOnly, TopicRestricted, PasswordProtected, UserLimited, UserLimit, Password" << std::endl;
 
-    for (std::vector<Channel *>::const_iterator it_sc = _serverChannels.begin(); it_sc != _serverChannels.end(); ++it_sc)
+    std::vector<Channel *>::const_iterator it_sc = _serverChannels.begin();
+
+    for (; it_sc != _serverChannels.end(); ++it_sc)
     {
         Channel *channel = *it_sc;
         if (!channel)

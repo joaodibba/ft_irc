@@ -16,55 +16,73 @@ static bool verifyChannelmodes(Channel *tarChannel, Client *client, istringstrea
 	return 0;
 }
 
-// TODO Ensure this command follows the RFC https://www.rfc-editor.org/rfc/rfc2812.html#section-3.2.1
+
+/**
+ * @brief Handles the JOIN command
+ *
+ * Syntax:
+ * - JOIN <channel>{,<channel>}
+ *   (Note: This implementation currently supports only <channel>{,<channel>})
+ *
+ * Allows a client to join one or more channels. If the channel does not exist,
+ * it is created and the client becomes the channel operator. If the client is
+ * already in the channel, an error is returned. The function also checks channel
+ * modes (e.g., invite-only, key-protected, full, etc.) before adding the client.
+ *
+ * @param ss Input string stream containing the command arguments.
+ * @param client The client issuing the JOIN command.
+ *
+ * Numeric Replies:
+ * - ERR_NEEDMOREPARAMS (461) - Missing parameters.
+ * - ERR_NOSUCHCHANNEL (403) - The specified channel name is invalid.
+ * - ERR_USERONCHANNEL (443) - The client is already in the channel.
+ * - ERR_INVITEONLYCHAN (473) - The channel is invite-only (checked in verifyChannelmodes).
+ * - ERR_CHANNELISFULL (471) - The channel is full (checked in verifyChannelmodes).
+ * - ERR_BADCHANNELKEY (475) - The provided key is incorrect (checked in verifyChannelmodes).
+ * - ERR_BANNEDFROMCHAN (474) - The client is banned from the channel (checked in verifyChannelmodes).
+ * 
+ * @see  https://www.rfc-editor.org/rfc/rfc2812.html#section-3.2.1
+ * 
+ */
 void Irc::joinCmd(istringstream &ss, Client *client)
 {
-	string msg;
-	string channelName;
-	if (!(ss >> channelName))
-		return sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), "JOIN"));
+    string channelList;
+    if (!(ss >> channelList))
+        return sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), "JOIN"));
 
-	if (channelName.empty() || channelName[0] != '#')
-		return sendMsg(client->getSock(), ERR_NOSUCHCHANNEL(client->getNick(), channelName));
+    istringstream listStream(channelList);
+    string channelName;
 
-	Channel *tarChannel;
-	std::cout << "Channel name: " << channelName << std::endl;
+    while (getline(listStream, channelName, ','))
+    {
+        if (channelName.empty() || channelName[0] != '#')
+            return sendMsg(client->getSock(), ERR_NOSUCHCHANNEL(client->getNick(), channelName));
 
-	if (channelName.find(",") != string::npos)
-	{
-		istringstream ss(channelName);
-		string channel;
-		while (getline(ss, channel, ','))
-		{
-			if (channel.empty() || channel[0] != '#')
-				return sendMsg(client->getSock(), ERR_NOSUCHCHANNEL(client->getNick(), channel));
-			if ((tarChannel = findChannel(channel)))
-			{
-				if (tarChannel->is_member(client))
-				{
-					sendMsg(client->getSock(), "Already in this channel\n\r");
-					return;
-				}
-				if (!verifyChannelmodes(tarChannel, client, ss))
-				{
-					tarChannel->add_client(client);
-					cout << "Send to client fd: " << client->getSock() << endl;
-					tarChannel->send_message(RPL_JOIN(client->getNick(), client->getUser(), channel, client->getRealName()));
-				}
-				continue;
-			}
-			tarChannel = createChannel(channel);
-			tarChannel->add_client(client);
-			tarChannel->set_operator(client, true);
-			cout << "Send to client fd: " << client->getSock() << endl;
-			tarChannel->send_message(RPL_JOIN(client->getNick(), client->getUser(), channel, client->getRealName()));
-		}
-		return;
-	}
-	tarChannel = createChannel(channelName);
-	tarChannel->add_client(client);
-	tarChannel->set_operator(client, true);
+        Channel *channel = findChannel(channelName);
 
-	cout << "Send to client fd: " << client->getSock() << endl;
-	tarChannel->send_message(RPL_JOIN(client->getNick(), client->getUser(), channelName, client->getRealName()));
+        if (channel && channel->is_member(client))
+        {
+            sendMsg(client->getSock(), ERR_USERONCHANNEL(client->getNick(), client->getNick(), channelName));
+            continue;
+        }
+
+        if (!channel)
+        {
+            channel = createChannel(channelName);
+            channel->set_operator(client, true);
+        }
+
+		//TODO: verify protected channel 475
+		//TODO: invite-only 473
+		//TODO: channel is full? 471
+		//TODO: KICK command cases (invite revoked if kicked, ...)
+        if (verifyChannelmodes(channel, client, ss))
+            continue;
+
+        if (channel->add_client(client))
+        {
+            cout << "Send to client fd: " << client->getSock() << endl;
+            channel->send_message(RPL_JOIN(client->getNick(), client->getUser(), channelName, client->getRealName()));
+        }
+    }
 }

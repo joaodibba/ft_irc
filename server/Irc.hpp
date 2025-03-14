@@ -32,6 +32,7 @@
 #define MAX_EVENTS 1024
 #define BUFFER_SIZE 1024
 #define MAX_TCP_PORT 65535
+#define MAX_NICK_LENGTH 9
 
 using std::cerr;
 using std::cout;
@@ -49,6 +50,23 @@ using std::runtime_error;
 using std::string;
 using std::stringstream;
 using std::vector;
+
+/*
+ * To fully authenticate a client,
+ * the server must receive a PASS command,
+ * followed by a NICK command and finally a USER command.
+ * 
+ * USER_AUTH Status and AUTHENTICATED Status are the same for now
+ * but offer more flexibility in the future if needed.
+*/
+enum authState
+{
+	NO_AUTH,
+	PASS_AUTH,
+	NICK_AUTH,
+	USER_AUTH,
+	AUTHENTICATED
+};
 
 class Client;
 class Channel;

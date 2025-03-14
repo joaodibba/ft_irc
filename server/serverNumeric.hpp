@@ -1,6 +1,6 @@
 #pragma once
 
-#define NOTICE_MSG(message) (string(":localhost NOTICE * :") + message + "\r\n")
+#define NOTICE_MSG(message) (string(":localhost NOTICE * : ") + message + "\r\n")
 
 #define ERR_SAMPLE(code, errName, nick) (string(":localhost ") + (code) + ' ' + (nick) + " :" + (errName) + "\r\n")
 
@@ -9,6 +9,8 @@
 #define ERR_SAMPLE_3(code, errName, nick, name, channelName) (string(":localhost ") + code + ' ' + nick + ' ' + name + ' ' + channelName + ' ' + " :" + errName + "\r\n")
 
 #define RPL(nick, user, command, target, character, content) (string(":") + nick + '!' + user + "@localhost " + command + ' ' + target + character + content + "\r\n")
+
+#define RPL_NICK(oldNick, user, newNick) RPL(oldNick, user, "NICK", "", " :", newNick)
 
 #define RPL_MODE(nick, user, channelName, flags) (RPL(nick, user, "MODE", channelName, ' ', flags))
 
@@ -20,7 +22,7 @@
 
 #define RPL_JOIN(nick, user, channelName, msg) (RPL(nick, user, "JOIN", channelName, " * :", msg))
 
-#define RPL_WELCOME(nick) (":localhost 001 " + (nick.empty() ? std::string("*") : nick) + " :Welcome to the Internet Relay Network *!\r\n Type INFO for information.\r\n")
+#define RPL_WELCOME(nick) (":localhost 001 " + nick + " :Welcome to the Internet Relay Network *!\r\n")
 
 #define RPL_INFO() (                                                               \
     "Put the server's password with command P\r\n"                                 \

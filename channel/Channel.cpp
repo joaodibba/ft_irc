@@ -53,6 +53,7 @@ bool Channel::add_client(Client *client)
     if (_users.find(client_sock) != _users.end())
     {
         cerr << "Client already in channel.\n";
+        sendMsg(client->getSock(), "Already in this channel\n\r");
         return false;
     }
 
