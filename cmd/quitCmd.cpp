@@ -46,7 +46,6 @@ void Irc::quitCmd(istringstream &ss, Client *client)
 	}
 	deleteClient(client);
 	_clients.erase(client->getSock());
-	this->epfds.de
 	// ! FIXME deleteClient(it); ???
 	// delete it->second;
 	// epfds->deleteFd(it->first);
