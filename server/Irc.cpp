@@ -69,7 +69,7 @@ void Irc::saveData(void) const
         outfile_client << it->first << ","
                        << it->second->getNick() << ","
                        << it->second->getAuthState() << ","
-                       << it->second->getAuthenticated() << ","
+                       << it->second->isAuthenticated() << ","
                        << "\"" << it->second->getBuffer() << "\"" // Wrap in quotes in case of commas
                        << std::endl;
     }
