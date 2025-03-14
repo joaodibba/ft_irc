@@ -11,3 +11,4 @@ data/requests.csv
 ircserv
 __pycache__/
 *.pyc
+terminator/
