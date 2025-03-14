@@ -23,22 +23,25 @@ void Irc::leaveAllChannels(Client *client)
 void Irc::quitCmd(istringstream &ss, Client *client)
 {
 	(void)ss;
-	std::vector<Channel *>::iterator it = _serverChannels.begin();
-	for(; it != _serverChannels.end(); ++it){
-		(*it)->leave_channel(client);
-		if ((*it)->size() == 0){
-			delete *it;
-		}
+	std::vector<Channel *> toDelete;
 
+	for (std::vector<Channel *>::iterator it = _serverChannels.begin(); it != _serverChannels.end(); ++it) {
+		(*it)->leave_channel(client);
+		if ((*it)->size() == 0)
+			toDelete.push_back(*it);
+	}
+
+	for (size_t i = 0; i < toDelete.size(); ++i) {
+		std::vector<Channel *>::iterator it = std::find(_serverChannels.begin(), _serverChannels.end(), toDelete[i]);
+		if (it != _serverChannels.end()) {
+			delete *it;
+			_serverChannels.erase(it);
+		}
 	}
 
 	std::cout << "Client " << client->getNick() << " has quit" << std::endl;
 	std::cout << "Client socket: " << client->getSock() << std::endl;
 	epfds->deleteFd(client->getSock());
-	//deleteClient(client);
+
 	_clients.erase(client->getSock());
-	// ! FIXME deleteClient(it); ???
-	// delete it->second;
-	// epfds->deleteFd(it->first);
-	// _clients.erase(it->first);
 }

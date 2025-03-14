@@ -190,6 +190,7 @@ void Channel::leave_channel(Client* client){
         if((*it).second->is_operator())
             return ;
     }
-    if (_users.begin()->second)
-        _users.begin()->second->set_operator(true);
+    
+    if (!_users.empty() && _users.begin()->second)
+    _users.begin()->second->set_operator(true);
 }
