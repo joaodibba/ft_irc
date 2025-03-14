@@ -53,7 +53,7 @@ void Irc::nickCmd(istringstream &ss, Client *client)
 
 	if (client->getAuthState() < PASS_AUTH)
 		return (sendMsg(client->getSock(),
-				NOTICE_MSG("Error: You must provide a password before setting a nickname. Use the PASS command to register.")));
+				NOTICE_MSG("Password not set. Use PASS <password> first.")));
 	if (ssLength(ss) < 1 || !(ss >> newNick))
 		return (sendMsg(client->getSock(), ERR_NONICKNAMEGIVEN("*")));
 	if (newNick == client->getNick())
@@ -66,9 +66,12 @@ void Irc::nickCmd(istringstream &ss, Client *client)
 	const string	oldNick = client->getNick();
 	client->setNick(newNick);
 	
-	if (!oldNick.empty())
-		sendMsg(client->getSock(), RPL_NICK(oldNick, client->getUser(), client->getNick()));
-
+	// First time setting nickname
+	if (oldNick.empty()) {
+		client->setAuthState(NICK_AUTH);
+		return sendMsg(client->getSock(), RPL_NICK(oldNick, client->getUser(), client->getNick()));
+	}
+	
 	std::vector<Channel *>::iterator it; // send to all channels
 	for (it = _serverChannels.begin(); it != _serverChannels.end(); ++it)
 	{

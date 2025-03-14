@@ -27,18 +27,21 @@ void trim(std::string &str)
  */
 void Irc::userCmd(istringstream &ss, Client *client)
 {
-	int length = ssLength(ss);
-
-	// USER command must have at least 4 parameters
-	if (length < 4)
-		return sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), "USER"));
-
-	if (client->getNick().empty())
-		return sendMsg(client->getSock(), NOTICE_MSG("Error: Nickname not set. Use /NICK <nickname> first."));
-
+	// Ensure client has set a password
+	if (client->getAuthState() < PASS_AUTH)
+		return sendMsg(client->getSock(), NOTICE_MSG("Password not set. Use PASS <password> first."));
+	
+	// Ensure client has set a nickname
+	if (client->getAuthState() < NICK_AUTH)
+		return sendMsg(client->getSock(), NOTICE_MSG("Nickname not set. Use NICK <nickname> first."));
+	
 	// Prevent duplicate registration
 	if (client->getAuthState() >= USER_AUTH)
 		return sendMsg(client->getSock(), ERR_ALREADYREGISTRED(client->getNick()));
+	
+	// USER command must have at least 4 parameters
+	if (ssLength(ss) < 4)
+		return sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), "USER"));
 
 	string user, mode, hostname;
 	if (!(ss >> user >> mode >> hostname))
