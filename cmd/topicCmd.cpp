@@ -14,9 +14,10 @@
  * - ERR_NOSUCHCHANNEL (403) - The specified channel does not exist.
  * - ERR_NOTONCHANNEL (442) - User is not a member of the channel.
  * - ERR_CHANOPRIVSNEEDED (482) - User is not an operator, but the channel is mode +t (only ops can change the topic).
+ *
+ * @see https://www.rfc-editor.org/rfc/rfc2812.html#section-3.2.4
+ * 
  */
-
-// TODO Ensure this command follows the RFC https://www.rfc-editor.org/rfc/rfc2812.html#section-3.2.4
 void Irc::topicCmd(istringstream &ss, Client *client)
 {
     string channelName;

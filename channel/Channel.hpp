@@ -13,7 +13,6 @@ private:
     string _channelTopic;
     ChannelMode _modes;
     map<int, ChannelUser *> _users; // client socket file descriptor and pointer to ChannelUser
-
 public:
     explicit Channel(const string &name);
     ~Channel();
@@ -29,6 +28,8 @@ public:
     ChannelMode &modes();
 
     const ChannelMode &modes() const;
+
+    const std::map<int, ChannelUser *> &users() const;
 
     bool add_client(Client *client);
 

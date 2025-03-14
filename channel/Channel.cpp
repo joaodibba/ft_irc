@@ -43,6 +43,10 @@ const ChannelMode &Channel::modes() const
     return _modes;
 }
 
+const std::map<int, ChannelUser *> &Channel::users() const {
+    return _users;
+}
+
 bool Channel::add_client(Client *client)
 {
     if (is_full())

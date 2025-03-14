@@ -74,8 +74,9 @@ class EpollManager;
 
 #include "serverNumeric.hpp"
 #include "../client/Client.hpp"
-#include "../channel/Channel.hpp"
 #include "../epoll/EpollManager.hpp"
+#include "../channel/Channel.hpp"
+#include "../channel/ChannelUser.hpp"
 
 extern bool running;
 
@@ -89,7 +90,10 @@ public:
 	Irc(void);
 	~Irc(void);
 	int run_server(char **av);
-	void saveData(void) const;
+	void saveChannelUsers() const;
+	void saveChannels() const;
+	void saveRequests() const;
+	void saveClients() const;
 	// ServerUtils
 	Client *findClient(int target);
 	Client *findClient(string name);
