@@ -23,19 +23,6 @@ void Irc::leaveAllChannels(Client *client)
 void Irc::quitCmd(istringstream &ss, Client *client)
 {
 	(void)ss;
-	//const map<int, Client *>::iterator it = _clients.find(client->getSock());
-	//cout << YELLOW << "Closing connection, fd: " << it->first << END << endl;
-	//leaveAllChannels(client);
-	/*
-		Go trhough every channel and see if client is member
-		If client is member:
-			See if its the last member of the Channel, if it is:
-				delete the channel
-			See if there is another operator, if there is
-				dp nothing
-			else
-				set operator on the last member on the map _users
-	*/
 	std::vector<Channel *>::iterator it = _serverChannels.begin();
 	for(; it != _serverChannels.end(); ++it){
 		(*it)->leave_channel(client);
@@ -44,7 +31,11 @@ void Irc::quitCmd(istringstream &ss, Client *client)
 		}
 
 	}
-	deleteClient(client);
+
+	std::cout << "Client " << client->getNick() << " has quit" << std::endl;
+	std::cout << "Client socket: " << client->getSock() << std::endl;
+	epfds->deleteFd(client->getSock());
+	//deleteClient(client);
 	_clients.erase(client->getSock());
 	// ! FIXME deleteClient(it); ???
 	// delete it->second;
