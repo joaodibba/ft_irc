@@ -75,7 +75,7 @@
 
 #define ERR_USERNOTINCHANNEL(nick, targetNick, channelName) (ERR_SAMPLE_3("441", "They aren't on that channel", nick, targetNick, channelName))
 
-#define ERR_NOTONCHANNEL(nick, channelName) (ERR_SAMPLE_2("422", "You're not on that channel", nick, channelName))
+#define ERR_NOTONCHANNEL(nick, channelName) (ERR_SAMPLE_2("442", "You're not on that channel", nick, channelName))
 
 #define ERR_USERONCHANNEL(nick, targetNick, channelName) (ERR_SAMPLE_3("433", "is already on channel", nick, targetNick, channelName))
 
@@ -98,3 +98,6 @@
 #define ERR_BADCHANNELKEY(nick, channelName) (ERR_SAMPLE_2("475", "Cannot join channel (+k)", nick, channelName))
 
 #define ERR_CHANOPRIVSNEEDED(nick, channelName) (ERR_SAMPLE_2("482", "You're not channel operator", nick, channelName))
+
+#define ERR_INVALIDMODEPARAM(nick, channel, mode, param) "696 " + nick + " " + channel + " " + mode + " " + param + " :Invalid mode parameter"
+

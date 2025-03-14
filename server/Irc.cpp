@@ -51,7 +51,7 @@ void Irc::saveData(void) const
 
     // Save Clients
     std::string filename_client = "data/clients.csv";
-    std::ofstream outfile_client(filename_client.c_str(), std::ios::app);
+    std::ofstream outfile_client(filename_client.c_str(), std::ios::trunc);
     if (!outfile_client)
     {
         std::cerr << "Error: Unable to open file for writing: " << filename_client << std::endl;
