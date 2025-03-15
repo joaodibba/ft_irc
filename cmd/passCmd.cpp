@@ -32,7 +32,7 @@ void Irc::passCmd(istringstream &ss, Client *client)
 		return sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), "PASS"));
 	if (str != _serverPassWord)
 	{
-		sendMsg(client->getSock(), ERR_PASSWDMISMATCH(client->getNick())); // FIXME client should notice that is disconnected ? yes
+		sendMsg(client->getSock(), ERR_PASSWDMISMATCH(client->getNick()));
 		return quitCmd(ss, client);
 	}
 	client->setPassWord(str);
