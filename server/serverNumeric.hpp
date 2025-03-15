@@ -103,5 +103,5 @@
 
 #define ERR_CHANOPRIVSNEEDED(nick, channelName) (ERR_SAMPLE_2("482", "You're not channel operator", nick, channelName))
 
-#define ERR_INVALIDMODEPARAM(nick, channel, mode, param) "696 " + nick + " " + channel + " " + mode + " " + param + " :Invalid mode parameter"
+#define ERR_INVALIDMODEPARAM(nick, channel, mode, param) (ERR_SAMPLE_3("696 ", nick , channel ,  mode, param))
 

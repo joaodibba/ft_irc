@@ -87,9 +87,9 @@
       parent = child5
       order = 1
       profile = default
-      title = fd
+      title = channel_users
       uuid = 777c03d6-d383-407f-9399-d61b862d0388
-      command = while true; do clear; cat ./data/requests.csv; sleep 2; done
+      command = while true; do clear; cat ./data/channel_users.csv; sleep 2; done
     [[[child10]]]
       type = VPaned
       parent = child4
@@ -101,9 +101,9 @@
       parent = child10
       order = 0
       profile = default
-      title = monitor
+      title = requests
       uuid = 5684ca63-8f62-48ca-b485-b18cfeb83e07
-      command = while true; do clear; cat ./data/channel_users.csv; sleep 2; done
+      command = while true; do clear; cat ./data/requests.csv; sleep 2; done
     [[[terminal12]]]
       type = Terminal
       parent = child10

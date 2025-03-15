@@ -68,7 +68,7 @@ void ChannelMode::set_password(const string &password)
     _password = password;
 }
 
-bool ChannelMode::apllyLimitRestriction(istringstream& ss, bool Flag, Client* client)
+bool ChannelMode::apllyLimitRestriction(istringstream& ss, bool Flag, Client* client, string channelName)
 {
     if (!Flag) {
         set_limit(false);
@@ -85,7 +85,7 @@ bool ChannelMode::apllyLimitRestriction(istringstream& ss, bool Flag, Client* cl
     size_t tmp = static_cast<size_t>(nb);
 
     if (errno == ERANGE || nb <= 0 || *end != '\0')
-        return sendMsg(client->getSock(), ERR_INVALIDMODEPARAM(client->getNick(), "MODE", "+l", number)), 1;
+        return sendMsg(client->getSock(), ERR_INVALIDMODEPARAM(client->getNick(), channelName, "l", "Invalid limit parameter")), 1;
     if (tmp == get_user_limit())
         return 1;
 	
