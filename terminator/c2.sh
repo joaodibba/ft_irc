@@ -3,7 +3,7 @@ NICK="GAB"
 CH="#BIKE"
 exec 3<>/dev/tcp/localhost/6667
     sleep 1
-    echo "PASS RPR" >&3
+    echo "PASS pass" >&3
 	sleep 1
     echo "NICK $NICK" >&3
 	sleep 1
@@ -12,9 +12,7 @@ exec 3<>/dev/tcp/localhost/6667
     echo "JOIN $CH" >&3
 	sleep 1
 	echo "JOIN #NS NS" >&3
-	
 	echo "PRIVMSG #NS :OLA PAI?" >&3
-	
 	echo "PRIVMSG #BIKE :OLA GALERA QUEM QUER PEGAR UMA TRILHA?" >&3
 # Ler saída do servidor em background
 cat <&3 &

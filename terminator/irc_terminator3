@@ -41,7 +41,7 @@
       profile = default
       title = server
       uuid = 061758e2-caff-454b-922b-a958e8e7c34b
-      command = c; mr; ./ircserv 6667 RPR
+      command = c; mr; ./ircserv 6667 pass
     [[[child3]]]
       type = VPaned
       parent = child1
@@ -73,7 +73,7 @@
       profile = default
       title = clients
       uuid = 0018e0ae-d9db-464d-9ca1-905f35dccc1b
-      command = tail -f ./data/clients.csv
+      command = while true; do clear; cat ./data/clients.csv; sleep 2; done
     [[[terminal8]]]
       type = Terminal
       parent = child6
@@ -81,7 +81,7 @@
       profile = default
       title = channels
       uuid = 6f9141a5-b59b-4ebb-ac16-e1d79cc49959
-      command = tail -f ./data/channels.csv
+      command =  while true; do clear; cat ./data/channels.csv; sleep 2; done
     [[[terminal9]]]
       type = Terminal
       parent = child5
@@ -89,7 +89,7 @@
       profile = default
       title = fd
       uuid = 777c03d6-d383-407f-9399-d61b862d0388
-      command = tail -f ./data/requests.csv
+      command = while true; do clear; cat ./data/requests.csv; sleep 2; done
     [[[child10]]]
       type = VPaned
       parent = child4
@@ -103,7 +103,7 @@
       profile = default
       title = monitor
       uuid = 5684ca63-8f62-48ca-b485-b18cfeb83e07
-      command = tail -f ./data/channel_users.csv
+      command = while true; do clear; cat ./data/channel_users.csv; sleep 2; done
     [[[terminal12]]]
       type = Terminal
       parent = child10
