@@ -16,7 +16,7 @@ sleep 1
 echo "MODE #NS -i" >&3
 echo "MODE #NS -t" >&3
 echo "MODE #NS +l 2" >&3
-echo "MODE #NS +K NS" >&3
+echo "MODE #NS +k NS" >&3
 
 echo "PRIVMSG #NS :OLA NEUROSEMANTICISTAS" >&3
 

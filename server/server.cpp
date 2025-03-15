@@ -116,7 +116,7 @@ int Irc::run_server(char **av)
 				else
 					break;
 			}
-			//saveData();
+			saveData();
 			j++;
 		}
 		logger(5, 0);

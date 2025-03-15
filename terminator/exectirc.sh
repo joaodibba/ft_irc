@@ -4,7 +4,7 @@
 CURRENT_FILE="/home/rprocopi/02_commoncore/ft_irc/terminator/irc_terminator3"
 
 # Diretório de destino
-DEST_DIR="/home/rprocopi/.config/irc_terminator3"
+DEST_DIR="/home/rprocopi/.config/terminator"
 
 # Nome do link simbólico
 LINK_NAME="irc_terminator3"
