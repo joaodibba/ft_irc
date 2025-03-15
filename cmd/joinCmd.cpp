@@ -66,8 +66,7 @@ void Irc::joinCmd(istringstream &ss, Client *client)
             continue;
         }
 
-        if (!channel)
-        {
+        if (!channel) {
             channel = createChannel(channelName);
             channel->set_operator(client, true); // this might not be setting the operator
         }
@@ -81,6 +80,8 @@ void Irc::joinCmd(istringstream &ss, Client *client)
 
         if (channel->add_client(client))
         {
+			if (channel->getUsers().size() == 1)
+				channel->set_operator(client, true);
             cout << "Send to client fd: " << client->getSock() << endl;
             channel->send_message(RPL_JOIN(client->getNick(), client->getUser(), channelName, client->getRealName()));
         }
