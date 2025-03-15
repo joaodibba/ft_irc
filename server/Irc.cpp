@@ -47,10 +47,8 @@ void Irc::setPassword(string password)
     _serverPassWord = password;
 }
 
-void Irc::saveData(void) const
+void Irc::saveClients() const
 {
-
-    // Save Clients
     std::string filename_client = "data/clients.csv";
     std::ofstream outfile_client(filename_client.c_str(), std::ios::trunc);
     if (!outfile_client)
@@ -75,8 +73,10 @@ void Irc::saveData(void) const
                        << std::endl;
     }
     outfile_client.close();
+}
 
-    // Save Requests
+void Irc::saveRequests() const
+{
     std::string filename_requests = "data/requests.csv";
     std::ofstream outFile_requests(filename_requests.c_str());
     if (!outFile_requests)
@@ -93,8 +93,10 @@ void Irc::saveData(void) const
         outFile_requests << it_r->first << ",\"" << it_r->second << "\"" << std::endl;
     }
     outFile_requests.close();
+}
 
-    // Save Server Channels
+void Irc::saveChannels() const
+{
     std::string filename_serverChannel = "data/channels.csv";
     std::ofstream outFile_serverChannel(filename_serverChannel.c_str());
     if (!outFile_serverChannel)
@@ -106,9 +108,7 @@ void Irc::saveData(void) const
     // CSV Header
     outFile_serverChannel << "ChannelName,Topic, InviteOnly, TopicRestricted, PasswordProtected, UserLimited, UserLimit, Password" << std::endl;
 
-    std::vector<Channel *>::const_iterator it_sc = _serverChannels.begin();
-
-    for (; it_sc != _serverChannels.end(); ++it_sc)
+    for (std::vector<Channel *>::const_iterator it_sc = _serverChannels.begin(); it_sc != _serverChannels.end(); ++it_sc)
     {
         Channel *channel = *it_sc;
         if (!channel)
@@ -126,6 +126,42 @@ void Irc::saveData(void) const
             << std::endl;
     }
     outFile_serverChannel.close();
+}
 
-    // channel users
+void Irc::saveChannelUsers() const
+{
+    std::string filename_channelUser = "data/channel_users.csv";
+    std::ofstream outFile_channelUser(filename_channelUser.c_str());
+    if (!outFile_channelUser)
+    {
+        std::cerr << "Error: Unable to open file for writing: " << filename_channelUser << std::endl;
+        return;
+    }
+
+    // CSV Header
+    outFile_channelUser << "ChannelName,UserNick,UserFd,IsOperator,IsInvited" << std::endl;
+
+    for (std::vector<Channel *>::const_iterator it_sc = _serverChannels.begin(); it_sc != _serverChannels.end(); ++it_sc)
+    {
+        Channel *channel = *it_sc;
+        if (!channel)
+            continue; // Ensure pointer is valid
+
+        std::map<int, ChannelUser *> users = channel->users();
+        for (std::map<int, ChannelUser *>::const_iterator it_cu = users.begin(); it_cu != users.end(); ++it_cu)
+        {
+            ChannelUser *channelUser = it_cu->second;
+            if (!channelUser || !channelUser->get_client())
+                continue;
+
+            outFile_channelUser
+                << channel->get_channel_name() << ","
+                << channelUser->get_client()->getNick() << ","
+                << channelUser->get_client()->getSock() << ","
+                << channelUser->is_operator() << ","
+                << channelUser->is_invited()
+                << std::endl;
+        }
+    }
+    outFile_channelUser.close();
 }

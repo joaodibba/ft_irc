@@ -66,8 +66,10 @@ void Irc::joinCmd(istringstream &ss, Client *client)
             continue;
         }
 
-        if (!channel)
+        if (!channel) {
             channel = createChannel(channelName);
+            channel->set_operator(client, true); // this might not be setting the operator
+        }
 
 		//TODO: verify protected channel 475
 		//TODO: invite-only 473

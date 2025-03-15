@@ -17,9 +17,11 @@
  * - ERR_UNKNOWNMODE (472) - Invalid mode given.
  * - ERR_NOSUCHCHANNEL (403) - Channel does not exist.
  * - RPL_CHANNELMODEIS (324) - Displays the current channel modes.
+ * 
+ * @see https://www.rfc-editor.org/rfc/rfc2812.html#section-3.2.3
+ * 
  */
 
-// TODO Ensure this command follows the RFC https://www.rfc-editor.org/rfc/rfc2812.html#section-3.2.3
 void Irc::modeCmd(istringstream &ss, Client *client)
 {
     string channelName, modes, param;
@@ -111,17 +113,3 @@ void Irc::modeCmd(istringstream &ss, Client *client)
         }
     }
 }
-
-/**
- * ! FIXME
- * Channel modes:
- * • 'i' (invite-only): Users must be explicitly invited to join.
- * • 't' (topic lock): Only operators can change the channel topic.
- * • 'k' (keyed/password): A user must provide the correct password to join.
- * • 'l' (limit): Defines a maximum number of users allowed in the channel.
- *  .'o' (give permission to users)
- 
- * • 'm' (moderated): Only operators and voiced users can send messages.
- * • 'n' (no external messages): Users from outside the channel cannot send messages.
- * • 's' (secret) or 'p' (private): Hides the channel from whois queries and channel lists in varying degrees, depending on the IRC server.
- */

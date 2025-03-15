@@ -11,9 +11,10 @@
  * @return
  * ERR_NOTONCHANNEL if the client is not in the channel
  * ERR_NOSUCHCHANNEL if the channel does not exist
-*/
-
-// TODO Ensure this command follows the RFC https://www.rfc-editor.org/rfc/rfc2812.html#section-3.2.2
+ *
+ * @see https://www.rfc-editor.org/rfc/rfc2812.html#section-3.2.2
+ * 
+ */
 void Irc::partCmd(istringstream &ss, Client *client)
 {
     string channelName;
@@ -33,7 +34,7 @@ void Irc::partCmd(istringstream &ss, Client *client)
     channel->send_message(RPL_PART(client->getNick(), client->getUser(), channelName, "Leaving"));
 
     // Remove the client from the channel
-    channel->remove_client(client);
+    channel->remove_client(client);  
 
     if (channel->size() == 0)
     {
