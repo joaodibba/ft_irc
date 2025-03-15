@@ -1,10 +1,10 @@
 #!/bin/bash
-NICK="$RPR"
+NICK="RPR"
 # Abrir conexão e redirecionar entrada e saída
 exec 3<>/dev/tcp/localhost/6667
 sleep 1
 # Enviar comandos iniciais
-echo "PASS $NICK" >&3
+echo "PASS RPR" >&3
 sleep 1
 echo "NICK $NICK" >&3
 sleep 1
