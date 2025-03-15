@@ -1,4 +1,5 @@
 #!/bin/bash
+<<<<<<< HEAD
 # Obter o caminho do diretório onde o script está localizado
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
 

@@ -1,6 +1,5 @@
 ChannelName,Topic, InviteOnly, TopicRestricted, PasswordProtected, UserLimited, UserLimit, Password
-#NS,"",0,0,1,1,3434,"NS"
-#TRAUMA,"",0,0,0,85,0,""
-#BIKE,"",0,0,0,85,0,""
-#PNL,"",0,0,0,85,0,""
-#OS,"",0,0,0,85,0,""
+#NS,"",0,0,0,0,0,""
+#TRAUMA,"",0,0,0,190,0,""
+#BIKE,"",0,0,0,190,0,""
+#PNL,"",0,0,0,190,0,""
