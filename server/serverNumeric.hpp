@@ -14,6 +14,8 @@
 
 #define RPL_MODE(nick, user, channelName, flags) (RPL(nick, user, "MODE", channelName, ' ', flags))
 
+#define RPL_QUIT(nick, user, message) (RPL(nick, user, "QUIT", "", " :", message))
+
 #define RPL_MSG(nick, user, target, msg) (RPL(nick, user, "MSG", target, " :", msg))
 
 #define RPL_PRIVMSG(nick, user, target, msg) (RPL(nick, user, "PRIVMSG", target, " :", msg))

@@ -79,6 +79,8 @@ bool Channel::remove_client(const Client *client)
 
 bool Channel::is_member(const Client *client) const
 {
+    if (!client)
+        return false;
     const int client_sock = client->getSock();
     const std::map<int, ChannelUser *>::const_iterator it = _users.find(client_sock);
     return (it != _users.end());
@@ -189,6 +191,7 @@ void Channel::leave_channel(Client* client){
         if((*it).second->is_operator())
             return ;
     }
-    if (_users.begin()->second)
-        _users.begin()->second->set_operator(true);
+    
+    if (!_users.empty() && _users.begin()->second)
+    _users.begin()->second->set_operator(true);
 }

@@ -3,6 +3,8 @@
 Channel *Irc::createChannel(string name)
 {
 	Channel *newChannel = new Channel(name);
+	if (!newChannel)
+		return NULL;
 	_serverChannels.push_back(newChannel);
 	return (newChannel);
 }

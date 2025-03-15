@@ -96,7 +96,6 @@ public:
 	Channel *findChannel(string name);
 	Channel *createChannel(string name);
 	void deleteChannel(string name);
-	void leaveAllChannels(Client *ptr);
 	void deleteClient(Client* client);
 
 private:
