@@ -24,7 +24,7 @@
 
 void Irc::modeCmd(istringstream &ss, Client *client)
 {
-    string channelName, modes, param;
+    string channelName, modes, param, flags;
     ss >> channelName >> modes;
 
     // ERR_NEEDMOREPARAMS (461) - Not enough parameters
@@ -49,10 +49,12 @@ void Irc::modeCmd(istringstream &ss, Client *client)
 	std::cout << "MODE " << channelName << " " << modes << std::endl;
 	Client* targetClient;
     bool adding = true; // True for +, false for -
-
+	flags = "okl";
 	for (size_t i = 0; i < modes.size(); i++)
     {
-        char mode = modes[i];
+		if (modes.size() < 2 && flags.find(modes))
+			return sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), "MODE"));
+	    char mode = modes[i];
         switch (mode)
         {
 			case '+':
@@ -69,7 +71,7 @@ void Irc::modeCmd(istringstream &ss, Client *client)
 				return channel->send_message(RPL_CHANNELMODEIS(client->getNick(), channelName, modes));
 			case 'k': // Channel key (password)
 				if (!(ss >> param))
-					return sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), "MODE"));
+					return sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), "MODE -k or +k"));
 				if (adding) 
 				{
 					if (!channel->modes().is_password_protected() || channel->modes().get_password().empty()) {
@@ -105,8 +107,9 @@ void Irc::modeCmd(istringstream &ss, Client *client)
 				return channel->send_message(RPL_CHANNELMODEIS(client->getNick(), channelName, modes));
 			}
 			case 'l': // User limit
-				if (!channel->modes().apllyLimitRestriction(ss, adding, client))
+				if (!channel->modes().apllyLimitRestriction(ss, adding, client, channelName)) {
 					return channel->send_message(RPL_CHANNELMODEIS(client->getNick(), channelName, modes));
+				}
 				break;
 			default:
 				return sendMsg(client->getSock(), ERR_UNKNOWNMODE(client->getNick(), string(1, mode)));
