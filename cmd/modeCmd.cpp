@@ -45,8 +45,7 @@ void Irc::modeCmd(istringstream &ss, Client *client)
     if (!channel->is_operator(client)){ // Use 'client' instead of 'sender'
         return sendMsg(client->getSock(), ERR_CHANOPRIVSNEEDED(client->getNick(), channelName));
 	}
-
-	std::cout << "MODE " << channelName << " " << modes << std::endl;
+	
 	Client* targetClient;
     bool adding = true; // True for +, false for -
 	flags = "okl";
@@ -93,20 +92,11 @@ void Irc::modeCmd(istringstream &ss, Client *client)
 			case 'o': {// Operator privilege
 				if (!(ss >> param))
 					return sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), "MODE"));
-				std::cout << "TargetClient: " << param << std::endl;
-	
 				if (!(targetClient=findClient(param)))
-					return sendMsg(client->getSock(), ERR_NOSUCHNICK(client->getNick(), param)); // Usuário não encontrado
-		
-				std::cout << "TargetClient Nick: " << targetClient->getNick() << std::endl;
-
-				// Verifica se o target está no canal
+					return sendMsg(client->getSock(), ERR_NOSUCHNICK(client->getNick(), param));
 				if (!channel->is_member(targetClient))
-					return sendMsg(client->getSock(), ERR_NOTONCHANNEL(client->getNick(), channelName)); // 442: Usuário não está no canal
-
-				// Define ou remove o operador corretamente
+					return sendMsg(client->getSock(), ERR_NOTONCHANNEL(client->getNick(), channelName));
 				channel->set_operator(targetClient, adding);
-				
 				return channel->send_message(RPL_CHANNELMODEIS(client->getNick(), channelName, modes));
 			}
 			case 'l': // User limit
