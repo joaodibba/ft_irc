@@ -41,7 +41,7 @@
       profile = default
       title = server
       uuid = 061758e2-caff-454b-922b-a958e8e7c34b
-      command = c; mr; ./ircserv 6667 pass
+      command = ./ircserv 6667 pass
     [[[child3]]]
       type = VPaned
       parent = child1
