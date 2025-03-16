@@ -18,6 +18,7 @@
 #include <cstdio>
 #include <sys/epoll.h>
 #include <fcntl.h>
+#include <ctime>
 
 #define END "\033[0m"
 #define RED "\033[1;31m"
@@ -90,10 +91,6 @@ public:
 	Irc(void);
 	~Irc(void);
 	int run_server(char **av);
-	void saveChannelUsers() const;
-	void saveChannels() const;
-	void saveRequests() const;
-	void saveClients() const;
 	// ServerUtils
 	Client *findClient(int target);
 	Client *findClient(string name);
@@ -145,4 +142,10 @@ private:
 
 	//Command to list informations about the channel
 	void infoChannel(istringstream &ss, Client *client);
+
+	void saveChannelUsers() const;
+	void saveChannels() const;
+	void saveRequests() const;
+	void saveClients() const;
+	void saveChannelInvites() const;
 };

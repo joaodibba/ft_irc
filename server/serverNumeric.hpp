@@ -97,7 +97,7 @@
 
 #define ERR_UNKNOWNMODE(nick, mode) (ERR_SAMPLE_2("472", "is unknown mode char to me", nick, mode))
 
-#define ERR_INVITEONLYCHAN(nick, channelName) (ERR_SAMPLE_2("473", "Cannot join channel (+l)", nick, channelName))
+#define ERR_INVITEONLYCHAN(nick, channelName) (ERR_SAMPLE_2("473", "Cannot join channel (+i)", nick, channelName))
 
 #define ERR_BADCHANNELKEY(nick, channelName) (ERR_SAMPLE_2("475", "Cannot join channel (+k)", nick, channelName))
 
