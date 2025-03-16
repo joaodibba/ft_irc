@@ -76,21 +76,24 @@ bool ChannelMode::apllyLimitRestriction(istringstream& ss, bool Flag, Client* cl
         return 0;
     }
     std::string number;
-    if (!(ss >> number))
-        return sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), "MODE +l")), 1;
-
-    char* end;
-    errno = 0;
-    long nb = strtol(number.c_str(), &end, 10);
-    size_t tmp = static_cast<size_t>(nb);
-
-    if (errno == ERANGE || nb <= 0 || *end != '\0')
-        return sendMsg(client->getSock(), ERR_INVALIDMODEPARAM(client->getNick(), channelName, "l", "Invalid limit parameter")), 1;
-    if (tmp == get_user_limit())
-        return 1;
-	
-    set_user_limit(tmp);
-    set_limit(true);
-    
-    return 0;
+    if (!(ss >> number)) {
+		sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), "MODE +l"));
+		return true;
+	}
+	try {
+		char* end;
+		errno = 0;
+		long nb = strtol(number.c_str(), &end, 10);
+		size_t tmp = static_cast<size_t>(nb);
+		if (errno == ERANGE || nb <= 0 || *end != '\0')
+			throw std::invalid_argument("zero vale");
+		if (tmp == get_user_limit())
+			return true;
+		set_user_limit(tmp);
+		set_limit(true);			
+	} catch (const std::invalid_argument& e) {
+		sendMsg(client->getSock(), ERR_INVALIDMODEPARAM(client->getNick(), channelName, "l", number));
+		return true;
+	}	
+	return false;
 }
