@@ -4,6 +4,5 @@ ChannelName,UserNick,UserFd,IsOperator,IsInvited
 #TRAUMA,KIKA,6,1,0
 #BIKE,GAB,7,1,0
 #PNL,GIO,8,1,0
-#N,KIKA,6,1,0
-#N,GAB,7,1,0
-#N,rprocopi,9,1,0
+#OS,GAB,7,1,0
+#OS,BONY,9,1,0

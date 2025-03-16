@@ -83,7 +83,10 @@ void Irc::modeCmd(istringstream &ss, Client *client)
 					if (channel->modes().is_password_protected() && channel->modes().get_password() == param) {
 						channel->modes().set_password("");
 						channel->modes().set_password_protected(false);
-					} else
+				
+					} else if (!channel->modes().is_password_protected())
+						return sendMsg(client->getSock(), ERR_INVALIDMODEPARAM(client->getNick(), channelName, "k", "Password Is not set"));
+					else
 						return sendMsg(client->getSock(), ERR_INVALIDMODEPARAM(client->getNick(), channelName, "k", "Incorrect password"));
 				}
 				return channel->send_message(RPL_CHANNELMODEIS(client->getNick(), channelName, modes));
@@ -107,9 +110,8 @@ void Irc::modeCmd(istringstream &ss, Client *client)
 				return channel->send_message(RPL_CHANNELMODEIS(client->getNick(), channelName, modes));
 			}
 			case 'l': // User limit
-				if (!channel->modes().apllyLimitRestriction(ss, adding, client, channelName)) {
+				if (!channel->modes().apllyLimitRestriction(ss, adding, client, channelName))
 					return channel->send_message(RPL_CHANNELMODEIS(client->getNick(), channelName, modes));
-				}
 				break;
 			default:
 				return sendMsg(client->getSock(), ERR_UNKNOWNMODE(client->getNick(), string(1, mode)));
