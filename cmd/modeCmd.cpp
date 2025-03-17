@@ -24,7 +24,7 @@
 
 void Irc::modeCmd(istringstream &ss, Client *client)
 {
-    string channelName, modes, param;
+    string channelName, modes, param, flags;
     ss >> channelName >> modes;
 
     // ERR_NEEDMOREPARAMS (461) - Not enough parameters
@@ -45,14 +45,15 @@ void Irc::modeCmd(istringstream &ss, Client *client)
     if (!channel->is_operator(client)){ // Use 'client' instead of 'sender'
         return sendMsg(client->getSock(), ERR_CHANOPRIVSNEEDED(client->getNick(), channelName));
 	}
-
-	std::cout << "MODE " << channelName << " " << modes << std::endl;
+	
 	Client* targetClient;
     bool adding = true; // True for +, false for -
-
+	flags = "okl";
 	for (size_t i = 0; i < modes.size(); i++)
     {
-        char mode = modes[i];
+		if (modes.size() < 2 && flags.find(modes))
+			return sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), "MODE"));
+	    char mode = modes[i];
         switch (mode)
         {
 			case '+':
@@ -69,7 +70,7 @@ void Irc::modeCmd(istringstream &ss, Client *client)
 				return channel->send_message(RPL_CHANNELMODEIS(client->getNick(), channelName, modes));
 			case 'k': // Channel key (password)
 				if (!(ss >> param))
-					return sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), "MODE"));
+					return sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), "MODE -k or +k"));
 				if (adding) 
 				{
 					if (!channel->modes().is_password_protected() || channel->modes().get_password().empty()) {
@@ -81,31 +82,25 @@ void Irc::modeCmd(istringstream &ss, Client *client)
 					if (channel->modes().is_password_protected() && channel->modes().get_password() == param) {
 						channel->modes().set_password("");
 						channel->modes().set_password_protected(false);
-					} else
+				
+					} else if (!channel->modes().is_password_protected())
+						return sendMsg(client->getSock(), ERR_INVALIDMODEPARAM(client->getNick(), channelName, "k", "Password Is not set"));
+					else
 						return sendMsg(client->getSock(), ERR_INVALIDMODEPARAM(client->getNick(), channelName, "k", "Incorrect password"));
 				}
 				return channel->send_message(RPL_CHANNELMODEIS(client->getNick(), channelName, modes));
 			case 'o': {// Operator privilege
 				if (!(ss >> param))
 					return sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), "MODE"));
-				std::cout << "TargetClient: " << param << std::endl;
-	
 				if (!(targetClient=findClient(param)))
-					return sendMsg(client->getSock(), ERR_NOSUCHNICK(client->getNick(), param)); // Usuário não encontrado
-		
-				std::cout << "TargetClient Nick: " << targetClient->getNick() << std::endl;
-
-				// Verifica se o target está no canal
+					return sendMsg(client->getSock(), ERR_NOSUCHNICK(client->getNick(), param));
 				if (!channel->is_member(targetClient))
-					return sendMsg(client->getSock(), ERR_NOTONCHANNEL(client->getNick(), channelName)); // 442: Usuário não está no canal
-
-				// Define ou remove o operador corretamente
+					return sendMsg(client->getSock(), ERR_NOTONCHANNEL(client->getNick(), channelName));
 				channel->set_operator(targetClient, adding);
-				
 				return channel->send_message(RPL_CHANNELMODEIS(client->getNick(), channelName, modes));
 			}
 			case 'l': // User limit
-				if (!channel->modes().apllyLimitRestriction(ss, adding, client))
+				if (!channel->modes().apllyLimitRestriction(ss, adding, client, channelName))
 					return channel->send_message(RPL_CHANNELMODEIS(client->getNick(), channelName, modes));
 				break;
 			default:

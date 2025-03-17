@@ -41,7 +41,7 @@
       profile = default
       title = server
       uuid = 061758e2-caff-454b-922b-a958e8e7c34b
-      command = c; mr; ./ircserv 6667 RPR
+      command = ./ircserv 6667 pass
     [[[child3]]]
       type = VPaned
       parent = child1
@@ -73,7 +73,7 @@
       profile = default
       title = clients
       uuid = 0018e0ae-d9db-464d-9ca1-905f35dccc1b
-      command = tail -f data/clients.csv
+      command = while true; do clear; cat ./data/clients.csv; sleep 2; done
     [[[terminal8]]]
       type = Terminal
       parent = child6
@@ -81,15 +81,15 @@
       profile = default
       title = channels
       uuid = 6f9141a5-b59b-4ebb-ac16-e1d79cc49959
-      command = tail -f data/channels.csv
+      command =  while true; do clear; cat ./data/channels.csv; sleep 2; done
     [[[terminal9]]]
       type = Terminal
       parent = child5
       order = 1
       profile = default
-      title = fd
+      title = channel_users
       uuid = 777c03d6-d383-407f-9399-d61b862d0388
-      command = tail -f data/requests.csv
+      command = while true; do clear; cat ./data/channel_users.csv; sleep 2; done
     [[[child10]]]
       type = VPaned
       parent = child4
@@ -101,9 +101,9 @@
       parent = child10
       order = 0
       profile = default
-      title = monitor
+      title = requests
       uuid = 5684ca63-8f62-48ca-b485-b18cfeb83e07
-      command = tail -f data/channel_users.csv
+      command = while true; do clear; cat ./data/requests.csv; sleep 2; done
     [[[terminal12]]]
       type = Terminal
       parent = child10
@@ -130,7 +130,7 @@
       profile = default
       title = cliente 1
       uuid = d897f56a-2303-48c5-af54-4220aba1e3d3
-      command = terminator/client_1.sh
+      command = terminator/c1.sh
     [[[terminal16]]]
       type = Terminal
       parent = child14
@@ -138,7 +138,7 @@
       profile = default
       title = cliente 2
       uuid = fbcd2d49-13e4-49dd-b601-2aa88ec434f4
-      command = terminator/client_2.sh
+      command = terminator/c2.sh
     [[[child17]]]
       type = HPaned
       parent = child13
@@ -152,7 +152,7 @@
       profile = default
       title = cliente 3
       uuid = f7948238-ecae-4453-819c-30e08ca7ef11
-      command = terminator/client_3.sh
+      command = terminator/c3.sh
     [[[terminal19]]]
       type = Terminal
       parent = child17
@@ -160,5 +160,5 @@
       profile = default
       title = cliente 4
       uuid = 3be34f49-04cc-4956-a2bd-81004c386937
-      command = terminator/client_4.sh
+      command = terminator/c4.sh
 [plugins]

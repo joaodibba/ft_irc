@@ -1,12 +1,13 @@
 #!/bin/bash
+NICK="GIO"
 exec 3<>/dev/tcp/localhost/6667
 sleep 1
 # Enviar comandos iniciais
-    echo "PASS RPR" >&3
+    echo "PASS pass" >&3
 	sleep 1
-    echo "NICK GIO" >&3
+    echo "NICK $NICK" >&3
 	sleep 1
-	echo "USER GIO 0 * :GIO" >&3
+	echo "USER $NICK 0 * :$NICK" >&3
 	sleep 1
     echo "JOIN #PNL" >&3
 	sleep 1
