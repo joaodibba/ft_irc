@@ -75,7 +75,7 @@
 
 #define ERR_ERRONEUSNICKNAME(nick, targetNick) (ERR_SAMPLE_2("432", "Erroneous nickname", nick, targetNick))
 
-#define ERR_NICKNAMEINUSE(targetNick) (ERR_SAMPLE_2("433", "Nickname is already in use", "*", targetNick))
+#define ERR_NICKNAMEINUSE(targetNick) (ERR_SAMPLE_2("443", "Nickname is already in use", "*", targetNick))
 
 #define ERR_USERNOTINCHANNEL(nick, targetNick, channelName) (ERR_SAMPLE_3("441", "They aren't on that channel", nick, targetNick, channelName))
 

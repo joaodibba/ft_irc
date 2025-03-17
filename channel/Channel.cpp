@@ -143,12 +143,18 @@ void Channel::revoke_invites()
         if (!sender || !receiver)
         {
             invite.invalidate();
+			sendMsg(sender->getSock(), "Invite revoked\n\r");
+			sendMsg(receiver->getSock(), "Invite revoked\n\r");
             continue;
         }
 
         if (is_full() || invite.is_expired() ||
             !is_member(sender) || is_member(receiver))
+		{
             invite.invalidate();
+			sendMsg(sender->getSock(), "Invite revoked\n\r");
+			sendMsg(receiver->getSock(), "Invite revoked\n\r");
+		}
     }
 }
 
@@ -172,7 +178,7 @@ void Channel::send_private_message(Client *sender, const string &message)
         const Client *receiver = it->second->get_client();
         const int sender_sock = sender->getSock();
         if (receiver && sender_sock && receiver->getSock() != sender_sock)
-            send(sender_sock, message.c_str(), message.size(), 0);
+            send(receiver->getSock(), message.c_str(), message.size(), 0);
     }
 }
 

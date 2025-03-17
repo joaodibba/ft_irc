@@ -99,7 +99,7 @@ int Irc::run_server(char **av)
 		while (running)
 		{
 			for (std::vector<Channel *>::iterator it = _serverChannels.begin(); it != _serverChannels.end(); ++it)
-				(*it)->revoke_invites();	
+				(*it)->revoke_invites();
 			logger(1, j);
 			event_count = epoll_wait(epfds->getEpSock(), evs, MAX_EVENTS, -1);
 			if (event_count == -1)
