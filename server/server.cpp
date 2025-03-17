@@ -60,7 +60,6 @@ void Irc::sendResponse(int targetFd)
 	{
 		istringstream lineSs(tmpLine);
 		lineSs >> cmdName;
-		// cout << "Command: " << cmdName << endl; //my
 		if (cmdName == "CAP")
 			continue;
 		if (cmdName == "INFO")
