@@ -75,13 +75,13 @@
 
 #define ERR_ERRONEUSNICKNAME(nick, targetNick) (ERR_SAMPLE_2("432", "Erroneous nickname", nick, targetNick))
 
-#define ERR_NICKNAMEINUSE(targetNick) (ERR_SAMPLE_2("443", "Nickname is already in use", "*", targetNick))
+#define ERR_NICKNAMEINUSE(targetNick) (ERR_SAMPLE_2("433", "Nickname is already in use", "*", targetNick))
 
 #define ERR_USERNOTINCHANNEL(nick, targetNick, channelName) (ERR_SAMPLE_3("441", "They aren't on that channel", nick, targetNick, channelName))
 
 #define ERR_NOTONCHANNEL(nick, channelName) (ERR_SAMPLE_2("442", "You're not on that channel", nick, channelName))
 
-#define ERR_USERONCHANNEL(nick, targetNick, channelName) (ERR_SAMPLE_3("433", "is already on channel", nick, targetNick, channelName))
+#define ERR_USERONCHANNEL(nick, targetNick, channelName) (ERR_SAMPLE_3("443", "is already on channel", nick, targetNick, channelName))
 
 #define ERR_NOTREGISTERED(nick) (ERR_SAMPLE("451", "You have not registered", nick))
 
