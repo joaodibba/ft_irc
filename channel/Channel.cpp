@@ -143,8 +143,6 @@ void Channel::revoke_invites()
         if (!sender || !receiver)
         {
             invite.invalidate();
-			sendMsg(sender->getSock(), "Invite revoked\n\r");
-			sendMsg(receiver->getSock(), "Invite revoked\n\r");
             continue;
         }
 
