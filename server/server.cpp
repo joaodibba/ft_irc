@@ -115,10 +115,10 @@ int Irc::run_server(char **av)
 				else
 					break;
 			}
-			saveClients();
-			saveRequests();
-			saveChannels();
-			saveChannelUsers();
+			//saveClients();
+			//saveRequests();
+			//saveChannels();
+			//saveChannelUsers();
 			j++;
 		}
 		logger(5, 0);

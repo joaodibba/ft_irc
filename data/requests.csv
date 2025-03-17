@@ -1,7 +1,0 @@
-fd_client,string
-9,"CAP LS 302
-PASS pass
-NICK BONY
-USER CLIDE 0 * :BONY
-QUIT :Leaving
-"
