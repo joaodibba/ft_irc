@@ -81,7 +81,7 @@
 
 #define ERR_NOTONCHANNEL(nick, channelName) (ERR_SAMPLE_2("442", "You're not on that channel", nick, channelName))
 
-#define ERR_USERONCHANNEL(nick, targetNick, channelName) (ERR_SAMPLE_3("433", "is already on channel", nick, targetNick, channelName))
+#define ERR_USERONCHANNEL(nick, targetNick, channelName) (ERR_SAMPLE_3("443", "is already on channel", nick, targetNick, channelName))
 
 #define ERR_NOTREGISTERED(nick) (ERR_SAMPLE("451", "You have not registered", nick))
 
@@ -97,7 +97,7 @@
 
 #define ERR_UNKNOWNMODE(nick, mode) (ERR_SAMPLE_2("472", "is unknown mode char to me", nick, mode))
 
-#define ERR_INVITEONLYCHAN(nick, channelName) (ERR_SAMPLE_2("473", "Cannot join channel (+l)", nick, channelName))
+#define ERR_INVITEONLYCHAN(nick, channelName) (ERR_SAMPLE_2("473", "Cannot join channel (+i)", nick, channelName))
 
 #define ERR_BADCHANNELKEY(nick, channelName) (ERR_SAMPLE_2("475", "Cannot join channel (+k)", nick, channelName))
 

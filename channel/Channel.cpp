@@ -43,7 +43,8 @@ const ChannelMode &Channel::modes() const
     return _modes;
 }
 
-const std::map<int, ChannelUser *> &Channel::users() const {
+const std::map<int, ChannelUser *> &Channel::users() const
+{
     return _users;
 }
 
@@ -118,22 +119,40 @@ void Channel::set_operator(const Client *client, const bool is_operator)
 
 bool Channel::is_invited(const Client *client) const
 {
-    const int clientId = client->getSock();
-    const std::map<int, ChannelUser *>::const_iterator it = _users.find(clientId);
-    if (it != _users.end())
+    for (vector<ChannelInvite>::const_iterator it = _invites.begin(); it != _invites.end(); ++it)
     {
-        return it->second->is_invited();
+        if (it->is_receiver(client) && it->is_valid())
+            return true;
     }
     return false;
 }
 
-void Channel::set_invited(const Client *client, const bool is_invited)
+void Channel::invite(const Client *sender, const Client *receiver)
 {
-    const int clientId = client->getSock();
-    const std::map<int, ChannelUser *>::const_iterator it = _users.find(clientId);
-    if (it != _users.end())
+    _invites.push_back(ChannelInvite(sender, receiver));
+}
+
+void Channel::revoke_invites()
+{
+    for (std::vector<ChannelInvite>::iterator it = _invites.begin(); it != _invites.end(); ++it)
     {
-        return it->second->set_invited(is_invited);
+        ChannelInvite &invite = *it;
+        const Client *sender = invite.get_sender();
+        const Client *receiver = invite.get_receiver();
+
+        if (!sender || !receiver)
+        {
+            invite.invalidate();
+            continue;
+        }
+
+        if (is_full() || invite.is_expired() ||
+            !is_member(sender) || is_member(receiver))
+		{
+            invite.invalidate();
+			sendMsg(sender->getSock(), "Invite revoked\n\r");
+			sendMsg(receiver->getSock(), "Invite revoked\n\r");
+		}
     }
 }
 
@@ -155,14 +174,9 @@ void Channel::send_private_message(Client *sender, const string &message)
     for (; it != _users.end(); ++it)
     {
         const Client *receiver = it->second->get_client();
-        if (receiver)
-        {
-            if (receiver->getSock() != sender->getSock())
-            {
-                if (send(it->second->get_client()->getSock(), message.c_str(), message.size(), 0) == -1)
-                    throw runtime_error("Cannot send response");
-            }
-        }
+        const int sender_sock = sender->getSock();
+        if (receiver && sender_sock && receiver->getSock() != sender_sock)
+            send(receiver->getSock(), message.c_str(), message.size(), 0);
     }
 }
 
@@ -174,28 +188,33 @@ void Channel::send_message(const string &message)
     for (; it != _users.end(); ++it)
     {
         const Client *client = it->second->get_client();
-        if (client)
-        {
-            if (send(it->second->get_client()->getSock(), message.c_str(), message.size(), 0) == -1)
-                throw runtime_error("Cannot send response");
-        }
+        const int client_sock = client->getSock();
+        if (client && client_sock)
+            send(client_sock, message.c_str(), message.size(), 0);
     }
 }
 
-map<int, ChannelUser *> Channel::getUsers(){
+map<int, ChannelUser *> Channel::getUsers()
+{
     return this->_users;
 }
 
-void Channel::leave_channel(Client* client){
+void Channel::leave_channel(Client *client)
+{
     if (client && is_member(client))
         remove_client(client);
 
     std::map<int, ChannelUser *>::iterator it = _users.begin();
-    for (; it != _users.end(); it++){
-        if((*it).second->is_operator())
-            return ;
+    for (; it != _users.end(); it++)
+    {
+        if ((*it).second->is_operator())
+            return;
     }
-    
+
     if (!_users.empty() && _users.begin()->second)
-    _users.begin()->second->set_operator(true);
+        _users.begin()->second->set_operator(true);
+}
+
+const vector<ChannelInvite> & Channel::get_invites() const {
+    return _invites;
 }

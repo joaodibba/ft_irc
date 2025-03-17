@@ -52,7 +52,8 @@ void Irc::quitCmd(istringstream &ss, Client *client)
 
 	if (it != _clients.end())
 	{
-		delete it->second;
+		if (it->second)
+			delete it->second;
 		_clients.erase(it);
 	}
 

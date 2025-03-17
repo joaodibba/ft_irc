@@ -4,7 +4,7 @@
 
 
 ChannelMode::ChannelMode()
-    : _inviteOnly(false), _topicRestricted(false), _passwordProtected(false), _userLimit(0) {}
+    : _inviteOnly(false), _topicRestricted(false), _passwordProtected(false), _limited(false), _userLimit(0) {}
 
 ChannelMode::~ChannelMode() {}
 

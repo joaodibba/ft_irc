@@ -1,7 +1,7 @@
 #include "ChannelUser.hpp"
 
 ChannelUser::ChannelUser(Client *client)
-    : _client(client), _operator(false), _invited(false) {}
+    : _client(client), _operator(false) {}
 
 ChannelUser::~ChannelUser() {}
 
@@ -18,14 +18,4 @@ bool ChannelUser::is_operator() const
 void ChannelUser::set_operator(const bool is_operator)
 {
     _operator = is_operator;
-}
-
-bool ChannelUser::is_invited() const
-{
-    return _invited;
-}
-
-void ChannelUser::set_invited(const bool is_invited)
-{
-    _invited = is_invited;
 }
