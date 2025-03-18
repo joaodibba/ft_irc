@@ -69,7 +69,8 @@ bool Channel::add_client(Client *client)
 
 bool Channel::remove_client(const Client *client)
 {
-    if (is_full())
+
+    if (is_full()) //WHY??
         return false;
 
     const int client_sock = client->getSock();

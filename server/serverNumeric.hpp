@@ -10,7 +10,7 @@
 
 #define RPL(nick, user, command, target, character, content) (string(":") + nick + '!' + user + "@localhost " + command + ' ' + target + character + content + "\r\n")
 
-#define RPL_NICK(oldNick, user, newNick) RPL(oldNick, user, "NICK", "", " :", newNick)
+#define RPL_NICK(oldNick, user, newNick) RPL(oldNick, user, "NICK", "", "", newNick)
 
 #define RPL_MODE(nick, user, channelName, flags) (RPL(nick, user, "MODE", channelName, ' ', flags))
 

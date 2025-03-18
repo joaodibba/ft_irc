@@ -34,7 +34,7 @@ void Irc::partCmd(istringstream &ss, Client *client)
     channel->send_message(RPL_PART(client->getNick(), client->getUser(), channelName, "Leaving"));
 
     // Remove the client from the channel
-    channel->remove_client(client);  
+    channel->remove_client(client);
 
     if (channel->size() == 0)
     {

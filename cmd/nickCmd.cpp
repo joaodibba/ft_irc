@@ -65,6 +65,8 @@ void Irc::nickCmd(istringstream &ss, Client *client)
 	
 	const string	oldNick = client->getNick();
 	client->setNick(newNick);
+
+	std::cout << client->getNick() << std::endl;
 	
 	// First time setting nickname
 	if (oldNick.empty()) {
@@ -79,4 +81,6 @@ void Irc::nickCmd(istringstream &ss, Client *client)
 		if (channel->is_member(client))
 			channel->send_private_message(client, RPL_NICK(oldNick, client->getUser(),client->getNick()));
 	}
+
+	sendMsg(client->getSock(), RPL_NICK(oldNick, client->getUser(), client->getNick()));
 }
