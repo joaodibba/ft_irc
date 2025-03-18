@@ -43,4 +43,6 @@ bool ChannelInvite::is_valid() const
 void ChannelInvite::invalidate()
 {
     valid = false;
+    sender = NULL;
+    receiver = NULL;
 }

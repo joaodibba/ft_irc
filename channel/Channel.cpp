@@ -151,7 +151,7 @@ void Channel::revoke_invites()
 		{
             invite.invalidate();
 			//sendMsg(sender->getSock(), "Invite revoked\n\r");
-			sendMsg(receiver->getSock(), "Invite revoked\n\r");
+			//sendMsg(receiver->getSock(), "Invite revoked\n\r");
 		}
     }
 }
@@ -217,4 +217,12 @@ void Channel::leave_channel(Client *client)
 
 const vector<ChannelInvite> & Channel::get_invites() const {
     return _invites;
+}
+
+bool Channel::canSendMessage(Client *sender){
+
+    if (!(is_member(sender)))
+        return false;
+
+    return true;
 }
