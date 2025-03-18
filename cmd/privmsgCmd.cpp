@@ -1,7 +1,5 @@
 #include "../server/Irc.hpp"
 
-//TODO: ERR_CANNOTSENDTOCHAN
-
 void Irc::sendToUser(const Client *sender, const string &recipient, const string &message)
 {
     Client *targetClient = findClient(recipient);

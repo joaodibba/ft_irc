@@ -38,7 +38,7 @@ void Irc::modeCmd(istringstream &ss, Client *client)
     if (!channel)
         return sendMsg(client->getSock(), ERR_NOSUCHCHANNEL(client->getNick(), channelName));
 
-    if (!channel->is_member(client)) // FIXME check if user is in channel
+    if (!channel->is_member(client))
 		return sendMsg(client->getSock(), ERR_NOTONCHANNEL(client->getNick(), channelName));
 
     // ERR_CHANOPRIVSNEEDED (482) - User is not an operator
