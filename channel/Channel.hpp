@@ -66,4 +66,6 @@ public:
     const vector<ChannelInvite> & get_invites() const;
 
     bool canSendMessage(Client *sender);
+
+    size_t countOperators();
 };

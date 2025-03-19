@@ -223,3 +223,13 @@ bool Channel::canSendMessage(Client *sender){
 
     return true;
 }
+
+size_t Channel::countOperators(){
+
+    size_t count = 0;
+
+    for(std::map<int, ChannelUser *>::iterator it = _users.begin(); it != _users.end(); ++it)
+        if ((*it).second->is_operator()) count++;
+
+    return count;
+}

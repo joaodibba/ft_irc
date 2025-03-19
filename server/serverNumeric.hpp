@@ -105,3 +105,6 @@
 
 #define ERR_INVALIDMODEPARAM(nick, channelName, mode, param) (ERR_SAMPLE_3("696 ", "Invalid mode parameter" , channelName ,  mode, param))
 
+#define ERR_CANNOTREMOVEOP(nick, channel, msg) ":localhost 485 " + nick + " " + channel + " :" + msg + "\r\n"
+
+

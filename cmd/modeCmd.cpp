@@ -96,6 +96,8 @@ void Irc::modeCmd(istringstream &ss, Client *client)
 					return sendMsg(client->getSock(), ERR_NOSUCHNICK(client->getNick(), param));
 				if (!channel->is_member(targetClient))
 					return sendMsg(client->getSock(), ERR_NOTONCHANNEL(client->getNick(), channelName));
+				if (!adding && channel->countOperators() == 1 && channel->is_operator(targetClient))
+					return sendMsg(client->getSock(), ERR_CANNOTREMOVEOP(client->getNick(), channelName, "Cannot remove the last operator from the channel"));
 				channel->set_operator(targetClient, adding);
 				return channel->send_message(RPL_CHANNELMODEIS(client->getNick(), channelName, modes));
 			}
