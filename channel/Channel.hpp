@@ -64,4 +64,8 @@ public:
     void leave_channel(Client *client);
 
     const vector<ChannelInvite> & get_invites() const;
+
+    bool canSendMessage(Client *sender);
+
+    size_t countOperators();
 };

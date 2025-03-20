@@ -23,6 +23,7 @@ void Irc::quitCmd(istringstream &ss, Client *client)
 	string message = "Left the server"; // Default message
 	string user = client->getUser();
 	string nick = client->getNick();
+	const int sock = client->getSock();
 
 	if (!ss.eof())
 	{
@@ -47,7 +48,7 @@ void Irc::quitCmd(istringstream &ss, Client *client)
 	}
 
 	// Remove client from server
-	const int sock = client->getSock();
+	//const int sock = client->getSock();
 	map<int, Client *>::iterator it = _clients.find(sock);
 
 	if (it != _clients.end())

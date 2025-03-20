@@ -1,7 +1,5 @@
 #include "../server/Irc.hpp"
 
-//TODO: ERR_CANNOTSENDTOCHAN
-
 void Irc::sendToUser(const Client *sender, const string &recipient, const string &message)
 {
     Client *targetClient = findClient(recipient);
@@ -23,8 +21,8 @@ void Irc::sendToChannel(Client *sender, const string &channelName, const string 
         return sendMsg(sender->getSock(), ERR_NOSUCHCHANNEL(sender->getNick(), channelName));
 
     // TODO: Implement canSendMessage for channel restrictions (e.g., moderation)
-    // if (!channel->canSendMessage(sender))
-    //     return sendMsg(sender->getSock(), ERR_CANNOTSENDTOCHAN(sender->getNick(), channelName));
+    if (!channel->canSendMessage(sender))
+        return sendMsg(sender->getSock(), ERR_CANNOTSENDTOCHAN(sender->getNick(), channelName));
 
     // Send message to all clients in the channel (excluding sender)
     channel->send_private_message(sender, RPL_PRIVMSG(sender->getNick(), sender->getUser(), channelName, message));

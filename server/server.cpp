@@ -60,7 +60,6 @@ void Irc::sendResponse(int targetFd)
 	{
 		istringstream lineSs(tmpLine);
 		lineSs >> cmdName;
-		// cout << "Command: " << cmdName << endl; //my
 		if (cmdName == "CAP")
 			continue;
 		if (cmdName == "INFO")
@@ -109,7 +108,7 @@ int Irc::run_server(char **av)
 			{
 				logger(3, evs[i].data.fd);
 				logger(4, evs[i].events);
-				if (isNewClient(evs[i].data.fd) && evs[i].events & EPOLLIN) // se o fd do evs for o do servidor, significa que fd e um novo cliente
+				if (isNewClient(evs[i].data.fd) && evs[i].events & EPOLLIN)
 					acceptClient(evs[i].data.fd);
 				else if (evs[i].events & EPOLLIN)
 					receiveRequest(evs[i].data.fd);
@@ -118,11 +117,11 @@ int Irc::run_server(char **av)
 				else
 					break;
 			}
-			saveClients();
-			saveRequests();
-			saveChannels();
-			saveChannelUsers();
-			saveChannelInvites();
+			// saveClients();
+			// saveRequests();
+			// saveChannels();
+			// saveChannelUsers();
+			// saveChannelInvites();
 			j++;		
 		}
 		logger(5, 0);

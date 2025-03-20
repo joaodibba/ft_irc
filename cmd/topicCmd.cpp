@@ -20,10 +20,18 @@
  */
 void Irc::topicCmd(istringstream &ss, Client *client)
 {
+    // TOPIC #a THIS is the TOPIC 
     string channelName;
     string topic;
     ss >> channelName;
     ss >> topic;
+
+    while (ss){
+        string tmp;
+        topic += string(" ");
+        ss >> tmp;
+        topic += tmp;
+    }
 
     if (channelName.empty())
         return sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), "TOPIC"));
