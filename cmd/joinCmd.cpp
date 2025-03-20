@@ -39,7 +39,6 @@ static bool verifyChannelmodes(Channel *tarChannel, Client *client, istringstrea
  * - ERR_INVITEONLYCHAN (473) - The channel is invite-only (checked in verifyChannelmodes).
  * - ERR_CHANNELISFULL (471) - The channel is full (checked in verifyChannelmodes).
  * - ERR_BADCHANNELKEY (475) - The provided key is incorrect (checked in verifyChannelmodes).
- * - ERR_BANNEDFROMCHAN (474) - The client is banned from the channel (checked in verifyChannelmodes).
  * 
  * @see  https://www.rfc-editor.org/rfc/rfc2812.html#section-3.2.1
  * 
