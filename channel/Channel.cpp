@@ -216,13 +216,6 @@ const vector<ChannelInvite> & Channel::get_invites() const {
     return _invites;
 }
 
-bool Channel::canSendMessage(Client *sender){
-
-    if (!(is_member(sender)))
-        return false;
-
-    return true;
-}
 
 size_t Channel::countOperators(){
 
