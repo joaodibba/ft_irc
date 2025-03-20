@@ -21,7 +21,7 @@ void Irc::sendToChannel(Client *sender, const string &channelName, const string 
         return sendMsg(sender->getSock(), ERR_NOSUCHCHANNEL(sender->getNick(), channelName));
 
     // ERR_CANNOTSENDTOCHAN (404) - User is not in the channel
-    if (!is_member(sender))
+    if (!channel->is_member(sender))
         return sendMsg(sender->getSock(), ERR_CANNOTSENDTOCHAN(sender->getNick(), channelName));
 
     // Send message to all clients in the channel (excluding sender)
