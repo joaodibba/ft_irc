@@ -34,6 +34,7 @@
 #define BUFFER_SIZE 1024
 #define MAX_TCP_PORT 65535
 #define MAX_NICK_LENGTH 9
+#define TIMEOUT_MS 100
 
 using std::cerr;
 using std::cout;

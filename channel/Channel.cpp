@@ -134,22 +134,36 @@ void Channel::revoke_invites()
     for (std::vector<ChannelInvite>::iterator it = _invites.begin(); it != _invites.end(); ++it)
     {
         ChannelInvite &invite = *it;
-        const Client *sender = invite.get_sender();
-        const Client *receiver = invite.get_receiver();
 
-        if (!sender || !receiver)
-        {
-            invite.invalidate();
-            continue;
-        }
+        if (!invite.is_valid()) 
+            continue; // Skip already invalid invites
 
-        if (is_full() || invite.is_expired() ||
-            !is_member(sender) || is_member(receiver))
-		{
-            invite.invalidate();
-			//sendMsg(sender->getSock(), "Invite revoked\n\r");
-			//sendMsg(receiver->getSock(), "Invite revoked\n\r");
-		}
+        const Client* sender = invite.get_sender();
+        const Client* receiver = invite.get_receiver();
+
+        std::string senderNick = sender ? sender->getNick() : "unknown";
+        std::string receiverNick = receiver ? receiver->getNick() : "unknown";
+
+        std::string message;
+
+        if (!sender) 
+            message = "Sender does not exist.";
+        else if (!receiver) 
+            message = "Receiver does not exist.";
+        else if (is_full()) 
+            message = "Channel is full.";
+        else if (invite.is_expired()) 
+            message = "Invite has expired.";
+        else if (!is_member(sender)) 
+            message = "Sender is not a member of the channel.";
+        else if (is_member(receiver)) 
+            message = "Receiver is already a member of the channel.";
+        else
+            continue; // Invite is still valid, no need to revoke
+
+        // If we reach this point, the invite must be revoked
+        this->send_message(BOT_MSG(senderNick, receiverNick, message));
+        invite.invalidate();
     }
 }
 
@@ -167,6 +181,8 @@ size_t Channel::size() const
 
 void Channel::send_private_message(Client *sender, const string &message)
 {
+    if (message.empty())
+        return;
     std::map<int, ChannelUser *>::iterator it = _users.begin();
     for (; it != _users.end(); ++it)
     {
@@ -179,7 +195,8 @@ void Channel::send_private_message(Client *sender, const string &message)
 
 void Channel::send_message(const string &message)
 {
-
+    if (message.empty())
+        return;
     std::map<int, ChannelUser *>::iterator it = _users.begin();
     cout << WHITE << message << END << endl;
     for (; it != _users.end(); ++it)
@@ -212,7 +229,8 @@ void Channel::leave_channel(Client *client)
         _users.begin()->second->set_operator(true);
 }
 
-const vector<ChannelInvite> & Channel::get_invites() const {
+const vector<ChannelInvite> &Channel::get_invites() const
+{
     return _invites;
 }
 
