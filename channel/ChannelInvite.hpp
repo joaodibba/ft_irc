@@ -3,7 +3,7 @@
 #include "../client/Client.hpp"
 #include <ctime>
 
-#define INVITE_DURATION 60
+#define INVITE_DURATION 30
 
 class ChannelInvite {
 private:

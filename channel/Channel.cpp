@@ -157,12 +157,15 @@ void Channel::revoke_invites()
         else if (!is_member(sender)) 
             message = "Sender is not a member of the channel.";
         else if (is_member(receiver)) 
-            message = "Receiver is already a member of the channel.";
+            message = "Receiver accepted the Invite.";
         else
             continue; // Invite is still valid, no need to revoke
 
         // If we reach this point, the invite must be revoked
-        this->send_message(BOT_MSG(senderNick, receiverNick, message));
+        if (receiver || receiver->getSock())
+            sendMsg(receiver->getSock(), BOT_MSG(senderNick, receiverNick, message));
+        if (sender && sender->getSock())
+            sendMsg(sender->getSock(), BOT_MSG(senderNick, receiverNick, message));
         invite.invalidate();
     }
 }
@@ -181,7 +184,7 @@ size_t Channel::size() const
 
 void Channel::send_private_message(Client *sender, const string &message)
 {
-    if (message.empty())
+    if (message.empty() || !sender)
         return;
     std::map<int, ChannelUser *>::iterator it = _users.begin();
     for (; it != _users.end(); ++it)
