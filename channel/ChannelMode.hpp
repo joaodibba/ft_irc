@@ -55,5 +55,5 @@ public:
     void set_user_limit(size_t user_limit);
 
 
-	bool apllyLimitRestriction(istringstream& ss, bool Flag, Client* client);
+	bool apllyLimitRestriction(istringstream& ss, bool Flag, Client* client, string channelName);
 };

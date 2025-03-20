@@ -49,7 +49,7 @@ void Irc::acceptClient(int serverFd)
 		throw runtime_error("Failed to accept connection");
 
 	setNonBlocking(newSock);
-	epfds->addFd(newSock, EPOLLIN | EPOLLERR | EPOLLHUP); // OBS EPOLLOUT incluido para teste //!FIXME
+	epfds->addFd(newSock, EPOLLIN | EPOLLERR | EPOLLHUP);
 	_clients.insert(make_pair(newSock, (new Client(newSock))));
 	sendMsg(newSock, NOTICE_MSG("Type INFO for information"));
 	cout << MAGENTA "Opening connection, fd: " << newSock << END << endl;

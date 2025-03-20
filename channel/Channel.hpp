@@ -2,9 +2,11 @@
 
 #include "ChannelMode.hpp"
 #include "../client/Client.hpp"
+#include "ChannelInvite.hpp"
 #include "../server/Irc.hpp"
 
 class ChannelUser;
+class ChannelInvite;
 
 class Channel
 {
@@ -13,6 +15,8 @@ private:
     string _channelTopic;
     ChannelMode _modes;
     map<int, ChannelUser *> _users; // client socket file descriptor and pointer to ChannelUser
+    vector<ChannelInvite> _invites;
+
 public:
     explicit Channel(const string &name);
     ~Channel();
@@ -43,7 +47,9 @@ public:
 
     bool is_invited(const Client *client) const;
 
-    void set_invited(const Client *client, bool is_invited);
+    void invite(const Client *sender, const Client *receiver); // FIXME maybe set this to channel user instead of regular client
+
+    void revoke_invites();
 
     bool is_full() const;
 
@@ -56,4 +62,10 @@ public:
     map<int, ChannelUser *> getUsers();
 
     void leave_channel(Client *client);
+
+    const vector<ChannelInvite> & get_invites() const;
+
+    bool canSendMessage(Client *sender);
+
+    size_t countOperators();
 };

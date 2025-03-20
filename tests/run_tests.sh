@@ -121,5 +121,5 @@ run_tests IRC || true
 run_tests JOIN || true
 run_tests PRIVMSG || true
 run_tests USER || true
-
+run_tests MODE || true
 echo -e "${BLUE}${BOLD}All tests finished!${RESET}"

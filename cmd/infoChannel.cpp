@@ -30,7 +30,7 @@ void Irc::infoChannel(istringstream &ss, Client *client)
     msg << "Users (" << users.size() << "):\r\n";
     for (std::map<int, ChannelUser *>::iterator it = users.begin(); it != users.end(); ++it)
     {
-        Client *userClient = it->second->get_client(); // assuming ChannelUser has getClient()
+        Client *userClient = it->second->get_client();
         std::string prefix = it->second->is_operator() ? "@" : "-";
         msg << prefix << userClient->getNick() << "\r\n";
     }

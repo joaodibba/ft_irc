@@ -7,7 +7,6 @@ class ChannelUser
 private:
     Client *_client;
     bool _operator;
-    bool _invited;
 
 public:
     explicit ChannelUser(Client *client);
@@ -17,10 +16,5 @@ public:
 
     bool is_operator() const;
     
-
     void set_operator(bool is_operator);
-
-    bool is_invited() const;
-
-    void set_invited(bool is_invited);
 };
