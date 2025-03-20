@@ -24,8 +24,10 @@
 
 void Irc::modeCmd(istringstream &ss, Client *client)
 {
+	if (ssLength(ss) < 2)
+		return sendMsg(client->getSock(), ERR_NEEDMOREPARAMS(client->getNick(), "MODE"));
     string channelName, modes, param, flags;
-    ss >> channelName >> modes;
+    ss >> channelName >> modes;	
 
     // ERR_NEEDMOREPARAMS (461) - Not enough parameters
     if (channelName.empty())
