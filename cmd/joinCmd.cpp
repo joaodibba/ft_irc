@@ -39,7 +39,6 @@ static bool verifyChannelmodes(Channel *tarChannel, Client *client, istringstrea
  * - ERR_INVITEONLYCHAN (473) - The channel is invite-only (checked in verifyChannelmodes).
  * - ERR_CHANNELISFULL (471) - The channel is full (checked in verifyChannelmodes).
  * - ERR_BADCHANNELKEY (475) - The provided key is incorrect (checked in verifyChannelmodes).
- * - ERR_BANNEDFROMCHAN (474) - The client is banned from the channel (checked in verifyChannelmodes).
  * 
  * @see  https://www.rfc-editor.org/rfc/rfc2812.html#section-3.2.1
  * 
@@ -69,7 +68,7 @@ void Irc::joinCmd(istringstream &ss, Client *client)
         if (!channel)
         {
             channel = createChannel(channelName);
-            channel->set_operator(client, true); // this might not be setting the operator
+            channel->set_operator(client, true);
         }
 
         if (verifyChannelmodes(channel, client, ss))
@@ -79,7 +78,6 @@ void Irc::joinCmd(istringstream &ss, Client *client)
         {
 			if (channel->getUsers().size() == 1)
 				channel->set_operator(client, true);
-            cout << "Send to client fd: " << client->getSock() << endl;
             channel->send_message(RPL_JOIN(client->getNick(), client->getUser(), channelName, client->getRealName()));
         }
     }
