@@ -54,9 +54,6 @@ void Irc::kickCmd(istringstream &ss, Client *client)
 
 	channel->send_message(RPL(client->getNick(), client->getUser(), "KICK", (channelName + " " + targetClient->getNick()), " ", reason));
 	channel->leave_channel(targetClient);
-	if (channel->size() == 0)
-	{
-		_serverChannels.erase(find(_serverChannels.begin(), _serverChannels.end(), channel));
-		delete channel;
-	}
+    if (channel->size() == 0)
+        deleteChannel(channelName);
 }
