@@ -68,7 +68,7 @@ void Irc::joinCmd(istringstream &ss, Client *client)
         if (!channel)
         {
             channel = createChannel(channelName);
-            channel->set_operator(client, true); // this might not be setting the operator
+            channel->set_operator(client, true);
         }
 
         if (verifyChannelmodes(channel, client, ss))
