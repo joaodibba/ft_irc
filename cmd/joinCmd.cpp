@@ -78,7 +78,6 @@ void Irc::joinCmd(istringstream &ss, Client *client)
         {
 			if (channel->getUsers().size() == 1)
 				channel->set_operator(client, true);
-            cout << "Send to client fd: " << client->getSock() << endl;
             channel->send_message(RPL_JOIN(client->getNick(), client->getUser(), channelName, client->getRealName()));
         }
     }
