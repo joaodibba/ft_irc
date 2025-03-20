@@ -8,9 +8,10 @@
  * @param ss input string stream
  * @param client client
  * 
- * @return
- * ERR_NOTONCHANNEL if the client is not in the channel
- * ERR_NOSUCHCHANNEL if the channel does not exist
+ * Numeric Replies:
+ * ERR_NOTONCHANNEL (442) - The client is not in the channel
+ * ERR_NOSUCHCHANNEL (403) - The channel does not exist
+ * ERR_NEEDMOREPARAMS (461) - Missing parameters
  *
  * @see https://www.rfc-editor.org/rfc/rfc2812.html#section-3.2.2
  * 
