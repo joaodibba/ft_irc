@@ -100,11 +100,11 @@ int Irc::run_server(char **av)
 		{
 			for (std::vector<Channel *>::iterator it = _serverChannels.begin(); it != _serverChannels.end(); ++it)
 				(*it)->revoke_invites();
-			logger(1, j);
-			event_count = epoll_wait(epfds->getEpSock(), evs, MAX_EVENTS, -1);
+			// logger(1, j);
+			event_count = epoll_wait(epfds->getEpSock(), evs, MAX_EVENTS, TIMEOUT_MS);
 			if (event_count == -1)
 				throw runtime_error("epoll_wait");
-			logger(2, event_count);
+			// logger(2, event_count);
 			for (int i = 0; i < event_count; i++)
 			{
 				logger(3, evs[i].data.fd);

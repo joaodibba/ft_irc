@@ -1,6 +1,8 @@
 #pragma once
 
-#define NOTICE_MSG(message) (string(":localhost NOTICE * : ") + message + "\r\n")
+#define NOTICE_MSG(message) (std::string(":localhost NOTICE * : ") + message + "\r\n")
+
+#define BOT_MSG(sender, receiver, reason) (NOTICE_MSG("BOT: Invite from " + sender + " to " + receiver + " has been revoked. Reason: " + reason))
 
 #define ERR_SAMPLE(code, errName, nick) (string(":localhost ") + (code) + ' ' + (nick) + " :" + (errName) + "\r\n")
 

@@ -25,7 +25,7 @@
 void Irc::modeCmd(istringstream &ss, Client *client)
 {
     string channelName, modes, param, flags;
-    ss >> channelName >> modes;
+    ss >> channelName >> modes; //FIXME: MODE #channel -> trows no error
 
     // ERR_NEEDMOREPARAMS (461) - Not enough parameters
     if (channelName.empty())
