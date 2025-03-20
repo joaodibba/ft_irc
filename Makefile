@@ -20,28 +20,30 @@ DATA_DIR	:= data
 DATA_FILES	:= channels.csv clients.csv requests.csv channel_users.csv
 
 # Find source files
- SRCS		:= $(shell find $(SRCDIRS) -name '*.cpp')
-#SRCS		:=	channel/ChannelUser.cpp \
-#				channel/ChannelMode.cpp \
-#				channel/Channel.cpp \
-#				client/Client.cpp \
-#				cmd/userCmd.cpp \
-#				cmd/nickCmd.cpp \
-#				cmd/modeCmd.cpp \
-#				cmd/passCmd.cpp \
-#				cmd/joinCmd.cpp \
-#				cmd/quitCmd.cpp \
-#				cmd/privmsgCmd.cpp \
-#				cmd/topicCmd.cpp \
-#				cmd/partCmd.cpp \
-#				cmd/inviteCmd.cpp \
-#				cmd/kickCmd.cpp \
-#				epoll/EpollManager.cpp \
-#				server/serverNetwork.cpp \
-#				server/serverUtils.cpp \
-#				server/Irc.cpp \
-#				server/main.cpp \
-#				server/server.cpp
+SRCS		:=  cmd/userCmd.cpp \
+				cmd/nickCmd.cpp \
+				cmd/modeCmd.cpp \
+				cmd/passCmd.cpp \
+				cmd/joinCmd.cpp \
+				cmd/quitCmd.cpp \
+				cmd/privmsgCmd.cpp \
+				cmd/topicCmd.cpp \
+				cmd/partCmd.cpp \
+				cmd/inviteCmd.cpp \
+				cmd/infoChannel.cpp \
+				cmd/kickCmd.cpp \
+				epoll/EpollManager.cpp \
+				server/serverData.cpp \
+				server/serverNetwork.cpp \
+				server/serverUtils.cpp \
+				server/Irc.cpp \
+				server/main.cpp \
+				server/server.cpp \
+				channel/ChannelInvite.cpp \
+				channel/ChannelUser.cpp \
+				channel/Channel.cpp \
+				channel/ChannelMode.cpp \
+				client/Client.cpp
 
 OBJS		:= $(addprefix $(OBJSDIR)/, $(SRCS:.cpp=.o))
 
